@@ -4,8 +4,6 @@
 #include <fstream>
 #include <string>
 #include <algorithm>
-#include <list>
-#include <map>
 
 #include <SFML/Graphics.hpp>
 
@@ -13,10 +11,18 @@
 #include <Tile.h>
 
 #define TRANSPARENT			0, sf::Vector2f(5, 2), ' ', sf::Color(255, 255, 255, 255), true
-#define GRASS				1, sf::Vector2f(3, 0), '~', sf::Color(255, 255, 255, 255), false
-#define STONE_BRICK			2, sf::Vector2f(0, 1), '#', sf::Color(255, 255, 255, 255), false
-#define MOSSY_STONE			3, sf::Vector2f(0, 2), '/', sf::Color(255, 255, 255, 255), false
-#define CRACKED_STONE		4, sf::Vector2f(1, 1), '?', sf::Color(255, 255, 255, 255), false
+#define COBBLESTONE			1, sf::Vector2f(0, 0), '^', sf::Color(255, 255, 255, 255), false
+#define STONE				2, sf::Vector2f(1, 0), '*', sf::Color(255, 255, 255, 255), false
+#define DIRT				3, sf::Vector2f(2, 0), '+', sf::Color(255, 255, 255, 255), false
+#define GRASS				4, sf::Vector2f(3, 0), '~', sf::Color(255, 255, 255, 255), false
+#define WOOD_PLANK			5, sf::Vector2f(4, 0), '!', sf::Color(255, 255, 255, 255), false
+#define STONE_BRICK			6, sf::Vector2f(0, 1), '#', sf::Color(255, 255, 255, 255), false
+#define CRACKED_STONE		7, sf::Vector2f(1, 1), '?', sf::Color(255, 255, 255, 255), false
+#define SAND				8, sf::Vector2f(2, 1), '"', sf::Color(255, 255, 255, 255), false
+#define GRAVEL				9, sf::Vector2f(3, 1), '£', sf::Color(255, 255, 255, 255), false
+#define WOOD				10, sf::Vector2f(4, 1), '$', sf::Color(255, 255, 255, 255), false
+#define MOSSY_STONE			11, sf::Vector2f(0, 2), '/', sf::Color(255, 255, 255, 255), false
+#define BEDROCK				12, sf::Vector2f(1, 2), '%', sf::Color(255, 255, 255, 255), false
 	
 class TileMap : public sf::Drawable
 {
@@ -41,7 +47,7 @@ public:
 
 	int getIndexYBiasBottom(float y);
 
-	int getWidth()
+	int getWidth() const
 	{
 		return width * tileSize.x;
 	}

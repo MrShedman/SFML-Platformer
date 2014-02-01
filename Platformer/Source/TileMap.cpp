@@ -67,10 +67,18 @@ void TileMap::load(std::string levelName, sf::Vector2f windowSize)
 	tileSize.y = tileSize.x;
 
 	vTileProperty.push_back(TileProperty(TRANSPARENT));
+	vTileProperty.push_back(TileProperty(COBBLESTONE));
+	vTileProperty.push_back(TileProperty(STONE));
+	vTileProperty.push_back(TileProperty(DIRT));
 	vTileProperty.push_back(TileProperty(GRASS));
+	vTileProperty.push_back(TileProperty(WOOD_PLANK));
 	vTileProperty.push_back(TileProperty(STONE_BRICK));
-	vTileProperty.push_back(TileProperty(MOSSY_STONE));
 	vTileProperty.push_back(TileProperty(CRACKED_STONE));
+	vTileProperty.push_back(TileProperty(WOOD));
+	vTileProperty.push_back(TileProperty(SAND));
+	vTileProperty.push_back(TileProperty(GRAVEL));
+	vTileProperty.push_back(TileProperty(MOSSY_STONE));
+	vTileProperty.push_back(TileProperty(BEDROCK));
 
 	vTiles.resize(width * height);
 
@@ -140,11 +148,8 @@ void TileMap::modifyTile(int x, int y, TileProperty prop)
 {
 	int id = getIndexXBiasRight(x) + getIndexYBiasBottom(y) * width;
 
-	if (vTiles[id].properties->ID <= 1)
-	{
-		vTiles[id].properties = &getTileProperty(prop.txt);
-		vTiles[id].update();
-	}
+	vTiles[id].properties = &getTileProperty(prop.txt);
+	vTiles[id].update();
 }
 
 void TileMap::print()
