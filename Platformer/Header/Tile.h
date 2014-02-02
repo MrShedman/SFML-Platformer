@@ -2,8 +2,9 @@
 
 #include <SFML/Graphics.hpp>
 
-struct TileProperty
+class TileProperty
 {
+	public:
 	TileProperty(int ID, sf::Vector2f texCoords, char txt, sf::Color color, bool passable)
 	:
 	ID(ID),
@@ -21,15 +22,13 @@ struct TileProperty
 	const bool passable;
 };
 
-class Tile : public sf::Drawable
+class Tile
 {
 public:
 
 	Tile();
 
-	Tile(sf::Vector2f position, sf::Texture &texture, TileProperty &properties);
-
-	static void setSize(sf::Vector2f s);
+	Tile(sf::Vertex &quad, sf::FloatRect rect, TileProperty &properties);
 
 	void update();
 
@@ -37,11 +36,7 @@ public:
 
 	TileProperty *properties;
 
-	sf::Vector2f position;
-	static sf::Vector2f size;
+	sf::FloatRect rect;
 
-	sf::VertexArray quad;
-	sf::Texture *tileset;
-
-	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+	sf::Vertex *quad;
 };

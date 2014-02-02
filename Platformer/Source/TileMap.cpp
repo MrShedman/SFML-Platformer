@@ -20,8 +20,7 @@ TileProperty& TileMap::getTileProperty(char c)
 void TileMap::load(std::string levelName, sf::Vector2f windowSize)
 {
 	m_tileset.loadFromFile("Textures/terrain.png");
-	//m_tileset.setSmooth(true);
-	//m_tileset.setRepeated(true);
+	m_tileset.setSmooth(true);
 
 	file = levelName;
 	std::ifstream infile(file);
@@ -80,6 +79,8 @@ void TileMap::load(std::string levelName, sf::Vector2f windowSize)
 	vTileProperty.push_back(TileProperty(MOSSY_STONE));
 	vTileProperty.push_back(TileProperty(BEDROCK));
 
+	m_vertices.setPrimitiveType(sf::Quads);
+	m_vertices.resize(width * height * 4);
 	vTiles.resize(width * height);
 
 	// populate the vertex array, with one quad per tile
@@ -87,8 +88,8 @@ void TileMap::load(std::string levelName, sf::Vector2f windowSize)
 	{
 		for (unsigned int j = 0; j < height; ++j)
 		{
-			vTiles[i + j * width].setSize(tileSize);
-			vTiles[i + j * width] = Tile(sf::Vector2f(i, j), m_tileset, getTileProperty(cTiles[i + j * width]));
+			int id = i + j * width;
+			vTiles[id] = Tile(m_vertices[(id) * 4], sf::FloatRect(sf::Vector2f(i, j), tileSize), getTileProperty(cTiles[id]));
 		}
 	}
 }
@@ -195,8 +196,7 @@ bool TileMap::isPassable(int ix, int iy)
 
 void TileMap::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	for (auto &t : vTiles)
-	{
-		target.draw(t);
-	}
+	states.texture = &m_tileset;
+
+	target.draw(m_vertices, states);
 }

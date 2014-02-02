@@ -152,6 +152,7 @@ private:
 	int height;
 
 	std::vector<Tile> vTiles;
+	sf::VertexArray m_vertices;
 	std::vector<TileProperty> vTileProperty;
 	sf::Texture m_tileset;
 

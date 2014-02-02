@@ -4,43 +4,30 @@
 
 sf::Vector2f TileProperty::texSize(64, 64);
 
-sf::Vector2f Tile::size;
-
 Tile::Tile()
 {
-	tileset = NULL;
 	properties = NULL;
-
-	quad.setPrimitiveType(sf::Quads);
-	quad.resize(4);
 }
 
-Tile::Tile(sf::Vector2f position, sf::Texture &texture, TileProperty &properties)
+Tile::Tile(sf::Vertex &quad, sf::FloatRect rect, TileProperty &properties)
 :
-position(position),
-tileset(&texture),
+quad(&quad),
+rect(rect),
 properties(&properties)
 {
-	quad.setPrimitiveType(sf::Quads);
-	quad.resize(4);
-
 	update();
-}
-
-void Tile::setSize(sf::Vector2f s)
-{
-	size = s;
 }
 
 void Tile::update()
 {
 	sf::Vector2f t = properties->texCoords;
-	sf::Vector2f s = size;
+	sf::Vector2f s = sf::Vector2f(rect.width, rect.height);
+	sf::Vector2f p = sf::Vector2f(rect.left, rect.top);
 
-	quad[0].position = sf::Vector2f(position.x * s.x, position.y * s.y);
-	quad[1].position = sf::Vector2f((position.x + 1) * s.x, position.y * s.y);
-	quad[2].position = sf::Vector2f((position.x + 1) * s.x, (position.y + 1) * s.y);
-	quad[3].position = sf::Vector2f(position.x * s.x, (position.y + 1) * s.y);
+	quad[0].position = sf::Vector2f(p.x * s.x, p.y * s.y);
+	quad[1].position = sf::Vector2f((p.x + 1) * s.x, p.y * s.y);
+	quad[2].position = sf::Vector2f((p.x + 1) * s.x, (p.y + 1) * s.y);
+	quad[3].position = sf::Vector2f(p.x * s.x, (p.y + 1) * s.y);
 
 	s = TileProperty::texSize;
 
@@ -57,19 +44,13 @@ void Tile::update()
 
 Tile& Tile::operator = (Tile &rhs)
 {
-	position = rhs.position;
+	quad = rhs.quad;
+
+	rect = rhs.rect;
 
 	properties = rhs.properties;
-	tileset = rhs.tileset;
 
 	update();
 
 	return *this;
-}
-
-void Tile::draw(sf::RenderTarget& target, sf::RenderStates states) const
-{
-	states.texture = tileset;
-
-	target.draw(quad, states);
 }
