@@ -93,7 +93,7 @@ void Game::update()
 			player.view.setCenter(sf::Vector2f(player.getX(), map.getHeight() - window.getSize().y / 2.f));
 		}
 	}
-	else //if  (player.getY() < map.getHeight() - window.getSize().y * 0.5f && player.getY() > window.getSize().y * 0.5f)
+	else
 	{
 		if (player.getY() < map.getHeight() - window.getSize().y * 0.5f && player.getY() > window.getSize().y * 0.5f)
 		{
@@ -109,7 +109,6 @@ void Game::update()
 	centre.x -= window.getSize().x / 2;
 	centre.y -= window.getSize().y / 2;
 	background.setPosition(centre);
-
 }
 
 void Game::render()

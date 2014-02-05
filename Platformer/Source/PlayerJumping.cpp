@@ -52,12 +52,13 @@ void PlayerJumping::OnCtrlDirRelease(BiDirection d)
 void PlayerJumping::OnCtrlJumpPress()
 {
 	//DOUBLE JUMP FEATURE//
-	/*
+
 	if (core.vy < 10.f && core.vy > -4.f)
 	{
 		core.vy = -14.f;
+		core.currentSeq = core.seqs[2];
+		core.currentSeq->reset();
 	}
-	*/
 }
 
 void PlayerJumping::OnCtrlJumpRelease()
