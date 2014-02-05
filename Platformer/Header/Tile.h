@@ -2,6 +2,8 @@
 
 #include <SFML/Graphics.hpp>
 
+#include <RectF.h>
+
 class TileProperty
 {
 	public:
@@ -18,6 +20,7 @@ class TileProperty
 	const char txt;
 	const sf::Vector2f texCoords;
 	static sf::Vector2f texSize;
+	static sf::Vector2f tileSize;
 	const sf::Color color;
 	const bool passable;
 };
@@ -28,7 +31,7 @@ public:
 
 	Tile();
 
-	Tile(sf::Vertex &quad, sf::FloatRect rect, TileProperty &properties);
+	Tile(sf::Vertex &quad, sf::Vector2f position, TileProperty &properties);
 
 	void update();
 
@@ -36,7 +39,7 @@ public:
 
 	TileProperty *properties;
 
-	sf::FloatRect rect;
+	RectF rect;
 
 	sf::Vertex *quad;
 };

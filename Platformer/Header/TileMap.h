@@ -39,17 +39,22 @@ public:
 
 	void save();
 
-	int getIndexXBiasLeft(float x);
+	int getIndexXBiasLeft(float x) const;
 
-	int getIndexXBiasRight(float x);
+	int getIndexXBiasRight(float x) const;
 
-	int getIndexYBiasTop(float y);
+	int getIndexYBiasTop(float y) const;
 
-	int getIndexYBiasBottom(float y);
+	int getIndexYBiasBottom(float y) const;
 
 	int getWidth() const
 	{
-		return width * tileSize.x;
+		return width * TileProperty::tileSize.x;
+	}
+
+	int getHeight() const
+	{
+		return height * TileProperty::tileSize.y;
 	}
 
 	void modifyTile(int x, int y, TileProperty prop);
@@ -58,17 +63,10 @@ public:
 
 	RectF getCRect(int ix, int iy)
 	{
-		Tile* tile = &vTiles[ix + iy * width];
-
-		int top = tile->quad[0].position.y;
-		int bottom = tile->quad[2].position.y;
-		int left = tile->quad[0].position.x;
-		int right = tile->quad[1].position.x;
-
-		return RectF(top, bottom, left, right);
+		return vTiles[ix + iy * width].rect;
 	}
 
-	bool getCRectSingle(CollisionRectF cRect, RectF &rect)
+	bool getCRectSingle(CollisionRectF cRect, CollisionRectF &rect)
 	{
 		if (cRect.vx > 0.f)
 		{
@@ -145,8 +143,6 @@ private:
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	
 	std::string file;
-
-	sf::Vector2f tileSize;
 
 	int width;
 	int height;

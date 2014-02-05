@@ -24,7 +24,7 @@ public:
 
 	virtual void OnUpdate() {}
 
-	virtual void OnCollision(const RectF &rect) {}
+	virtual void OnCollision(const CollisionRectF &rect) {}
 	virtual void OnFreeFall() {}
 
 	int ID;

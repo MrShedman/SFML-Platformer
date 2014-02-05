@@ -31,7 +31,7 @@ void PlayerRunning::OnCtrlJumpPress()
 	transition(new PlayerJumping(core, true));
 }
 
-void PlayerRunning::OnCollision(const RectF &rect)
+void PlayerRunning::OnCollision(const CollisionRectF &rect)
 {
 	if (core.vx > 0.f)
 	{

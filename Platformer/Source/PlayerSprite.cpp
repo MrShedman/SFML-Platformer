@@ -3,8 +3,8 @@
 
 PlayerSprite::PlayerSprite()
 {
-	core.x = 120;
-	core.y = 120;
+	core.x = 80;
+	core.y = 80;
 	core.vx = 0.f;
 	core.vy = 0.f;
 	core.seqs = new SpriteSequence*[4];
@@ -17,8 +17,8 @@ PlayerSprite::PlayerSprite()
 
 	core.rect = RectF(-40, 40, -25, 25);
 
-	view = sf::View(sf::FloatRect(0, 0, 1280, 720));
-	view.setCenter(core.x, 360);
+	view = sf::View(sf::FloatRect(0, 0, 1920, 1080));
+	view.setCenter(core.x, 540);
 
 	buffer.loadFromFile("Sounds/jump.wav");
 	jump.setBuffer(buffer);

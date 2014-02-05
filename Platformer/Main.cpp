@@ -9,8 +9,8 @@
 #pragma comment(lib, "sndfile.lib")
 #endif // SFML_STATIC
 
-#define MINX 1280
-#define MINY 720
+#define MINX 1920
+#define MINY 1080
 
 #include <Game.h>
 

@@ -65,7 +65,7 @@ void PlayerJumping::OnCtrlJumpRelease()
 	isBoosting = false;
 }
 
-void PlayerJumping::OnCollision(const RectF &rect)
+void PlayerJumping::OnCollision(const CollisionRectF &rect)
 {
 	CollisionRectF sRect = core.getCRect();
 

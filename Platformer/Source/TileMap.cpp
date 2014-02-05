@@ -62,9 +62,6 @@ void TileMap::load(std::string levelName, sf::Vector2f windowSize)
 	width = nColumns;
 	height = nRows;
 
-	tileSize.x = std::max(windowSize.x / width, windowSize.y / height);
-	tileSize.y = tileSize.x;
-
 	vTileProperty.push_back(TileProperty(TRANSPARENT));
 	vTileProperty.push_back(TileProperty(COBBLESTONE));
 	vTileProperty.push_back(TileProperty(STONE));
@@ -89,7 +86,7 @@ void TileMap::load(std::string levelName, sf::Vector2f windowSize)
 		for (unsigned int j = 0; j < height; ++j)
 		{
 			int id = i + j * width;
-			vTiles[id] = Tile(m_vertices[(id) * 4], sf::FloatRect(sf::Vector2f(i, j), tileSize), getTileProperty(cTiles[id]));
+			vTiles[id] = Tile(m_vertices[(id)* 4], sf::Vector2f(i, j), getTileProperty(cTiles[id]));
 		}
 	}
 }
@@ -113,36 +110,36 @@ void TileMap::save()
 	outfile.close();
 }
 
-int TileMap::getIndexXBiasLeft(float x)
+int TileMap::getIndexXBiasLeft(float x) const
 {
-	int ix = x / tileSize.x;
+	int ix = x / TileProperty::tileSize.x;
 
-	if (ix * tileSize.x == x)
+	if (ix * TileProperty::tileSize.x == x)
 	{
 		ix--;
 	}
 	return ix;
 }
 
-int TileMap::getIndexXBiasRight(float x)
+int TileMap::getIndexXBiasRight(float x) const
 {
-	return x / tileSize.x;
+	return x / TileProperty::tileSize.x;
 }
 
-int TileMap::getIndexYBiasTop(float y)
+int TileMap::getIndexYBiasTop(float y) const
 {
-	int iy = y / tileSize.y;
+	int iy = y / TileProperty::tileSize.y;
 
-	if (iy * tileSize.y == y)
+	if (iy * TileProperty::tileSize.y == y)
 	{
 		iy--;
 	}
 	return iy;
 }
 
-int TileMap::getIndexYBiasBottom(float y)
+int TileMap::getIndexYBiasBottom(float y) const
 {
-	return y / tileSize.y;
+	return y / TileProperty::tileSize.y;
 }
 
 void TileMap::modifyTile(int x, int y, TileProperty prop)
@@ -196,7 +193,5 @@ bool TileMap::isPassable(int ix, int iy)
 
 void TileMap::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	states.texture = &m_tileset;
-
-	target.draw(m_vertices, states);
+	target.draw(m_vertices, &m_tileset);
 }

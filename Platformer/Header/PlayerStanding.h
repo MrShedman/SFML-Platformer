@@ -18,7 +18,7 @@ public:
 	virtual void OnUpdate();
 	virtual void OnCtrlDirPress(BiDirection d);
 	virtual void OnCtrlJumpPress();
-	virtual void OnCollision(const RectF &rect);
+	virtual void OnCollision(const CollisionRectF &rect);
 	virtual void OnFreeFall();
 
 protected:

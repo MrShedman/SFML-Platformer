@@ -34,7 +34,7 @@ public:
 	virtual void OnCtrlDirRelease(BiDirection d);
 	virtual void OnCtrlJumpPress();
 	virtual void OnCtrlJumpRelease();
-	virtual void OnCollision(const RectF &rect);
+	virtual void OnCollision(const CollisionRectF &rect);
 
 
 protected:

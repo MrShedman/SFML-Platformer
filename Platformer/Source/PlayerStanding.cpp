@@ -22,7 +22,7 @@ void PlayerStanding::OnCtrlJumpPress()
 	transition(new PlayerJumping(core, false));
 }
 
-void PlayerStanding::OnCollision(const RectF &rect)
+void PlayerStanding::OnCollision(const CollisionRectF &rect)
 {
 	if (core.vx > 0.f)
 	{
