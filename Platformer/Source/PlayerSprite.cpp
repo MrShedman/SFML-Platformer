@@ -18,7 +18,6 @@ PlayerSprite::PlayerSprite()
 	core.rect = RectF(-40, 40, -25, 25);
 
 	view = sf::View(sf::FloatRect(0, 0, 1920, 1080));
-	view.setCenter(core.x, 540);
 
 	buffer.loadFromFile("Sounds/jump.wav");
 	jump.setBuffer(buffer);

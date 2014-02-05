@@ -19,10 +19,11 @@ class TileProperty
 	const int ID;
 	const char txt;
 	const sf::Vector2f texCoords;
-	static sf::Vector2f texSize;
-	static sf::Vector2f tileSize;
 	const sf::Color color;
 	const bool passable;
+
+	static sf::Vector2f texSize;
+	static sf::Vector2f tileSize;
 };
 
 class Tile

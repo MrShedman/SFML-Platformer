@@ -20,7 +20,7 @@ public:
 	{}
 	CollisionRectF(const RectF &rhs, float vx = 0.f, float vy = 0.f)
 		:
-	RectF(rhs.top, rhs.bottom, rhs.left, rhs.right),
+	RectF(rhs),
 	vx(vx),
 	vy(vy)
 	{}
