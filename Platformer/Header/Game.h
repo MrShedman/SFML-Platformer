@@ -8,6 +8,8 @@
 #include <SpriteState.h>
 #include <PlayerSprite.h>
 #include <TileMap.h>
+#include <ParticleSystem.h>
+#include <CollisionSystem.h>
     
 class Game
 {
@@ -20,10 +22,11 @@ private:
 
 	TileMap map;
 
+	CollisionSystem collision;
+
 	sf::Texture texture;
 	sf::Sprite background;
 
-	void collision();
 	void getInput();
 	void update();
 	void render();

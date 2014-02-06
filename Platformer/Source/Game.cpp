@@ -4,7 +4,7 @@
 Game::Game(unsigned int width, unsigned int height) 
 	:
 	view(sf::FloatRect(0.f, 0.f, static_cast<float>(width), static_cast<float>(height))),
-	window(sf::VideoMode(width, height), "Platformer", sf::Style::Default, sf::ContextSettings(32, 24, 8, 4, 2))
+	window(sf::VideoMode(width, height), "Platformer", sf::Style::Fullscreen, sf::ContextSettings(32, 24, 8, 4, 2))
 {
 	window.setView(view);
 	//window.setFramerateLimit(120);
@@ -15,11 +15,13 @@ Game::Game(unsigned int width, unsigned int height)
 	map.setWindow(window);
 
 	texture.loadFromFile("Textures/background.png");
-	texture.setRepeated(true);
 	background.setTexture(texture);
 	background.setScale(1.5f, 1.5f);
 
 	player.view.setCenter(sf::Vector2f(window.getSize().x / 2.f, map.getHeight() - window.getSize().y / 2.f));
+
+	collision.setMap(map);
+	collision.setPlayer(player);
 }
 
 void Game::getInput()
@@ -50,37 +52,16 @@ void Game::getInput()
 		player.pollEvent(event);
 
 		map.pollEvent(event);
+
+		collision.pollEvent(event);
 	}
-}
-
-void Game::collision()
-{
-	CollisionRectF rect;
-
-	while (map.getCRectSingle(player.getCRect(), rect))
-	{
-		player.GetState().OnCollision(rect);
-	}
-
-	CollisionRectF cRect = player.getCRect();
-
-	int iy = map.getIndexYBiasBottom(cRect.bottom);
-
-	for (int ix = map.getIndexXBiasRight(cRect.left), ixEnd = map.getIndexXBiasLeft(cRect.right); ix <= ixEnd; ++ix)
-	{
-		if (!map.isPassable(ix, iy) && map.getCRect(ix, iy).top == cRect.bottom)
-		{
-			return;
-		}
-	}
-	player.GetState().OnFreeFall();
 }
 
 void Game::update()
 {
-	collision();
-
 	player.GetState().OnUpdate();
+
+	collision.calculate();
 	
 	if (player.getX() < map.getWidth() - window.getSize().x * 0.5f && player.getX() > window.getSize().x * 0.5f)
 	{
@@ -122,6 +103,8 @@ void Game::render()
 	window.draw(map);
 
 	window.draw(player);
+
+	window.draw(collision);
 	
 	window.display();
 }

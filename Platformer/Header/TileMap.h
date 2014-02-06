@@ -134,6 +134,20 @@ public:
 		return false;
 	}
 
+	void getCRectList(RectF cRect, std::vector<RectF> &list)
+	{
+		for (int iy = getIndexYBiasBottom(cRect.top), iyEnd = getIndexYBiasTop(cRect.bottom); iy <= iyEnd; ++iy)
+		{
+			for (int ix = getIndexXBiasRight(cRect.left), ixEnd = getIndexXBiasLeft(cRect.right); ix <= ixEnd; ++ix)
+			{
+				if (!isPassable(ix, iy))
+				{
+					list.push_back(getCRect(ix, iy));
+				}
+			}
+		}
+	}
+
 	void pollEvent(sf::Event &event);
 
 	bool isPassable(int ix, int iy);

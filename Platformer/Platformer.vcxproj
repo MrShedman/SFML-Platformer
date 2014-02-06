@@ -94,8 +94,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Header\BiDirection.h" />
+    <ClInclude Include="Header\CollisionSystem.h" />
     <ClInclude Include="Header\CollisionRectF.h" />
     <ClInclude Include="Header\Game.h" />
+    <ClInclude Include="Header\ParticleSystem.h" />
     <ClInclude Include="Header\PlayerJumping.h" />
     <ClInclude Include="Header\PlayerRunning.h" />
     <ClInclude Include="Header\PlayerSprite.h" />

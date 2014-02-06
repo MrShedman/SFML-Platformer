@@ -12,6 +12,7 @@ public:
 	{
 		core.currentSeq = core.seqs[ 0 ];
 		core.currentSeq->reset();
+		core.currentSeq->advance(core.x, core.y, core.dir);
 
 		ID = 1;
 	}
