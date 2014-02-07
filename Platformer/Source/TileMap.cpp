@@ -17,6 +17,19 @@ TileProperty& TileMap::getTileProperty(char c)
 	return TileProperty(TRANSPARENT);
 }
 
+TileProperty& TileMap::getTileProperty(unsigned int i)
+{
+	for (auto &p : vTileProperty)
+	{
+		if (p.ID == i)
+		{
+			return p;
+		}
+	}
+
+	return TileProperty(TRANSPARENT);
+}
+
 void TileMap::load(std::string levelName, sf::Vector2f windowSize)
 {
 	m_tileset.loadFromFile("Textures/terrain.png");
@@ -165,7 +178,7 @@ void TileMap::pollEvent(sf::Event &event)
 
 		if (event.mouseButton.button == sf::Mouse::Left)
 		{
-			modifyTile(pos.x, pos.y, TileProperty(GRASS));
+			modifyTile(pos.x, pos.y, getTileProperty(block));
 		}
 		if (event.mouseButton.button == sf::Mouse::Right)
 		{
@@ -182,6 +195,12 @@ void TileMap::pollEvent(sf::Event &event)
 		{
 			print();
 		}
+	}
+	if (event.type == sf::Event::MouseWheelMoved)
+	{
+		block += event.mouseWheel.delta;
+
+		block %= 13;
 	}
 }
 

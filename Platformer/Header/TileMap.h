@@ -31,9 +31,12 @@ public:
 	void setWindow(sf::RenderWindow &win)
 	{
 		window = &win;
+		block = 0;
 	}
 
 	TileProperty& getTileProperty(char c);
+
+	TileProperty& getTileProperty(unsigned int i);
 
 	void load(std::string levelName, sf::Vector2f windowSize);
 
@@ -160,6 +163,8 @@ private:
 
 	int width;
 	int height;
+
+	unsigned int block;
 
 	std::vector<Tile> vTiles;
 	sf::VertexArray m_vertices;

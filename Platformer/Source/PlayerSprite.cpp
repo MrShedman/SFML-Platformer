@@ -47,6 +47,26 @@ void PlayerSprite::pollEvent(sf::Event &event)
 			GetState().OnCtrlDirRelease(BiDirection::MakeLeft());
 		}
 		break;
+	case sf::Keyboard::D:
+		if (event.type == sf::Event::KeyPressed)
+		{
+			GetState().OnCtrlDirPress(BiDirection::MakeRight());
+		}
+		else if (event.type == sf::Event::KeyReleased)
+		{
+			GetState().OnCtrlDirRelease(BiDirection::MakeRight());
+		}
+		break;
+	case sf::Keyboard::A:
+		if (event.type == sf::Event::KeyPressed)
+		{
+			GetState().OnCtrlDirPress(BiDirection::MakeLeft());
+		}
+		else if (event.type == sf::Event::KeyReleased)
+		{
+			GetState().OnCtrlDirRelease(BiDirection::MakeLeft());
+		}
+		break;
 	case sf::Keyboard::Space:
 		if (event.type == sf::Event::KeyPressed)
 		{
