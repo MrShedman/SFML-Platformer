@@ -20,7 +20,6 @@ TileProperty& TileMap::getTileProperty(char c)
 void TileMap::load(std::string levelName, sf::Vector2f windowSize)
 {
 	m_tileset.loadFromFile("Textures/terrain.png");
-	m_tileset.setSmooth(true);
 
 	file = levelName;
 	std::ifstream infile(file);

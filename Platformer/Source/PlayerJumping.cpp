@@ -53,9 +53,11 @@ void PlayerJumping::OnCtrlJumpPress()
 {
 	//DOUBLE JUMP FEATURE//
 
-	if (core.vy < 10.f && core.vy > -4.f)
+	if (core.vy < 18.f && core.vy > -10.f && !doubleJumped)
 	{
-		core.vy = -14.f;
+		doubleJumped = true;
+
+		core.vy = jumpImpulse;
 		core.currentSeq = core.seqs[2];
 		core.currentSeq->reset();
 	}

@@ -16,7 +16,7 @@ public:
 		nFrames(nFrames),
 		nHoldFrames(nHoldFrames),
 		index(0),
-		scale(0.6f)
+		scale(0.72f)
 	{
 		texture.loadFromFile(file);
 		texture.setSmooth(true);

@@ -3,7 +3,7 @@
 #include <Tile.h>
 
 sf::Vector2f TileProperty::texSize(64, 64);
-sf::Vector2f TileProperty::tileSize(40, 40);
+sf::Vector2f TileProperty::tileSize(48, 48);
 
 Tile::Tile()
 {
@@ -28,11 +28,12 @@ void Tile::update()
 
 	sf::Vector2f t = properties->texCoords;
 	sf::Vector2f s = TileProperty::texSize;
+	sf::Vector2f padding = sf::Vector2f((t.x * 2 + 1) * 4, (t.y * 2 + 1) * 4);
 
-	quad[0].texCoords = sf::Vector2f(t.x * s.x + 1, t.y * s.y + 1);
-	quad[1].texCoords = sf::Vector2f((t.x + 1) * s.x - 1, t.y * s.y + 1);
-	quad[2].texCoords = sf::Vector2f((t.x + 1) * s.x - 1, (t.y + 1) * s.y - 1);
-	quad[3].texCoords = sf::Vector2f(t.x * s.x + 1, (t.y + 1) * s.y - 1);
+	quad[0].texCoords = sf::Vector2f(t.x * s.x, t.y * s.y) + padding;
+	quad[1].texCoords = sf::Vector2f((t.x + 1) * s.x, t.y * s.y) + padding;
+	quad[2].texCoords = sf::Vector2f((t.x + 1) * s.x, (t.y + 1) * s.y) + padding;
+	quad[3].texCoords = sf::Vector2f(t.x * s.x, (t.y + 1) * s.y) + padding;
 
 	quad[0].color = properties->color;
 	quad[1].color = properties->color;

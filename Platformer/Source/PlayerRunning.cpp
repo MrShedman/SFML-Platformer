@@ -47,5 +47,5 @@ void PlayerRunning::OnCollision(const CollisionRectF &rect)
 
 void PlayerRunning::OnFreeFall()
 {
-	transition(new PlayerJumping(core, true, false));
+	transition(new PlayerJumping(core, true, true));
 }

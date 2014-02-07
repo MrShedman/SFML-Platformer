@@ -4,7 +4,7 @@
 Game::Game(unsigned int width, unsigned int height) 
 	:
 	view(sf::FloatRect(0.f, 0.f, static_cast<float>(width), static_cast<float>(height))),
-	window(sf::VideoMode(width, height), "Platformer", sf::Style::Fullscreen, sf::ContextSettings(32, 24, 8, 4, 2))
+	window(sf::VideoMode(width, height), "Platformer", sf::Style::Default, sf::ContextSettings(32, 24, 8, 4, 2))
 {
 	window.setView(view);
 	//window.setFramerateLimit(120);
@@ -17,8 +17,6 @@ Game::Game(unsigned int width, unsigned int height)
 	texture.loadFromFile("Textures/background.png");
 	background.setTexture(texture);
 	background.setScale(1.5f, 1.5f);
-
-	player.view.setCenter(sf::Vector2f(window.getSize().x / 2.f, map.getHeight() - window.getSize().y / 2.f));
 
 	collision.setMap(map);
 	collision.setPlayer(player);
@@ -46,7 +44,7 @@ void Game::getInput()
 			// update the view to the new size of the window
 			sf::FloatRect visibleArea(0, 0, event.size.width, event.size.height);
 			player.view = sf::View(visibleArea);
-			player.view.setCenter(sf::Vector2f(player.getX(), map.getHeight() - window.getSize().y / 2.f));
+			player.view.setCenter(sf::Vector2f(player.getX(), player.getY()));
 		}
 			
 		player.pollEvent(event);
@@ -63,29 +61,8 @@ void Game::update()
 
 	collision.calculate();
 	
-	if (player.getX() < map.getWidth() - window.getSize().x * 0.5f && player.getX() > window.getSize().x * 0.5f)
-	{
-		if (player.getY() < map.getHeight() - window.getSize().y * 0.5f && player.getY() > window.getSize().y * 0.5f)
-		{
-			player.view.setCenter(sf::Vector2f(player.getX(), player.getY()));
-		}
-		else
-		{
-			player.view.setCenter(sf::Vector2f(player.getX(), map.getHeight() - window.getSize().y / 2.f));
-		}
-	}
-	else
-	{
-		if (player.getY() < map.getHeight() - window.getSize().y * 0.5f && player.getY() > window.getSize().y * 0.5f)
-		{
-			player.view.setCenter(sf::Vector2f(player.getX(), player.getY()));
-		}
-		else
-		{
-			player.view.setCenter(sf::Vector2f(window.getSize().x / 2.f, player.getY()));
-		}
-	}
-
+	player.view.setCenter(sf::Vector2f(player.getX(), player.getY()));
+	
 	sf::Vector2f centre = player.view.getCenter();
 	centre.x -= window.getSize().x / 2;
 	centre.y -= window.getSize().y / 2;

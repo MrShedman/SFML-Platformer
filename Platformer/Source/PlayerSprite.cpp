@@ -3,8 +3,8 @@
 
 PlayerSprite::PlayerSprite()
 {
-	core.x = 80;
-	core.y = 80;
+	core.x = 900;
+	core.y = 900;
 	core.vx = 0.f;
 	core.vy = 0.f;
 	core.seqs = new SpriteSequence*[4];
@@ -15,7 +15,7 @@ PlayerSprite::PlayerSprite()
 	core.state = new PlayerStanding( core );
 	core.dir.SetRight();
 
-	core.rect = RectF(-40, 40, -25, 25);
+	core.rect = RectF(-48, 48, -30, 30);
 
 	view = sf::View(sf::FloatRect(0, 0, 1920, 1080));
 

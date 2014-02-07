@@ -5,20 +5,22 @@
 class PlayerJumping : public SpriteState
 {
 public:
-	PlayerJumping(SpriteCore& core, bool isMoving, bool hasJumped = true)
+	PlayerJumping(SpriteCore& core, bool isMoving, bool isFalling = false)
 		:
 		SpriteState(core),
 		isMoving(isMoving),
-		ay(0.6f),
-		sax(0.4f),
+		ay(0.72f),
+		sax(0.48f),
 		sdx(0.97f),
 		sdy(0.9f),
-		maxsx(7.5f),
-		isBoosting(true)
+		maxsx(9.f),
+		jumpImpulse(-18),
+		isBoosting(true),
+		doubleJumped(false)
 	{
-		if (hasJumped)
+		if (!isFalling && !doubleJumped)
 		{
-			core.vy = -15.0f;
+			core.vy = jumpImpulse;
 			core.currentSeq = core.seqs[2];
 		}
 		else
@@ -40,6 +42,7 @@ public:
 
 protected:
 
+	const float jumpImpulse;
 	const float sax;
 	const float sdx;
 	const float sdy;
@@ -47,4 +50,5 @@ protected:
 	const float maxsx;
 	bool isMoving;
 	bool isBoosting;
+	bool doubleJumped;
 };

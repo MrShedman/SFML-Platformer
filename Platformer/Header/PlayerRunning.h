@@ -8,8 +8,8 @@ public:
 	PlayerRunning( SpriteCore& core )
 		:
 	SpriteState(core),
-	sax(0.5f),
-	maxsx(6.0f)
+	sax(0.6f),
+	maxsx(7.2f)
 	{
 		core.currentSeq = core.seqs[ 1 ];
 		core.currentSeq->reset();
