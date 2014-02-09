@@ -15,7 +15,7 @@ PlayerSprite::PlayerSprite()
 	core.state = new PlayerStanding( core );
 	core.dir.SetRight();
 
-	core.rect = RectF(-48, 48, -30, 30);
+	core.rect = RectF(-40, 48, -20, 20);
 
 	view = sf::View(sf::FloatRect(0, 0, 1920, 1080));
 

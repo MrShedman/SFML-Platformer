@@ -6,18 +6,14 @@ class ParticleSystem : public sf::Drawable
 {
 public:
 
-	ParticleSystem()
-	{
-	}
-
 	void update(RectF position)
 	{
 		m_particles.push_back(sf::milliseconds(3000));
 
-		top.push_back(sf::Vertex(sf::Vector2f(position.left, position.top), sf::Color::Red));
-		bottom.push_back(sf::Vertex(sf::Vector2f(position.right, position.top), sf::Color::Green));
-		left.push_back(sf::Vertex(sf::Vector2f(position.right, position.bottom), sf::Color::Yellow));
-		right.push_back(sf::Vertex(sf::Vector2f(position.left, position.bottom), sf::Color::Blue));
+		tl.push_back(sf::Vertex(sf::Vector2f(position.left, position.top), sf::Color::Red));
+		tr.push_back(sf::Vertex(sf::Vector2f(position.right, position.top), sf::Color::Green));
+		br.push_back(sf::Vertex(sf::Vector2f(position.right, position.bottom), sf::Color::Yellow));
+		bl.push_back(sf::Vertex(sf::Vector2f(position.left, position.bottom), sf::Color::Blue));
 		
 
 		for (std::size_t i = 0; i < m_particles.size(); ++i)
@@ -26,10 +22,10 @@ public:
 
 			if (m_particles[i] <= sf::Time::Zero)
 			{
-				top.erase(top.begin());
-				bottom.erase(bottom.begin());
-				left.erase(left.begin());
-				right.erase(right.begin());
+				tl.erase(tl.begin());
+				tr.erase(tr.begin());
+				br.erase(br.begin());
+				bl.erase(bl.begin());
 
 				m_particles.erase(m_particles.begin());
 			}
@@ -41,16 +37,16 @@ private:
 
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
 	{
-		target.draw(&top[0], top.size(), sf::LinesStrip, states);
-		target.draw(&bottom[0], bottom.size(), sf::LinesStrip, states);
-		target.draw(&left[0], left.size(), sf::LinesStrip, states);
-		target.draw(&right[0], right.size(), sf::LinesStrip, states);
+		target.draw(&tl[0], tl.size(), sf::LinesStrip, states);
+		target.draw(&tr[0], tr.size(), sf::LinesStrip, states);
+		target.draw(&br[0], br.size(), sf::LinesStrip, states);
+		target.draw(&bl[0], bl.size(), sf::LinesStrip, states);
 	}
 	
-	std::vector<sf::Vertex> top;
-	std::vector<sf::Vertex> bottom;
-	std::vector<sf::Vertex> left;
-	std::vector<sf::Vertex> right;
+	std::vector<sf::Vertex> tl;
+	std::vector<sf::Vertex> tr;
+	std::vector<sf::Vertex> br;
+	std::vector<sf::Vertex> bl;
 
 	std::vector<sf::Time> m_particles;
 

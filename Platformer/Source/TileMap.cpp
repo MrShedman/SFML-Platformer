@@ -87,6 +87,15 @@ void TileMap::load(std::string levelName, sf::Vector2f windowSize)
 	vTileProperty.push_back(TileProperty(GRAVEL));
 	vTileProperty.push_back(TileProperty(MOSSY_STONE));
 	vTileProperty.push_back(TileProperty(BEDROCK));
+	vTileProperty.push_back(TileProperty(GLASS));
+	vTileProperty.push_back(TileProperty(TALL_GRASS));
+	vTileProperty.push_back(TileProperty(LEAVES));
+	vTileProperty.push_back(TileProperty(LADDER));
+	vTileProperty.push_back(TileProperty(GOLD_ORE));
+	vTileProperty.push_back(TileProperty(IRON_ORE));
+	vTileProperty.push_back(TileProperty(DIAMOND_ORE));
+	vTileProperty.push_back(TileProperty(REDSTONE_ORE));
+	vTileProperty.push_back(TileProperty(COAL_ORE));
 
 	m_vertices.setPrimitiveType(sf::Quads);
 	m_vertices.resize(width * height * 4);
@@ -113,7 +122,7 @@ void TileMap::save()
 	{
 		for (unsigned int i = 0; i < width; ++i)
 		{
-			outfile << vTiles[(i + j * width)].properties->txt;
+			outfile << vTiles[i + j * width].properties->txt;
 		}
 
 		outfile << std::endl;
@@ -130,7 +139,7 @@ int TileMap::getIndexXBiasLeft(float x) const
 	{
 		ix--;
 	}
-	return ix;
+	return ix;	
 }
 
 int TileMap::getIndexXBiasRight(float x) const
@@ -162,14 +171,6 @@ void TileMap::modifyTile(int x, int y, TileProperty prop)
 	vTiles[id].update();
 }
 
-void TileMap::print()
-{
-	for (auto &i : vTiles)
-	{
-		std::cout << i.properties->passable << std::endl;
-	}
-}
-
 void TileMap::pollEvent(sf::Event &event)
 {
 	if (event.type == sf::Event::MouseButtonPressed)
@@ -191,16 +192,12 @@ void TileMap::pollEvent(sf::Event &event)
 		{
 			save();
 		}
-		if (event.key.code == sf::Keyboard::P)
-		{
-			print();
-		}
 	}
 	if (event.type == sf::Event::MouseWheelMoved)
 	{
 		block += event.mouseWheel.delta;
 
-		block %= 13;
+		block %= vTileProperty.size();;
 	}
 }
 

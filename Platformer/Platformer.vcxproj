@@ -109,6 +109,7 @@
     <ClInclude Include="Header\SpriteState.h" />
     <ClInclude Include="Header\Tile.h" />
     <ClInclude Include="Header\TileMap.h" />
+    <ClInclude Include="Header\TileProperty.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

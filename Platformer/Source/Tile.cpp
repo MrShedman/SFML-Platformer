@@ -13,7 +13,10 @@ Tile::Tile()
 Tile::Tile(sf::Vertex &quad, sf::Vector2f position, TileProperty &properties)
 :
 quad(&quad),
-rect(position.y * TileProperty::tileSize.y, (position.y + 1) * TileProperty::tileSize.y, position.x * TileProperty::tileSize.x, (position.x + 1) * TileProperty::tileSize.x),
+rect(position.y * TileProperty::tileSize.y, 
+(position.y + 1) * TileProperty::tileSize.y, 
+position.x * TileProperty::tileSize.x, 
+(position.x + 1) * TileProperty::tileSize.x),
 properties(&properties)
 {
 	update();
@@ -28,7 +31,8 @@ void Tile::update()
 
 	sf::Vector2f t = properties->texCoords;
 	sf::Vector2f s = TileProperty::texSize;
-	sf::Vector2f padding = sf::Vector2f((t.x * 2 + 1) * 4, (t.y * 2 + 1) * 4);
+
+	sf::Vector2f padding((t.x * 2 + 1) * 4, (t.y * 2 + 1) * 4);
 
 	quad[0].texCoords = sf::Vector2f(t.x * s.x, t.y * s.y) + padding;
 	quad[1].texCoords = sf::Vector2f((t.x + 1) * s.x, t.y * s.y) + padding;

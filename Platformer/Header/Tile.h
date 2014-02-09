@@ -2,29 +2,8 @@
 
 #include <SFML/Graphics.hpp>
 
+#include <TileProperty.h>
 #include <RectF.h>
-
-class TileProperty
-{
-	public:
-	TileProperty(int ID, sf::Vector2f texCoords, char txt, sf::Color color, bool passable)
-	:
-	ID(ID),
-	texCoords(texCoords),
-	txt(txt),
-	color(color),
-	passable(passable)
-	{}
-
-	const int ID;
-	const char txt;
-	const sf::Vector2f texCoords;
-	const sf::Color color;
-	const bool passable;
-
-	static sf::Vector2f texSize;
-	static sf::Vector2f tileSize;
-};
 
 class Tile
 {
