@@ -18,12 +18,11 @@ public:
 	void setWindow(sf::RenderWindow &win)
 	{
 		window = &win;
-		block = 0;
 	}
 
 	TileProperty& getTileProperty(char c);
 
-	TileProperty& getTileProperty(unsigned int i);
+	TileProperty& getTileProperty(int i);
 
 	void load(std::string levelName, sf::Vector2f windowSize);
 
@@ -45,6 +44,13 @@ public:
 	int getHeight() const
 	{
 		return height * TileProperty::tileSize.y;
+	}
+
+	Tile* getTile(int ix, int iy)
+	{
+		int id = getIndexXBiasRight(ix) + getIndexYBiasBottom(iy) * width;
+
+		return &vTiles[id];
 	}
 
 	void modifyTile(int x, int y, TileProperty prop);
@@ -142,6 +148,10 @@ public:
 
 	bool isPassable(int ix, int iy);
 
+	void updateOverlay();
+
+	void update();
+
 private:
 
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
@@ -151,7 +161,11 @@ private:
 	int width;
 	int height;
 
-	unsigned int block;
+	bool editing;
+	int tileID;
+
+	sf::Sprite tileSelect;
+	sf::RectangleShape outline;
 
 	std::vector<Tile> vTiles;
 	sf::VertexArray m_vertices;

@@ -7,7 +7,7 @@ Game::Game(unsigned int width, unsigned int height)
 	window(sf::VideoMode(width, height), "Platformer", sf::Style::Default, sf::ContextSettings(32, 24, 8, 4, 2))
 {
 	window.setView(view);
-	//window.setFramerateLimit(120);
+	window.setFramerateLimit(60);
 	window.setKeyRepeatEnabled(false);
 	window.setVerticalSyncEnabled(true);
 
@@ -20,6 +20,8 @@ Game::Game(unsigned int width, unsigned int height)
 
 	collision.setMap(map);
 	collision.setPlayer(player);
+
+	player.view = sf::View(sf::FloatRect(0, 0, width, height));
 }
 
 void Game::getInput()
@@ -67,13 +69,14 @@ void Game::update()
 	centre.x -= window.getSize().x / 2;
 	centre.y -= window.getSize().y / 2;
 	background.setPosition(centre);
+	window.setView(player.view);
+
+	map.update();
 }
 
 void Game::render()
 {
 	window.clear(sf::Color(153, 217, 234));
-
-	window.setView(player.view);
 
 	window.draw(background);
 

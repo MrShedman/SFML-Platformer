@@ -9,14 +9,11 @@
 #pragma comment(lib, "sndfile.lib")
 #endif // SFML_STATIC
 
-#define MINX 1920
-#define MINY 1080
-
 #include <Game.h>
 
 int main()
 {
-	Game game(MINX, MINY);
+	Game game(1280, 720);
 	game.run();
 
 	return 0;

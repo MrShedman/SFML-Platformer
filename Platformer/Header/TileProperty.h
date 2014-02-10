@@ -13,7 +13,7 @@
 #define SAND				8,  sf::Vector2f(2, 1), '"', sf::Color(255, 255, 255, 255), false
 #define GRAVEL				9,  sf::Vector2f(3, 1), '£', sf::Color(255, 255, 255, 255), false
 #define WOOD				10, sf::Vector2f(4, 1), '$', sf::Color(255, 255, 255, 255), false
-#define LADDER				11, sf::Vector2f(5, 1), '|', sf::Color(255, 255, 255, 255), false
+#define LADDER				11, sf::Vector2f(5, 1), '|', sf::Color(255, 255, 255, 255), true
 #define MOSSY_STONE			12, sf::Vector2f(0, 2), '/', sf::Color(255, 255, 255, 255), false
 #define BEDROCK				13, sf::Vector2f(1, 2), '%', sf::Color(255, 255, 255, 255), false
 #define GLASS				14, sf::Vector2f(2, 2), '&', sf::Color(255, 255, 255, 255), false
