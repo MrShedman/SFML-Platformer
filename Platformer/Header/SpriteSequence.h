@@ -11,14 +11,15 @@
 class SpriteSequence : public sf::Drawable, public sf::Transformable
 {
 public:
-	SpriteSequence(std::string file, unsigned int nFrames, unsigned int nHoldFrames, unsigned int nRow, unsigned int nColumn)
+	SpriteSequence(sf::Texture &mTexture/*std::string file*/, unsigned int nFrames, unsigned int nHoldFrames, unsigned int nRow, unsigned int nColumn)
 		:
+		texture(mTexture),
 		nFrames(nFrames),
 		nHoldFrames(nHoldFrames),
 		index(0),
 		scale(0.72f)
 	{
-		texture.loadFromFile(file);
+		//texture.loadFromFile(file);
 		texture.setSmooth(true);
 		sprite.setTexture(texture);
 
@@ -91,7 +92,7 @@ private:
 	const float scale;
 
 	sf::Sprite sprite;
-	sf::Texture texture;
+	sf::Texture &texture;
 
 	std::vector<sf::IntRect> sequence;
 };

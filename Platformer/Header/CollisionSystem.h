@@ -90,7 +90,7 @@ public:
 		player->GetState().OnFreeFall();
 	}
 
-	void pollEvent(sf::Event &event)
+	void pollEvent(const sf::Event &event)
 	{
 		if (event.type == sf::Event::KeyPressed)
 		{

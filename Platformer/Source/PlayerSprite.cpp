@@ -1,17 +1,19 @@
 #include "PlayerSprite.h"
 #include "PlayerStanding.h"
 
-PlayerSprite::PlayerSprite()
+PlayerSprite::PlayerSprite(State::Context context)
 {
 	core.x = 900;
 	core.y = 900;
 	core.vx = 0.f;
 	core.vy = 0.f;
 	core.seqs = new SpriteSequence*[4];
-	core.seqs[0] = new SpriteSequence("Textures/standing.png", 22, 5, 4, 7);
-	core.seqs[1] = new SpriteSequence("Textures/running.png", 27, 2, 4, 7);
-	core.seqs[2] = new SpriteSequence("Textures/jumping.png", 9, 3, 2, 5);
-	core.seqs[3] = new SpriteSequence("Textures/falling.png", 3, 7, 1, 3);
+	
+	core.seqs[0] = new SpriteSequence(context.textures->get(Textures::ID::PlayerStanding), 22, 5, 4, 7);
+	core.seqs[1] = new SpriteSequence(context.textures->get(Textures::ID::PlayerRunning), 27, 2, 4, 7);
+	core.seqs[2] = new SpriteSequence(context.textures->get(Textures::ID::PlayerJumping), 9, 3, 2, 5);
+	core.seqs[3] = new SpriteSequence(context.textures->get(Textures::ID::PlayerFalling), 3, 7, 1, 3);
+
 	core.state = new PlayerStanding( core );
 	core.dir.SetRight();
 
@@ -21,7 +23,7 @@ PlayerSprite::PlayerSprite()
 	jump.setBuffer(buffer);
 }
 
-void PlayerSprite::pollEvent(sf::Event &event)
+void PlayerSprite::pollEvent(const sf::Event &event)
 {
 	switch (event.key.code)
 	{

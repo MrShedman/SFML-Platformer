@@ -9,12 +9,12 @@
 #pragma comment(lib, "sndfile.lib")
 #endif // SFML_STATIC
 
-#include <Game.h>
+#include <Application.h>
 
 int main()
 {
-	Game game(1280, 720);
-	game.run();
+	Application app(1280, 720);
+	app.run();
 
 	return 0;
 }

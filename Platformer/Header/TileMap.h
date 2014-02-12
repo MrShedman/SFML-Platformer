@@ -8,23 +8,22 @@
 #include <SFML/Graphics.hpp>
 
 #include <Tile.h>
+#include <TileEditor.h>
 #include <CollisionRectF.h>
+#include <State.hpp>
+#include <ResourceIdentifiers.hpp>
 
-	
 class TileMap : public sf::Drawable
 {
 public:
 
-	void setWindow(sf::RenderWindow &win)
-	{
-		window = &win;
-	}
+	friend class TileEditor;
 
-	TileProperty& getTileProperty(char c);
+	TileMap(State::Context context);
 
-	TileProperty& getTileProperty(int i);
+	TileData& getTileData(char c);
 
-	void load(std::string levelName, sf::Vector2f windowSize);
+	void load(std::string levelName);
 
 	void save();
 
@@ -36,115 +35,19 @@ public:
 
 	int getIndexYBiasBottom(float y) const;
 
-	int getWidth() const
-	{
-		return width * TileProperty::tileSize.x;
-	}
+	int getWidth() const;
 
-	int getHeight() const
-	{
-		return height * TileProperty::tileSize.y;
-	}
+	int getHeight() const;
 
-	Tile* getTile(int ix, int iy)
-	{
-		int id = getIndexXBiasRight(ix) + getIndexYBiasBottom(iy) * width;
+	void modifyTile(int x, int y, TileData &prop);
 
-		return &vTiles[id];
-	}
+	RectF getCRect(int ix, int iy);
 
-	void modifyTile(int x, int y, TileProperty prop);
+	bool getCRectSingle(CollisionRectF cRect, CollisionRectF &rect);
 
-	void print();
+	void getCRectList(RectF cRect, std::vector<RectF> &list);
 
-	RectF getCRect(int ix, int iy)
-	{
-		return vTiles[ix + iy * width].rect;
-	}
-
-	bool getCRectSingle(CollisionRectF cRect, CollisionRectF &rect)
-	{
-		if (cRect.vx > 0.f)
-		{
-			if (cRect.vy > 0.f)
-			{
-				for (int iy = getIndexYBiasBottom(cRect.top), iyEnd = getIndexYBiasTop(cRect.bottom); iy <= iyEnd; ++iy)
-				{
-					for (int ix = getIndexXBiasRight(cRect.left), ixEnd = getIndexXBiasLeft(cRect.right); ix <= ixEnd; ++ix)
-					{
-						if (!isPassable(ix, iy))
-						{
-							rect = getCRect(ix, iy);
-							return true;
-						}
-					}
-				}
-			}
-			else
-			{
-				for (int iy = getIndexYBiasTop(cRect.bottom), iyEnd = getIndexYBiasBottom(cRect.top); iy >= iyEnd; --iy)
-				{
-					for (int ix = getIndexXBiasRight(cRect.left), ixEnd = getIndexXBiasLeft(cRect.right); ix <= ixEnd; ++ix)
-					{
-						if (!isPassable(ix, iy))
-						{
-							rect = getCRect(ix, iy);
-							return true;
-						}
-					}
-				}
-			}
-		}
-		else
-		{
-			if (cRect.vy > 0.f)
-			{
-				for (int iy = getIndexYBiasBottom(cRect.top), iyEnd = getIndexYBiasTop(cRect.bottom); iy <= iyEnd; ++iy)
-				{
-					for (int ix = getIndexXBiasLeft(cRect.right), ixEnd = getIndexXBiasRight(cRect.left); ix >= ixEnd; --ix)
-					{
-						if (!isPassable(ix, iy))
-						{
-							rect = getCRect(ix, iy);
-							return true;
-						}
-					}
-				}
-			}
-			else
-			{
-				for (int iy = getIndexYBiasTop(cRect.bottom), iyEnd = getIndexYBiasBottom(cRect.top); iy >= iyEnd; --iy)
-				{
-					for (int ix = getIndexXBiasLeft(cRect.right), ixEnd = getIndexXBiasRight(cRect.left); ix >= ixEnd; --ix)
-					{
-						if (!isPassable(ix, iy))
-						{
-							rect = getCRect(ix, iy);
-							return true;
-						}
-					}
-				}
-			}
-		}
-
-		return false;
-	}
-
-	void getCRectList(RectF cRect, std::vector<RectF> &list)
-	{
-		for (int iy = getIndexYBiasBottom(cRect.top), iyEnd = getIndexYBiasTop(cRect.bottom); iy <= iyEnd; ++iy)
-		{
-			for (int ix = getIndexXBiasRight(cRect.left), ixEnd = getIndexXBiasLeft(cRect.right); ix <= ixEnd; ++ix)
-			{
-				if (!isPassable(ix, iy))
-				{
-					list.push_back(getCRect(ix, iy));
-				}
-			}
-		}
-	}
-
-	void pollEvent(sf::Event &event);
+	void pollEvent(const sf::Event &event);
 
 	bool isPassable(int ix, int iy);
 
@@ -161,15 +64,11 @@ private:
 	int width;
 	int height;
 
-	bool editing;
-	int tileID;
+	TileEditor editor;
 
-	sf::Sprite tileSelect;
-	sf::RectangleShape outline;
-
-	std::vector<Tile> vTiles;
+	std::vector<TileData> Table;
+	std::vector<std::unique_ptr<Tile>> vTiles;
 	sf::VertexArray m_vertices;
-	std::vector<TileProperty> vTileProperty;
 	sf::Texture m_tileset;
 
 	sf::RenderWindow *window;

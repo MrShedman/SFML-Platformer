@@ -5,19 +5,17 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 
-#include <SpriteState.h>
-#include <PlayerSprite.h>
-#include <TileMap.h>
-#include <ParticleSystem.h>
-#include <CollisionSystem.h>
-    
-class Game
+#include <ResourceHolder.hpp>
+#include <ResourceIdentifiers.hpp>
+#include <StateStack.hpp>
+
+class Application
 {
 private:
 
 	sf::RenderWindow window;
 	sf::View view;
-	
+	/*
 	PlayerSprite player;
 
 	TileMap map;
@@ -26,6 +24,11 @@ private:
 
 	sf::Texture texture;
 	sf::Sprite background;
+	*/
+	TextureHolder mTextures;
+	FontHolder mFonts;
+
+	StateStack mStateStack;
 
 	void getInput();
 	void update();
@@ -35,5 +38,5 @@ private:
 public:
 
 	void run();
-	Game(unsigned int width, unsigned int height);
+	Application(unsigned int width, unsigned int height);
 };

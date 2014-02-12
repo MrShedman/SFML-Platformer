@@ -2,22 +2,17 @@
 
 #include <Tile.h>
 
-sf::Vector2f TileProperty::texSize(64, 64);
-sf::Vector2f TileProperty::tileSize(48, 48);
-
 Tile::Tile()
 {
-	properties = NULL;
+	data = nullptr;
 }
 
-Tile::Tile(sf::Vertex &quad, sf::Vector2f position, TileProperty &properties)
+Tile::Tile(sf::Vertex &quad, sf::Vector2f position, TileData &data)
 :
 quad(&quad),
-rect(position.y * TileProperty::tileSize.y, 
-(position.y + 1) * TileProperty::tileSize.y, 
-position.x * TileProperty::tileSize.x, 
-(position.x + 1) * TileProperty::tileSize.x),
-properties(&properties)
+rect(position.y * TileData::tileSize.y, (position.y + 1) * TileData::tileSize.y,
+position.x * TileData::tileSize.x, (position.x + 1) * TileData::tileSize.x),
+data(&data)
 {
 	update();
 }
@@ -29,8 +24,8 @@ void Tile::update()
 	quad[2].position = sf::Vector2f(rect.right, rect.bottom);
 	quad[3].position = sf::Vector2f(rect.left, rect.bottom);
 
-	sf::Vector2f t = properties->texCoords;
-	sf::Vector2f s = TileProperty::texSize;
+	sf::Vector2f t = data->texCoords;
+	sf::Vector2f s = TileData::texSize;
 
 	sf::Vector2f padding((t.x * 2 + 1) * 4, (t.y * 2 + 1) * 4);
 
@@ -39,19 +34,17 @@ void Tile::update()
 	quad[2].texCoords = sf::Vector2f((t.x + 1) * s.x, (t.y + 1) * s.y) + padding;
 	quad[3].texCoords = sf::Vector2f(t.x * s.x, (t.y + 1) * s.y) + padding;
 
-	quad[0].color = properties->color;
-	quad[1].color = properties->color;
-	quad[2].color = properties->color;
-	quad[3].color = properties->color;
+	quad[0].color = data->color;
+	quad[1].color = data->color;
+	quad[2].color = data->color;
+	quad[3].color = data->color;
 }
 
 Tile& Tile::operator = (Tile &rhs)
 {
 	quad = rhs.quad;
-
 	rect = rhs.rect;
-
-	properties = rhs.properties;
+	data = rhs.data;
 
 	update();
 

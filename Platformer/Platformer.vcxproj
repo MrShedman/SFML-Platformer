@@ -83,33 +83,52 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Source\Game.cpp" />
+    <ClCompile Include="Source\Application.cpp" />
+    <ClCompile Include="Source\DataTables.cpp" />
+    <ClCompile Include="Source\GameState.cpp" />
+    <ClCompile Include="Source\MenuState.cpp" />
+    <ClCompile Include="Source\PauseState.cpp" />
     <ClCompile Include="Source\PlayerJumping.cpp" />
     <ClCompile Include="Source\PlayerRunning.cpp" />
     <ClCompile Include="Source\PlayerSprite.cpp" />
     <ClCompile Include="Source\PlayerStanding.cpp" />
     <ClCompile Include="Source\Sprite.cpp" />
+    <ClCompile Include="Source\State.cpp" />
+    <ClCompile Include="Source\StateStack.cpp" />
     <ClCompile Include="Source\Tile.cpp" />
+    <ClCompile Include="Source\TileEditor.cpp" />
     <ClCompile Include="Source\TileMap.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Header\BiDirection.h" />
     <ClInclude Include="Header\CollisionSystem.h" />
     <ClInclude Include="Header\CollisionRectF.h" />
-    <ClInclude Include="Header\Game.h" />
+    <ClInclude Include="Header\Application.h" />
+    <ClInclude Include="Header\DataTables.hpp" />
+    <ClInclude Include="Header\GameState.hpp" />
+    <ClInclude Include="Header\MenuState.hpp" />
     <ClInclude Include="Header\ParticleSystem.h" />
+    <ClInclude Include="Header\PauseState.hpp" />
     <ClInclude Include="Header\PlayerJumping.h" />
     <ClInclude Include="Header\PlayerRunning.h" />
     <ClInclude Include="Header\PlayerSprite.h" />
     <ClInclude Include="Header\PlayerStanding.h" />
     <ClInclude Include="Header\RectF.h" />
+    <ClInclude Include="Header\ResourceHolder.hpp" />
+    <ClInclude Include="Header\ResourceIdentifiers.hpp" />
     <ClInclude Include="Header\Sprite.h" />
     <ClInclude Include="Header\SpriteCore.h" />
     <ClInclude Include="Header\SpriteSequence.h" />
     <ClInclude Include="Header\SpriteState.h" />
+    <ClInclude Include="Header\State.hpp" />
+    <ClInclude Include="Header\StateIdentifiers.hpp" />
+    <ClInclude Include="Header\StateStack.hpp" />
     <ClInclude Include="Header\Tile.h" />
+    <ClInclude Include="Header\TileEditor.h" />
     <ClInclude Include="Header\TileMap.h" />
-    <ClInclude Include="Header\TileProperty.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Header\ResourceHolder.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
