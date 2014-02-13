@@ -1,6 +1,4 @@
-#ifndef BOOK_RESOURCEIDENTIFIERS_HPP
-#define BOOK_RESOURCEIDENTIFIERS_HPP
-
+#pragma once
 
 // Forward declaration of SFML classes
 namespace sf
@@ -8,6 +6,8 @@ namespace sf
 	class Texture;
 	class Font;
 }
+
+class Level;
 
 namespace Textures
 {
@@ -45,7 +45,6 @@ namespace Levels
 template <typename Resource, typename Identifier>
 class ResourceHolder;
 
+typedef ResourceHolder<Level, Levels::ID> LevelHolder;
 typedef ResourceHolder<sf::Texture, Textures::ID>	TextureHolder;
 typedef ResourceHolder<sf::Font, Fonts::ID>			FontHolder;
-
-#endif // BOOK_RESOURCEIDENTIFIERS_HPP

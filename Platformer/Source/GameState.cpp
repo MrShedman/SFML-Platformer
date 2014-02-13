@@ -11,8 +11,7 @@ map(context)
 	sf::Texture& texture = context.textures->get(Textures::GameBackground);
 	background.setTexture(texture);
 
-	map.load("Levels/level001.txt");
-
+	map.load(context, Levels::Level001);
 
 	background.setOrigin(640, 360);
 
@@ -20,12 +19,13 @@ map(context)
 	collision.setPlayer(player);
 
 	player.view = sf::View(sf::Vector2f(0, 0), static_cast<sf::Vector2f>(context.window->getSize()));
+	player.viewBoundary = RectF(0, map.getHeight(), 0, map.getWidth());
 }
 
 void GameState::draw()
 {
 	sf::RenderWindow& window = *getContext().window;
-
+	updateView();
 	window.draw(background);
 	window.draw(map);
 	window.draw(player);
@@ -36,10 +36,15 @@ void GameState::updateView()
 {
 	sf::RenderWindow& window = *getContext().window;
 	sf::FloatRect visibleArea(0, 0, window.getSize().x, window.getSize().y);
+
 	player.view = sf::View(visibleArea);
-	sf::Vector2f centre = sf::Vector2f(player.getX(), player.getY());
-	player.view.setCenter(centre);
-	background.setPosition(centre);
+	player.setViewPosition();
+
+	float sx = window.getSize().x / 1280.f;
+	float sy = window.getSize().y / 720.f;
+
+	background.setScale(sx, sy);
+	background.setPosition(player.view.getCenter());
 	window.setView(player.view);
 }
 
@@ -61,9 +66,20 @@ bool GameState::update()
 bool GameState::handleEvent(const sf::Event& event)
 {
 	// Escape pressed, trigger the pause screen
-	if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)
+	if (event.type == sf::Event::KeyPressed)
 	{
-		requestStackPush(States::Pause);
+		if (event.key.code == sf::Keyboard::Escape)
+		{
+			requestStackPush(States::Pause);
+		}
+		if (event.key.code == sf::Keyboard::Num1)
+		{
+			map.load(getContext(), Levels::Level001);
+		}
+		if (event.key.code == sf::Keyboard::Num2)
+		{
+			map.load(getContext(), Levels::Level002);
+		}
 	}
 
 	player.pollEvent(event);

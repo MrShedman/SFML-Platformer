@@ -4,6 +4,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
+#include <Level.h>
 
 #include <ResourceHolder.hpp>
 #include <ResourceIdentifiers.hpp>
@@ -15,18 +16,10 @@ private:
 
 	sf::RenderWindow window;
 	sf::View view;
-	/*
-	PlayerSprite player;
 
-	TileMap map;
-
-	CollisionSystem collision;
-
-	sf::Texture texture;
-	sf::Sprite background;
-	*/
 	TextureHolder mTextures;
 	FontHolder mFonts;
+	LevelHolder mLevels;
 
 	StateStack mStateStack;
 

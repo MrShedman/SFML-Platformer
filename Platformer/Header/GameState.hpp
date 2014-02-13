@@ -1,5 +1,4 @@
-#ifndef BOOK_GAMESTATE_HPP
-#define BOOK_GAMESTATE_HPP
+#pragma once
 
 #include <State.hpp>
 
@@ -35,5 +34,3 @@ class GameState : public State
 		sf::Sprite background;
 		
 };
-
-#endif // BOOK_GAMESTATE_HPP

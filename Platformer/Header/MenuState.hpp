@@ -1,5 +1,4 @@
-#ifndef BOOK_MENUSTATE_HPP
-#define BOOK_MENUSTATE_HPP
+#pragma once
 
 #include <State.hpp>
 
@@ -20,5 +19,3 @@ class MenuState : public State
 	private:
 		sf::Sprite				mBackgroundSprite;
 };
-
-#endif // BOOK_MENUSTATE_HPP

@@ -11,6 +11,7 @@
 #include <TileEditor.h>
 #include <CollisionRectF.h>
 #include <State.hpp>
+#include <Level.h>
 #include <ResourceIdentifiers.hpp>
 
 class TileMap : public sf::Drawable
@@ -23,7 +24,7 @@ public:
 
 	TileData& getTileData(char c);
 
-	void load(std::string levelName);
+	void load(State::Context context, Levels::ID type);
 
 	void save();
 
@@ -63,6 +64,8 @@ private:
 
 	int width;
 	int height;
+
+	Level level1;
 
 	TileEditor editor;
 

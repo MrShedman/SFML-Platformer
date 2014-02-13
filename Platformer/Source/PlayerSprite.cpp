@@ -3,7 +3,7 @@
 
 PlayerSprite::PlayerSprite(State::Context context)
 {
-	core.x = 900;
+	core.x = 250;
 	core.y = 900;
 	core.vx = 0.f;
 	core.vy = 0.f;
@@ -21,6 +21,19 @@ PlayerSprite::PlayerSprite(State::Context context)
 
 	buffer.loadFromFile("Sounds/jump.wav");
 	jump.setBuffer(buffer);
+}
+
+void PlayerSprite::setViewPosition()
+{
+	float x = core.x - view.getSize().x / 2.f;
+	float y = core.y - view.getSize().y / 2.f;
+
+	x = std::max(x, viewBoundary.left);
+	y = std::max(y, viewBoundary.top);
+	x = std::min(x, viewBoundary.right - view.getSize().x);
+	y = std::min(y, viewBoundary.bottom - view.getSize().y);
+
+	view.setCenter(x + view.getSize().x/2, y + view.getSize().y/2);
 }
 
 void PlayerSprite::pollEvent(const sf::Event &event)

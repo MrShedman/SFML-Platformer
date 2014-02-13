@@ -16,6 +16,10 @@ public:
 	PlayerSprite(State::Context context);
 	virtual ~PlayerSprite();
 	void pollEvent(const sf::Event &event);
+
+	void setViewPosition();
+
+	RectF viewBoundary;
 	sf::View view;
 	sf::SoundBuffer buffer;
 	sf::Sound jump;

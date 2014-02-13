@@ -1,12 +1,10 @@
-#ifndef BOOK_RESOURCEHOLDER_HPP
-#define BOOK_RESOURCEHOLDER_HPP
+#pragma once
 
 #include <map>
 #include <string>
 #include <memory>
 #include <stdexcept>
 #include <cassert>
-
 
 template <typename Resource, typename Identifier>
 class ResourceHolder
@@ -30,4 +28,3 @@ class ResourceHolder
 };
 
 #include "ResourceHolder.inl"
-#endif // BOOK_RESOURCEHOLDER_HPP

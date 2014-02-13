@@ -106,6 +106,7 @@
     <ClInclude Include="Header\Application.h" />
     <ClInclude Include="Header\DataTables.hpp" />
     <ClInclude Include="Header\GameState.hpp" />
+    <ClInclude Include="Header\Level.h" />
     <ClInclude Include="Header\MenuState.hpp" />
     <ClInclude Include="Header\ParticleSystem.h" />
     <ClInclude Include="Header\PauseState.hpp" />

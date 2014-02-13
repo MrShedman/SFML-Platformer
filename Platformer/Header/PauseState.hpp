@@ -1,5 +1,4 @@
-#ifndef BOOK_PAUSESTATE_HPP
-#define BOOK_PAUSESTATE_HPP
+#pragma once
 
 #include <State.hpp>
 
@@ -21,5 +20,3 @@ class PauseState : public State
 		sf::Sprite			mBackgroundSprite;
 		sf::Text			mPausedText;
 };
-
-#endif // BOOK_PAUSESTATE_HPP

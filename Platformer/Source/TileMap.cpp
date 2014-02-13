@@ -4,6 +4,7 @@
 #include <TileEditor.h>
 #include <ResourceHolder.hpp>
 
+
 TileMap::TileMap(State::Context context)
 :
 editor(context, *this)
@@ -11,6 +12,8 @@ editor(context, *this)
 	window = context.window;
 
 	m_tileset = context.textures->get(Textures::ID::TileMap);	
+
+	level1 = context.levels->get(Levels::ID::Level002);
 
 	Table = initializeTileData();
 }
@@ -28,47 +31,14 @@ TileData& TileMap::getTileData(char c)
 	return Table[Block::Air];
 }
 
-void TileMap::load(std::string levelName)
+void TileMap::load(State::Context context, Levels::ID type)
 {
-	file = levelName;
-	std::ifstream infile(file);
-	std::string line;
-	std::vector<char> cTiles;
+	Level temp = context.levels->get(type);
 
-	if (!infile.is_open())
-	{
-		std::cout << "ERROR: level does not exist!" << std::endl;
-		return;
-	}
-	else
-	{
-		std::cout << "Loaded map: " << file << std::endl;
-	}
-
-	unsigned int nTiles = 0;
-	unsigned int nRows = 0;
-	unsigned int nColumns = 0;
-
-	while (std::getline(infile, line))
-	{
-		nColumns = line.length();
-		std::istringstream iss(line);
-
-		char t;
-
-		while (iss >> std::noskipws >> t)
-		{
-			cTiles.push_back(t);
-		}
-		nRows++;
-	}
-
-	nTiles = cTiles.size();
-
-	std::cout << "\nTiles: " << nTiles << "\nnColumns: " << nColumns << "\nnRows: " << nRows << std::endl;
-
-	width = nColumns;
-	height = nRows;
+	file = temp.filename;
+	
+	width = temp.width;
+	height = temp.height;
 
 	m_vertices.setPrimitiveType(sf::Quads);
 	m_vertices.resize(width * height * 4);
@@ -80,7 +50,7 @@ void TileMap::load(std::string levelName)
 		for (unsigned int j = 0; j < height; ++j)
 		{
 			int id = i + j * width;
-			std::unique_ptr<Tile> tile (new Tile(m_vertices[(id)* 4], sf::Vector2f(i, j), getTileData(cTiles[id])));
+			std::unique_ptr<Tile> tile(new Tile(m_vertices[(id)* 4], sf::Vector2f(i, j), getTileData(temp.cTiles[id])));
 			vTiles[id] = std::move(tile);
 		}
 	}
@@ -180,6 +150,10 @@ void TileMap::update()
 
 bool TileMap::isPassable(int ix, int iy)
 {
+	if ((ix + iy * width) >= vTiles.size())
+	{
+		return true;
+	}
 	return vTiles[ix + iy * width]->data->passable;
 }
 

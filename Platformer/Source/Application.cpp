@@ -12,7 +12,7 @@ Application::Application(unsigned int width, unsigned int height)
 	window(sf::VideoMode(width, height), "Platformer", sf::Style::Default, sf::ContextSettings(32, 24, 8, 4, 2)),
 	mTextures(),
 	mFonts(),
-	mStateStack(State::Context(window, mTextures, mFonts))
+	mStateStack(State::Context(window, mTextures, mFonts, mLevels))
 {
 	window.setFramerateLimit(60);
 	window.setKeyRepeatEnabled(false);
@@ -27,6 +27,9 @@ Application::Application(unsigned int width, unsigned int height)
 	mTextures.load(Textures::PlayerRunning, "Textures/running.png");
 	mTextures.load(Textures::PlayerJumping, "Textures/jumping.png");
 	mTextures.load(Textures::PlayerFalling, "Textures/falling.png");
+
+	mLevels.load(Levels::Level001, "Levels/001.txt");
+	mLevels.load(Levels::Level002, "Levels/002.txt");
 
 	mStateStack.registerState<MenuState>(States::Menu);
 	mStateStack.registerState<GameState>(States::Game);
