@@ -18,6 +18,17 @@ Application::Application(unsigned int width, unsigned int height)
 	window.setKeyRepeatEnabled(false);
 	window.setVerticalSyncEnabled(true);
 
+	loadResources();
+
+	mStateStack.registerState<MenuState>(States::Menu);
+	mStateStack.registerState<GameState>(States::Game);
+	mStateStack.registerState<PauseState>(States::Pause);
+
+	mStateStack.pushState(States::Menu);
+}
+
+void Application::loadResources()
+{
 	mFonts.load(Fonts::Main, "Fonts/Sansation.ttf");
 
 	mTextures.load(Textures::MenuBackground, "Textures/MenuBackground.png");
@@ -30,12 +41,6 @@ Application::Application(unsigned int width, unsigned int height)
 
 	mLevels.load(Levels::Level001, "Levels/001.txt");
 	mLevels.load(Levels::Level002, "Levels/002.txt");
-
-	mStateStack.registerState<MenuState>(States::Menu);
-	mStateStack.registerState<GameState>(States::Game);
-	mStateStack.registerState<PauseState>(States::Pause);
-
-	mStateStack.pushState(States::Menu);
 }
 
 void Application::getInput()
@@ -72,11 +77,6 @@ void Application::render()
 	window.display();
 }
 
-void Application::clean()
-{
-	window.close();
-}
-
 void Application::run()
 {
 	while (window.isOpen())
@@ -85,6 +85,4 @@ void Application::run()
 		update();
 		render();		
 	}
-
-	clean();
 }

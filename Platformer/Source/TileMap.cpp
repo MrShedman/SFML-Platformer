@@ -6,14 +6,10 @@
 
 
 TileMap::TileMap(State::Context context)
-:
-editor(context, *this)
 {
 	window = context.window;
 
 	m_tileset = context.textures->get(Textures::ID::TileMap);	
-
-	level1 = context.levels->get(Levels::ID::Level002);
 
 	Table = initializeTileData();
 }
@@ -33,14 +29,16 @@ TileData& TileMap::getTileData(char c)
 
 void TileMap::load(State::Context context, Levels::ID type)
 {
-	Level temp = context.levels->get(type);
+	m_vertices.clear();
+	vTiles.clear();
 
-	file = temp.filename;
+	file = context.levels->get(type).getFileName();
 	
-	width = temp.width;
-	height = temp.height;
+	width = context.levels->get(type).getWidth();
+	height = context.levels->get(type).getHeight();
 
-	m_vertices.setPrimitiveType(sf::Quads);
+	std::vector<char> levelData = context.levels->get(type).getLevelData();
+
 	m_vertices.resize(width * height * 4);
 	vTiles.resize(width * height);
 
@@ -50,8 +48,8 @@ void TileMap::load(State::Context context, Levels::ID type)
 		for (unsigned int j = 0; j < height; ++j)
 		{
 			int id = i + j * width;
-			std::unique_ptr<Tile> tile(new Tile(m_vertices[(id)* 4], sf::Vector2f(i, j), getTileData(temp.cTiles[id])));
-			vTiles[id] = std::move(tile);
+
+			vTiles[id] = Tile(sf::Vector2f(i, j), getTileData(levelData[id]));
 		}
 	}
 }
@@ -66,7 +64,7 @@ void TileMap::save()
 	{
 		for (unsigned int i = 0; i < width; ++i)
 		{
-			outfile << vTiles[i + j * width]->data->txt;
+			outfile << vTiles[i + j * width].data->txt;
 		}
 
 		outfile << std::endl;
@@ -119,15 +117,15 @@ int TileMap::getIndexYBiasBottom(float y) const
 
 RectF TileMap::getCRect(int ix, int iy)
 {
-	return vTiles[ix + iy * width]->rect;
+	return vTiles[ix + iy * width].rect;
 }
 
 void TileMap::modifyTile(int x, int y, TileData &prop)
 {
 	int id = getIndexXBiasRight(x) + getIndexYBiasBottom(y) * width;
 
-	vTiles[id]->data = &prop;
-	vTiles[id]->update();
+	vTiles[id].data = &prop;
+	vTiles[id].update();
 }
 
 void TileMap::pollEvent(const sf::Event &event)
@@ -139,13 +137,11 @@ void TileMap::pollEvent(const sf::Event &event)
 			save();
 		}
 	}
-		
-	editor.pollEvent(event);
 }
 
 void TileMap::update()
 {
-	editor.update();
+
 }
 
 bool TileMap::isPassable(int ix, int iy)
@@ -154,13 +150,38 @@ bool TileMap::isPassable(int ix, int iy)
 	{
 		return true;
 	}
-	return vTiles[ix + iy * width]->data->passable;
+	return vTiles[ix + iy * width].data->passable;
 }
 
 void TileMap::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	target.draw(m_vertices, &m_tileset);
-	target.draw(editor);
+	int left = 0, right = 0, top = 0, bottom = 0;
+	//get chunk indices into which top left and bottom right points of view fall:
+	sf::Vector2f temp = target.getView().getCenter() - (target.getView().getSize() / 2.f);//get top left point of view
+
+	left = static_cast<int>(temp.x / (TileData::tileSize.x));
+	top = static_cast<int>(temp.y / (TileData::tileSize.y));
+
+	temp += target.getView().getSize();//get bottom right point of view
+
+	right = 1 + static_cast<int>(temp.x / (TileData::tileSize.x));
+	bottom = 1 + static_cast<int>(temp.y / (TileData::tileSize.y));
+
+	//clamp these to fit into array bounds:
+	left = std::max(0, std::min(left, width));
+	top = std::max(0, std::min(top, height));
+	right = std::max(0, std::min(right, width));
+	bottom = std::max(0, std::min(bottom, height));
+
+	states.texture = &m_tileset;
+
+	for (int ix = left; ix < right; ++ix)
+	{
+		for (int iy = top; iy < bottom; ++iy)
+		{
+			target.draw(vTiles[ix + iy * width], states);
+		}
+	}
 }
 
 bool TileMap::getCRectSingle(CollisionRectF cRect, CollisionRectF &rect)

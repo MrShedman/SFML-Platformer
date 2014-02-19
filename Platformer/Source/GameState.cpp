@@ -6,12 +6,13 @@ GameState::GameState(StateStack& stack, Context context)
 : 
 State(stack, context),
 player(context),
-map(context)
+map(context),
+mapEditor(context, map)
 {
 	sf::Texture& texture = context.textures->get(Textures::GameBackground);
 	background.setTexture(texture);
 
-	map.load(context, Levels::Level001);
+	map.load(context, Levels::Level002);
 
 	background.setOrigin(640, 360);
 
@@ -28,6 +29,7 @@ void GameState::draw()
 	updateView();
 	window.draw(background);
 	window.draw(map);
+	window.draw(mapEditor);
 	window.draw(player);
 	window.draw(collision);
 }
@@ -60,6 +62,8 @@ bool GameState::update()
 	
 	map.update();
 
+	mapEditor.update();
+
 	return true;
 }
 
@@ -75,10 +79,12 @@ bool GameState::handleEvent(const sf::Event& event)
 		if (event.key.code == sf::Keyboard::Num1)
 		{
 			map.load(getContext(), Levels::Level001);
+			player.viewBoundary = RectF(0, map.getHeight(), 0, map.getWidth());
 		}
 		if (event.key.code == sf::Keyboard::Num2)
 		{
 			map.load(getContext(), Levels::Level002);
+			player.viewBoundary = RectF(0, map.getHeight(), 0, map.getWidth());
 		}
 	}
 
@@ -87,6 +93,8 @@ bool GameState::handleEvent(const sf::Event& event)
 	collision.pollEvent(event);
 
 	map.pollEvent(event);
+
+	mapEditor.pollEvent(event);
 
 	return true;
 }

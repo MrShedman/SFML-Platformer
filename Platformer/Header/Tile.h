@@ -1,7 +1,7 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-
+#include <vector>
 #include <DataTables.hpp>
 #include <RectF.h>
 
@@ -35,21 +35,23 @@ namespace Block
 	};
 }
 
-class Tile
+class Tile : public sf::Drawable
 {
 public:
 
 	Tile();
 
-	Tile(sf::Vertex &quad, sf::Vector2f position, TileData &data);
+	Tile(sf::Vector2f position, TileData &data);
+
+	Tile& operator=(Tile&& rhs);
 
 	void update();
-
-	Tile& operator = (Tile &rhs);
 
 	TileData *data;
 
 	RectF rect;
 
-	sf::Vertex *quad;
+	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+
+	std::vector<sf::Vertex> quad;
 };

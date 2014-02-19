@@ -8,7 +8,6 @@
 #include <SFML/Graphics.hpp>
 
 #include <Tile.h>
-#include <TileEditor.h>
 #include <CollisionRectF.h>
 #include <State.hpp>
 #include <Level.h>
@@ -52,8 +51,6 @@ public:
 
 	bool isPassable(int ix, int iy);
 
-	void updateOverlay();
-
 	void update();
 
 private:
@@ -65,13 +62,9 @@ private:
 	int width;
 	int height;
 
-	Level level1;
-
-	TileEditor editor;
-
 	std::vector<TileData> Table;
-	std::vector<std::unique_ptr<Tile>> vTiles;
-	sf::VertexArray m_vertices;
+	std::vector<Tile> vTiles;
+	std::vector<sf::Vertex> m_vertices;
 	sf::Texture m_tileset;
 
 	sf::RenderWindow *window;

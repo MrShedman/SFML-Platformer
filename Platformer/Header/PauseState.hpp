@@ -1,6 +1,7 @@
 #pragma once
 
 #include <State.hpp>
+#include <Container.hpp>
 
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Text.hpp>
@@ -19,4 +20,5 @@ class PauseState : public State
 	private:
 		sf::Sprite			mBackgroundSprite;
 		sf::Text			mPausedText;
+		GUI::Container		mGUIContainer;
 };

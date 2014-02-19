@@ -15,7 +15,6 @@ class Application
 private:
 
 	sf::RenderWindow window;
-	sf::View view;
 
 	TextureHolder mTextures;
 	FontHolder mFonts;
@@ -23,10 +22,10 @@ private:
 
 	StateStack mStateStack;
 
+	void loadResources();
 	void getInput();
 	void update();
 	void render();
-	void clean();
 
 public:
 

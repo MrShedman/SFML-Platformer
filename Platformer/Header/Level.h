@@ -4,6 +4,7 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <iostream>
 
 class Level
 {
@@ -21,7 +22,6 @@ public:
 
 		std::string line;
 
-		unsigned int nTiles = 0;
 		unsigned int nRows = 0;
 		unsigned int nColumns = 0;
 
@@ -41,7 +41,7 @@ public:
 
 		infile.close();
 
-		nTiles = cTiles.size();
+		std::cout << cTiles.size() << std::endl;
 
 		width = nColumns;
 		height = nRows;
@@ -57,6 +57,28 @@ public:
 
 		return *this;
 	}
+
+	std::string getFileName() const
+	{
+		return filename;
+	}
+
+	const std::vector<char>& getLevelData() const
+	{
+		return cTiles;
+	}
+
+	unsigned int getWidth() const
+	{
+		return width;
+	}
+
+	unsigned int getHeight() const
+	{
+		return height;
+	}
+
+private:
 
 	std::string filename;
 	std::vector<char> cTiles;

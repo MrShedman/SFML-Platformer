@@ -72,7 +72,7 @@ void TileEditor::pollEvent(const sf::Event &event)
 		if (event.mouseButton.button == sf::Mouse::Right)
 		{
 			int id = map.getIndexXBiasRight(mPos.x) + map.getIndexYBiasBottom(mPos.y) * map.width;
-			tileID = map.vTiles[id]->data->ID;
+			tileID = map.vTiles[id].data->ID;
 		}
 	}
 	if (event.type == sf::Event::MouseWheelMoved)

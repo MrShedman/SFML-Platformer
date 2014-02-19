@@ -84,6 +84,9 @@
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Source\Application.cpp" />
+    <ClCompile Include="Source\Button.cpp" />
+    <ClCompile Include="Source\Component.cpp" />
+    <ClCompile Include="Source\Container.cpp" />
     <ClCompile Include="Source\DataTables.cpp" />
     <ClCompile Include="Source\GameState.cpp" />
     <ClCompile Include="Source\MenuState.cpp" />
@@ -101,9 +104,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Header\BiDirection.h" />
+    <ClInclude Include="Header\Button.hpp" />
     <ClInclude Include="Header\CollisionSystem.h" />
     <ClInclude Include="Header\CollisionRectF.h" />
     <ClInclude Include="Header\Application.h" />
+    <ClInclude Include="Header\Component.hpp" />
+    <ClInclude Include="Header\Container.hpp" />
     <ClInclude Include="Header\DataTables.hpp" />
     <ClInclude Include="Header\GameState.hpp" />
     <ClInclude Include="Header\Level.h" />

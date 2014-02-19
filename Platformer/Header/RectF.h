@@ -3,7 +3,14 @@
 class RectF
 {
 public:
-	RectF(){}
+	RectF()
+		:
+	top(0.f),
+	bottom(0.f),
+	left(0.f),
+	right(0.f)
+	{}
+
 	RectF(float top, float bottom, float left, float right)
 		:
 	top(top),

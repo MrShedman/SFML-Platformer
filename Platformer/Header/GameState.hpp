@@ -8,6 +8,7 @@
 #include <SpriteState.h>
 #include <PlayerSprite.h>
 #include <TileMap.h>
+#include <TileEditor.h>
 #include <ParticleSystem.h>
 #include <CollisionSystem.h>
 
@@ -29,8 +30,9 @@ class GameState : public State
 
 		TileMap map;
 
+		TileEditor mapEditor;
+
 		CollisionSystem collision;
 
-		sf::Sprite background;
-		
+		sf::Sprite background;		
 };

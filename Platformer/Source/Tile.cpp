@@ -1,5 +1,3 @@
-#pragma once
-
 #include <Tile.h>
 
 Tile::Tile()
@@ -7,9 +5,8 @@ Tile::Tile()
 	data = nullptr;
 }
 
-Tile::Tile(sf::Vertex &quad, sf::Vector2f position, TileData &data)
+Tile::Tile(sf::Vector2f position, TileData &data)
 :
-quad(&quad),
 rect(position.y * TileData::tileSize.y, (position.y + 1) * TileData::tileSize.y,
 position.x * TileData::tileSize.x, (position.x + 1) * TileData::tileSize.x),
 data(&data)
@@ -17,8 +14,29 @@ data(&data)
 	update();
 }
 
+Tile& Tile::operator = (Tile&& rhs)
+{
+	rect = rhs.rect;
+	quad = rhs.quad;
+	data = rhs.data;
+
+	update();
+
+	rhs.rect = RectF();
+	rhs.quad = { sf::Vertex() };
+	rhs.data = nullptr;
+
+	return *this;
+}
+void Tile::draw(sf::RenderTarget& target, sf::RenderStates states) const
+{
+	target.draw(&quad[0], 4, sf::Quads, states);
+}
+
 void Tile::update()
 {
+	quad.resize(4);
+
 	quad[0].position = sf::Vector2f(rect.left, rect.top);
 	quad[1].position = sf::Vector2f(rect.right, rect.top);
 	quad[2].position = sf::Vector2f(rect.right, rect.bottom);
@@ -38,15 +56,4 @@ void Tile::update()
 	quad[1].color = data->color;
 	quad[2].color = data->color;
 	quad[3].color = data->color;
-}
-
-Tile& Tile::operator = (Tile &rhs)
-{
-	quad = rhs.quad;
-	rect = rhs.rect;
-	data = rhs.data;
-
-	update();
-
-	return *this;
 }

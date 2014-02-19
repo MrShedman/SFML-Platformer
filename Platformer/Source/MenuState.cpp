@@ -1,5 +1,6 @@
 #include <MenuState.hpp>
 #include <ResourceHolder.hpp>
+#include <Button.hpp>
 
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/View.hpp>
@@ -10,6 +11,26 @@ MenuState::MenuState(StateStack& stack, Context context)
 {
 	sf::Texture& texture = context.textures->get(Textures::MenuBackground);
 	mBackgroundSprite.setTexture(texture);
+
+	auto playButton = std::make_shared<GUI::Button>(context);
+	playButton->setPosition(425, 400);
+	playButton->setText("Play");
+	playButton->setCallback([this]()
+	{
+		requestStackPop();
+		requestStackPush(States::Game);
+	});
+
+	auto exitButton = std::make_shared<GUI::Button>(context);
+	exitButton->setPosition(665, 400);
+	exitButton->setText("Exit");
+	exitButton->setCallback([this]()
+	{
+		requestStackPop();
+	});
+
+	mGUIContainer.pack(playButton);
+	mGUIContainer.pack(exitButton);
 }
 
 void MenuState::draw()
@@ -19,6 +40,7 @@ void MenuState::draw()
 	window.setView(window.getDefaultView());
 
 	window.draw(mBackgroundSprite);
+	window.draw(mGUIContainer);
 }
 
 bool MenuState::update()
@@ -28,18 +50,6 @@ bool MenuState::update()
 
 bool MenuState::handleEvent(const sf::Event& event)
 {
-	if (event.type == sf::Event::KeyPressed)
-	{
-		if (event.key.code == sf::Keyboard::Escape)
-		{
-			requestStackPop();
-		}
-		else
-		{
-			requestStackPop();
-			requestStackPush(States::Game);
-		}
-	}
-
+	mGUIContainer.handleEvent(event);
 	return false;
 }
