@@ -3,7 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include <DataTables.hpp>
-#include <RectF.h>
+#include <Rect.h>
 
 namespace Block
 {
@@ -41,7 +41,7 @@ public:
 
 	Tile();
 
-	Tile(sf::Vector2f position, TileData &data);
+	Tile(float x, float y, TileData &data);
 
 	Tile& operator=(Tile&& rhs);
 

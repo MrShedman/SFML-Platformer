@@ -43,7 +43,7 @@ void MenuState::draw()
 	window.draw(mGUIContainer);
 }
 
-bool MenuState::update()
+bool MenuState::update(sf::Time dt)
 {
 	return true;
 }

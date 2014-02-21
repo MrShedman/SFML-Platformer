@@ -1,6 +1,6 @@
 #pragma once
 
-#include <RectF.h>
+#include <Rect.h>
 
 class CollisionRectF : public RectF
 {

@@ -2,7 +2,7 @@
 #include "PlayerStanding.h"
 #include <PlayerJumping.h>
 
-void PlayerRunning::OnUpdate()
+void PlayerRunning::OnUpdate(sf::Time dt)
 {
 	core.vx += core.dir.transform(sax);
 	core.vx = std::min(core.vx, maxsx);

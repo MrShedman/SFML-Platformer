@@ -13,9 +13,7 @@ TileEditor::TileEditor(State::Context context, TileMap &map)
 
 	tileID = 1;
 
-	sf::Vector2f size = TileData::texSize;
-
-	border.setSize(size);
+	border.setSize(static_cast<sf::Vector2f>(TileData::texSize));
 	border.setOutlineThickness(5.f);
 	border.setFillColor(sf::Color::Transparent);
 	border.setOutlineColor(sf::Color::Black);
@@ -33,7 +31,7 @@ void TileEditor::update()
 		border.setPosition(block.getPosition());
 
 		sf::Vector2f t = map.Table[tileID].texCoords;
-		sf::Vector2f size = TileData::texSize;
+		sf::Vector2f size = static_cast<sf::Vector2f>(TileData::texSize);
 		sf::Vector2f padding((t.x * 2 + 1) * 4, (t.y * 2 + 1) * 4);
 		sf::Vector2f position = sf::Vector2f(t.x * size.x, t.y * size.y) + padding;
 
@@ -57,7 +55,7 @@ void TileEditor::pollEvent(const sf::Event &event)
 		return;
 	}
 
-	sf::Vector2f mPos = window->mapPixelToCoords(sf::Mouse::getPosition(*window));
+	sf::Vector2i mPos = static_cast<sf::Vector2i>(window->mapPixelToCoords(sf::Mouse::getPosition(*window)));
 
 	if (event.type == sf::Event::MouseButtonPressed)
 	{
@@ -71,7 +69,7 @@ void TileEditor::pollEvent(const sf::Event &event)
 		}
 		if (event.mouseButton.button == sf::Mouse::Right)
 		{
-			int id = map.getIndexXBiasRight(mPos.x) + map.getIndexYBiasBottom(mPos.y) * map.width;
+			int id = map.getIndexXBiasRight(static_cast<float>(mPos.x)) + map.getIndexYBiasBottom(static_cast<float>(mPos.y)) * map.width;
 			tileID = map.vTiles[id].data->ID;
 		}
 	}

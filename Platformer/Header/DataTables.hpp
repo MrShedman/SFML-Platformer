@@ -14,8 +14,8 @@ struct TileData
 	sf::Color color;
 	bool passable;
 
-	static sf::Vector2f texSize;
-	static sf::Vector2f tileSize;
+	static sf::Vector2i texSize;
+	static sf::Vector2i tileSize;
 };
 
 std::vector<TileData>	initializeTileData();

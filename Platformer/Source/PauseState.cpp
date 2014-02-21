@@ -59,7 +59,7 @@ void PauseState::draw()
 	window.draw(mGUIContainer);
 }
 
-bool PauseState::update()
+bool PauseState::update(sf::Time dt)
 {
 	return false;
 }

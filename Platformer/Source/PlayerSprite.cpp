@@ -25,15 +25,15 @@ PlayerSprite::PlayerSprite(State::Context context)
 
 void PlayerSprite::setViewPosition()
 {
-	float x = core.x - view.getSize().x / 2.f;
-	float y = core.y - view.getSize().y / 2.f;
+	float x = core.x - view.getCenter().x;
+	float y = core.y - view.getCenter().y;
 
 	x = std::max(x, viewBoundary.left);
 	y = std::max(y, viewBoundary.top);
 	x = std::min(x, viewBoundary.right - view.getSize().x);
 	y = std::min(y, viewBoundary.bottom - view.getSize().y);
 
-	view.setCenter(x + view.getSize().x/2, y + view.getSize().y/2);
+	view.move(x, y);
 }
 
 void PlayerSprite::pollEvent(const sf::Event &event)

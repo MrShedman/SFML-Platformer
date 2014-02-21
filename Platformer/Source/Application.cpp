@@ -6,6 +6,7 @@
 #include <MenuState.hpp>
 #include <PauseState.hpp>
 
+const sf::Time Application::timePerFrame = sf::seconds(1.f / 30.f);
 
 Application::Application(unsigned int width, unsigned int height)
 	:
@@ -58,14 +59,9 @@ void Application::getInput()
 	}
 }
 
-void Application::update()
+void Application::update(sf::Time dt)
 {
-	mStateStack.update();
-
-	if (mStateStack.isEmpty())
-	{
-		window.close();
-	}
+	mStateStack.update(dt);
 }
 
 void Application::render()
@@ -79,10 +75,27 @@ void Application::render()
 
 void Application::run()
 {
+	sf::Clock clock;
+	sf::Time timeSinceLastUpdate = sf::Time::Zero;
+
 	while (window.isOpen())
 	{
-		getInput();
-		update();
+		sf::Time dt = clock.restart();
+		timeSinceLastUpdate += dt;
+	
+		while (timeSinceLastUpdate > timePerFrame)
+		{
+			timeSinceLastUpdate -= timePerFrame;
+
+			getInput();
+			update(timePerFrame);
+
+			if (mStateStack.isEmpty())
+			{
+				window.close();
+			}
+		}
+
 		render();		
 	}
 }

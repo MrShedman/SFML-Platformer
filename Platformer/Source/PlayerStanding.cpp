@@ -2,7 +2,7 @@
 #include "PlayerRunning.h"
 #include <PlayerJumping.h>
 
-void PlayerStanding::OnUpdate()
+void PlayerStanding::OnUpdate(sf::Time dt)
 {
 	core.vx *= sdx;
 

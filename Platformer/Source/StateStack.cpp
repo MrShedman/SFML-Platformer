@@ -11,11 +11,11 @@ StateStack::StateStack(State::Context context)
 {
 }
 
-void StateStack::update()
+void StateStack::update(sf::Time dt)
 {
 	for (auto itr = mStack.rbegin(); itr != mStack.rend(); ++itr)
 	{
-		if (!(*itr)->update())
+		if (!(*itr)->update(dt))
 			break;
 	}
 

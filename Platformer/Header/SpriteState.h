@@ -22,7 +22,7 @@ public:
 	virtual void OnCtrlJumpPress() {}
 	virtual void OnCtrlJumpRelease() {}
 
-	virtual void OnUpdate() {}
+	virtual void OnUpdate(sf::Time dt) {}
 
 	virtual void OnCollision(const CollisionRectF &rect) {}
 	virtual void OnFreeFall() {}

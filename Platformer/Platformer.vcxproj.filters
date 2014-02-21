@@ -107,9 +107,6 @@
     <ClInclude Include="Header\Tile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Header\RectF.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Header\CollisionRectF.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -162,6 +159,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Header\Container.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Rect.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

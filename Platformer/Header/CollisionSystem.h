@@ -24,39 +24,17 @@ public:
 		this->player = &player;
 	}
 
-	void setQuad(int index, RectF rect)
-	{
-		sf::Vertex* quad = &vertices[index * 5];
-
-		quad[0].position = sf::Vector2f(rect.left, rect.top);
-		quad[1].position = sf::Vector2f(rect.right, rect.top);
-		quad[2].position = sf::Vector2f(rect.right, rect.bottom);
-		quad[3].position = sf::Vector2f(rect.left, rect.bottom);
-		quad[4].position = sf::Vector2f(rect.left, rect.top);
-
-		quad[0].color = sf::Color::Red;
-		quad[1].color = sf::Color::Red;
-		quad[2].color = sf::Color::Red;
-		quad[3].color = sf::Color::Red;
-		quad[4].color = sf::Color::Red;
-	}
-
 	void getVisibleContacts()
 	{
 		vertices.clear();
 
-		std::vector<RectF> list;
+		RectF rect = player->getCRect();
 
-		map->getCRectList(player->getCRect(), list);
-
-		vertices.resize((list.size() + 1) * 5);
-
-		for (std::size_t i = 0; i < list.size(); ++i)
-		{
-			setQuad(i, list[i]);
-		}
-
-		setQuad(list.size(), player->getCRect());
+		vertices.append(sf::Vertex(sf::Vector2f(rect.left, rect.top), sf::Color::Magenta));
+		vertices.append(sf::Vertex(sf::Vector2f(rect.right, rect.top), sf::Color::Magenta));
+		vertices.append(sf::Vertex(sf::Vector2f(rect.right, rect.bottom), sf::Color::Magenta));
+		vertices.append(sf::Vertex(sf::Vector2f(rect.left, rect.bottom), sf::Color::Magenta));
+		vertices.append(sf::Vertex(sf::Vector2f(rect.left, rect.top), sf::Color::Magenta));
 	}
 
 	void calculate()

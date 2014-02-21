@@ -16,7 +16,7 @@ public:
 
 		ID = 1;
 	}
-	virtual void OnUpdate();
+	virtual void OnUpdate(sf::Time dt);
 	virtual void OnCtrlDirPress(BiDirection d);
 	virtual void OnCtrlJumpPress();
 	virtual void OnCollision(const CollisionRectF &rect);

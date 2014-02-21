@@ -120,7 +120,7 @@
     <ClInclude Include="Header\PlayerRunning.h" />
     <ClInclude Include="Header\PlayerSprite.h" />
     <ClInclude Include="Header\PlayerStanding.h" />
-    <ClInclude Include="Header\RectF.h" />
+    <ClInclude Include="Header\Rect.h" />
     <ClInclude Include="Header\ResourceHolder.hpp" />
     <ClInclude Include="Header\ResourceIdentifiers.hpp" />
     <ClInclude Include="Header\Sprite.h" />

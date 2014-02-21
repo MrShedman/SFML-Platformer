@@ -17,7 +17,7 @@ public:
 
 		ID = 2;
 	}
-	virtual void OnUpdate();
+	virtual void OnUpdate(sf::Time dt);
 	virtual void OnCtrlDirPress(BiDirection d);
 	virtual void OnCtrlDirRelease(BiDirection d);
 	virtual void OnCtrlJumpPress();

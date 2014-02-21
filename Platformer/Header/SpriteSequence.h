@@ -11,7 +11,7 @@
 class SpriteSequence : public sf::Drawable, public sf::Transformable
 {
 public:
-	SpriteSequence(sf::Texture &mTexture/*std::string file*/, unsigned int nFrames, unsigned int nHoldFrames, unsigned int nRow, unsigned int nColumn)
+	SpriteSequence(sf::Texture &mTexture, int nFrames, int nHoldFrames, int nRow, int nColumn)
 		:
 		texture(mTexture),
 		nFrames(nFrames),

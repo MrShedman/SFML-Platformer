@@ -22,9 +22,11 @@ private:
 
 	StateStack mStateStack;
 
+	static const sf::Time timePerFrame;
+	
 	void loadResources();
 	void getInput();
-	void update();
+	void update(sf::Time dt);
 	void render();
 
 public:

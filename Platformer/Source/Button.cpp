@@ -43,9 +43,7 @@ void Button::setToggle(bool flag)
 
 void Button::handleEvent(const sf::Event& event)
 {
-	sf::Vector2i mousePos = sf::Mouse::getPosition(*window);
-
-	sf::Vector2f worldPos = window->mapPixelToCoords(mousePos);
+	sf::Vector2i worldPos = static_cast<sf::Vector2i>(window->mapPixelToCoords(sf::Mouse::getPosition(*window)));
 
 	if (event.type == sf::Event::MouseMoved)
 	{
@@ -63,7 +61,7 @@ void Button::handleEvent(const sf::Event& event)
 
 bool Button::mouseOver(int x, int y)
 {
-	return getTransform().transformRect(mShape.getLocalBounds()).contains(x, y);
+	return getTransform().transformRect(mShape.getLocalBounds()).contains(static_cast<float>(x), static_cast<float>(y));
 }
 
 void Button::mouseMoved(int x, int y)

@@ -13,7 +13,7 @@ class MenuState : public State
 								MenuState(StateStack& stack, Context context);
 
 		virtual void			draw();
-		virtual bool			update();
+		virtual bool			update(sf::Time dt);
 		virtual bool			handleEvent(const sf::Event& event);
 
 

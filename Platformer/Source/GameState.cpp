@@ -14,21 +14,23 @@ mapEditor(context, map)
 
 	map.load(context, Levels::Level002);
 
-	background.setOrigin(640, 360);
+	background.setOrigin(640.f, 360.f);
 
 	collision.setMap(map);
 	collision.setPlayer(player);
 
-	player.view = sf::View(sf::Vector2f(0, 0), static_cast<sf::Vector2f>(context.window->getSize()));
-	player.viewBoundary = RectF(0, map.getHeight(), 0, map.getWidth());
+	player.view = sf::View(sf::Vector2f(0.f, 0.f), static_cast<sf::Vector2f>(context.window->getSize()));
+	player.viewBoundary = RectF(0.f, static_cast<float>(map.getHeight()), 0.f, static_cast<float>(map.getWidth()));
 }
 
 void GameState::draw()
 {
 	sf::RenderWindow& window = *getContext().window;
+
 	updateView();
+
 	window.draw(background);
-	window.draw(map);
+	window.draw(map);	
 	window.draw(mapEditor);
 	window.draw(player);
 	window.draw(collision);
@@ -37,7 +39,7 @@ void GameState::draw()
 void GameState::updateView()
 {
 	sf::RenderWindow& window = *getContext().window;
-	sf::FloatRect visibleArea(0, 0, window.getSize().x, window.getSize().y);
+	sf::FloatRect visibleArea(0.f, 0.f, static_cast<float>(window.getSize().x), static_cast<float>(window.getSize().y));
 
 	player.view = sf::View(visibleArea);
 	player.setViewPosition();
@@ -50,17 +52,17 @@ void GameState::updateView()
 	window.setView(player.view);
 }
 
-bool GameState::update()
+bool GameState::update(sf::Time dt)
 {
 	sf::RenderWindow& window = *getContext().window;
 
-	player.GetState().OnUpdate();
+	player.GetState().OnUpdate(dt);
 
 	collision.calculate();
 	
 	updateView();
 	
-	map.update();
+	map.update(player.getVX(), player.getVY());
 
 	mapEditor.update();
 
@@ -79,12 +81,12 @@ bool GameState::handleEvent(const sf::Event& event)
 		if (event.key.code == sf::Keyboard::Num1)
 		{
 			map.load(getContext(), Levels::Level001);
-			player.viewBoundary = RectF(0, map.getHeight(), 0, map.getWidth());
+			player.viewBoundary = RectF(0.f, static_cast<float>(map.getHeight()), 0.f, static_cast<float>(map.getWidth()));
 		}
 		if (event.key.code == sf::Keyboard::Num2)
 		{
 			map.load(getContext(), Levels::Level002);
-			player.viewBoundary = RectF(0, map.getHeight(), 0, map.getWidth());
+			player.viewBoundary = RectF(0.f, static_cast<float>(map.getHeight()), 0.f, static_cast<float>(map.getWidth()));
 		}
 	}
 

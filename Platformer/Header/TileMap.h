@@ -51,7 +51,7 @@ public:
 
 	bool isPassable(int ix, int iy);
 
-	void update();
+	void update(float x, float y);
 
 private:
 
@@ -64,7 +64,6 @@ private:
 
 	std::vector<TileData> Table;
 	std::vector<Tile> vTiles;
-	std::vector<sf::Vertex> m_vertices;
 	sf::Texture m_tileset;
 
 	sf::RenderWindow *window;

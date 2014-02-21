@@ -29,27 +29,24 @@ TileData& TileMap::getTileData(char c)
 
 void TileMap::load(State::Context context, Levels::ID type)
 {
-	m_vertices.clear();
-	vTiles.clear();
-
-	file = context.levels->get(type).getFileName();
+	Level* temp = &context.levels->get(type);
+	file = temp->getFileName();
 	
-	width = context.levels->get(type).getWidth();
-	height = context.levels->get(type).getHeight();
+	width = temp->getWidth();
+	height = temp->getHeight();
 
-	std::vector<char> levelData = context.levels->get(type).getLevelData();
+	std::vector<char> levelData = temp->getLevelData();
 
-	m_vertices.resize(width * height * 4);
+	vTiles.clear();
 	vTiles.resize(width * height);
 
 	// populate the vertex array, with one quad per tile
-	for (unsigned int i = 0; i < width; ++i)
+	for (int x = 0; x < width; ++x)
 	{
-		for (unsigned int j = 0; j < height; ++j)
+		for (int y = 0; y < height; ++y)
 		{
-			int id = i + j * width;
-
-			vTiles[id] = Tile(sf::Vector2f(i, j), getTileData(levelData[id]));
+			int id = x + y * width;
+			vTiles[id] = Tile(static_cast<float>(x), static_cast<float>(y), getTileData(levelData[id]));
 		}
 	}
 }
@@ -60,9 +57,9 @@ void TileMap::save()
 
 	std::cout << "\nSaving map: " << file << std::endl;
 
-	for (unsigned int j = 0; j < height; ++j)
+	for (int j = 0; j < height; ++j)
 	{
-		for (unsigned int i = 0; i < width; ++i)
+		for (int i = 0; i < width; ++i)
 		{
 			outfile << vTiles[i + j * width].data->txt;
 		}
@@ -85,7 +82,7 @@ int TileMap::getHeight() const
 
 int TileMap::getIndexXBiasLeft(float x) const
 {
-	int ix = x / TileData::tileSize.x;
+	int ix = static_cast<int>(x) / TileData::tileSize.x;
 
 	if (ix * TileData::tileSize.x == x)
 	{
@@ -96,12 +93,12 @@ int TileMap::getIndexXBiasLeft(float x) const
 
 int TileMap::getIndexXBiasRight(float x) const
 {
-	return x / TileData::tileSize.x;
+	return static_cast<int>(x) / TileData::tileSize.x;
 }
 
 int TileMap::getIndexYBiasTop(float y) const
 {
-	int iy = y / TileData::tileSize.y;
+	int iy = static_cast<int>(y) / TileData::tileSize.y;
 
 	if (iy * TileData::tileSize.y == y)
 	{
@@ -112,7 +109,7 @@ int TileMap::getIndexYBiasTop(float y) const
 
 int TileMap::getIndexYBiasBottom(float y) const
 {
-	return y / TileData::tileSize.y;
+	return static_cast<int>(y) / TileData::tileSize.y;
 }
 
 RectF TileMap::getCRect(int ix, int iy)
@@ -122,7 +119,7 @@ RectF TileMap::getCRect(int ix, int iy)
 
 void TileMap::modifyTile(int x, int y, TileData &prop)
 {
-	int id = getIndexXBiasRight(x) + getIndexYBiasBottom(y) * width;
+	int id = getIndexXBiasRight(static_cast<float>(x)) + getIndexYBiasBottom(static_cast<float>(y)) * width;
 
 	vTiles[id].data = &prop;
 	vTiles[id].update();
@@ -139,14 +136,14 @@ void TileMap::pollEvent(const sf::Event &event)
 	}
 }
 
-void TileMap::update()
+void TileMap::update(float x, float y)
 {
 
 }
 
 bool TileMap::isPassable(int ix, int iy)
 {
-	if ((ix + iy * width) >= vTiles.size())
+	if (static_cast<size_t>(ix + iy * width) >= vTiles.size())
 	{
 		return true;
 	}

@@ -5,10 +5,10 @@ Tile::Tile()
 	data = nullptr;
 }
 
-Tile::Tile(sf::Vector2f position, TileData &data)
+Tile::Tile(float x, float y, TileData &data)
 :
-rect(position.y * TileData::tileSize.y, (position.y + 1) * TileData::tileSize.y,
-position.x * TileData::tileSize.x, (position.x + 1) * TileData::tileSize.x),
+rect(y * TileData::tileSize.y, (y + 1) * TileData::tileSize.y,
+	 x * TileData::tileSize.x, (x + 1) * TileData::tileSize.x),
 data(&data)
 {
 	update();
@@ -23,7 +23,7 @@ Tile& Tile::operator = (Tile&& rhs)
 	update();
 
 	rhs.rect = RectF();
-	rhs.quad = { sf::Vertex() };
+	rhs.quad.clear();
 	rhs.data = nullptr;
 
 	return *this;
@@ -43,7 +43,7 @@ void Tile::update()
 	quad[3].position = sf::Vector2f(rect.left, rect.bottom);
 
 	sf::Vector2f t = data->texCoords;
-	sf::Vector2f s = TileData::texSize;
+	sf::Vector2i s = TileData::texSize;
 
 	sf::Vector2f padding((t.x * 2 + 1) * 4, (t.y * 2 + 1) * 4);
 

@@ -1,8 +1,8 @@
 #include <DataTables.hpp>
 #include <Tile.h>
 
-sf::Vector2f TileData::texSize = sf::Vector2f(64, 64);
-sf::Vector2f TileData::tileSize = sf::Vector2f(48, 48);
+sf::Vector2i TileData::texSize = sf::Vector2i(64, 64);
+sf::Vector2i TileData::tileSize = sf::Vector2i(48, 48);
 
 std::vector<TileData> initializeTileData()
 {

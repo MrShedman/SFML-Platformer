@@ -4,7 +4,7 @@
 
 #include <algorithm>
 
-void PlayerJumping::OnUpdate()
+void PlayerJumping::OnUpdate(sf::Time dt)
 {
 	core.vy += ay;
 
