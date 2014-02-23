@@ -6,7 +6,7 @@
 #include <MenuState.hpp>
 #include <PauseState.hpp>
 
-const sf::Time Application::timePerFrame = sf::seconds(1.f / 30.f);
+const sf::Time Application::timePerFrame = sf::seconds(1.f / 60.f);
 
 Application::Application(unsigned int width, unsigned int height)
 	:

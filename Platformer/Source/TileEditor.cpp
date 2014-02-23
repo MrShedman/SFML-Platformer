@@ -40,7 +40,7 @@ void TileEditor::update()
 	}
 }
 
-void TileEditor::pollEvent(const sf::Event &event)
+void TileEditor::handleEvent(const sf::Event &event)
 {
 	if (event.type == sf::Event::KeyPressed)
 	{

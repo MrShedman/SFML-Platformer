@@ -164,6 +164,9 @@
     <ClInclude Include="Header\Rect.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Header\TileMapRenderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Header\ResourceHolder.inl">

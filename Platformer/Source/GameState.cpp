@@ -7,30 +7,30 @@ GameState::GameState(StateStack& stack, Context context)
 State(stack, context),
 player(context),
 map(context),
-mapEditor(context, map)
+mapEditor(context, map),
+mRender(context, map)
 {
 	sf::Texture& texture = context.textures->get(Textures::GameBackground);
 	background.setTexture(texture);
 
 	map.load(context, Levels::Level002);
 
-	background.setOrigin(640.f, 360.f);
-
 	collision.setMap(map);
 	collision.setPlayer(player);
 
-	player.view = sf::View(sf::Vector2f(0.f, 0.f), static_cast<sf::Vector2f>(context.window->getSize()));
 	player.viewBoundary = RectF(0.f, static_cast<float>(map.getHeight()), 0.f, static_cast<float>(map.getWidth()));
 }
 
 void GameState::draw()
 {
 	sf::RenderWindow& window = *getContext().window;
-
-	updateView();
-
+	
+	window.setView(window.getDefaultView());
 	window.draw(background);
-	window.draw(map);	
+	
+	updateView();
+	
+	mRender.draw();
 	window.draw(mapEditor);
 	window.draw(player);
 	window.draw(collision);
@@ -39,16 +39,10 @@ void GameState::draw()
 void GameState::updateView()
 {
 	sf::RenderWindow& window = *getContext().window;
-	sf::FloatRect visibleArea(0.f, 0.f, static_cast<float>(window.getSize().x), static_cast<float>(window.getSize().y));
-
+	sf::FloatRect visibleArea(sf::Vector2f(0.f, 0.f), static_cast<sf::Vector2f>(window.getSize()));
 	player.view = sf::View(visibleArea);
 	player.setViewPosition();
 
-	float sx = window.getSize().x / 1280.f;
-	float sy = window.getSize().y / 720.f;
-
-	background.setScale(sx, sy);
-	background.setPosition(player.view.getCenter());
 	window.setView(player.view);
 }
 
@@ -60,7 +54,7 @@ bool GameState::update(sf::Time dt)
 
 	collision.calculate();
 	
-	updateView();
+	//updateView();
 	
 	map.update(player.getVX(), player.getVY());
 
@@ -90,13 +84,15 @@ bool GameState::handleEvent(const sf::Event& event)
 		}
 	}
 
-	player.pollEvent(event);
+	player.handleEvent(event);
 
-	collision.pollEvent(event);
+	collision.handleEvent(event);
 
-	map.pollEvent(event);
+	map.handleEvent(event);
 
-	mapEditor.pollEvent(event);
+	mapEditor.handleEvent(event);
+
+	mRender.handleEvent(event);
 
 	return true;
 }

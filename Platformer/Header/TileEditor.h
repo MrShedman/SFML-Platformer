@@ -17,7 +17,7 @@ public:
 
 	void update();
 
-	void pollEvent(const sf::Event &event);
+	void handleEvent(const sf::Event &event);
 
 private:
 

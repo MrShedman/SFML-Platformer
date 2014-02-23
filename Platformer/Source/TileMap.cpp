@@ -125,7 +125,7 @@ void TileMap::modifyTile(int x, int y, TileData &prop)
 	vTiles[id].update();
 }
 
-void TileMap::pollEvent(const sf::Event &event)
+void TileMap::handleEvent(const sf::Event &event)
 {
 	if (event.type == sf::Event::KeyPressed)
 	{

@@ -15,7 +15,7 @@ class PlayerSprite : public Sprite
 public:
 	PlayerSprite(State::Context context);
 	virtual ~PlayerSprite();
-	void pollEvent(const sf::Event &event);
+	void handleEvent(const sf::Event &event);
 
 	void setViewPosition();
 

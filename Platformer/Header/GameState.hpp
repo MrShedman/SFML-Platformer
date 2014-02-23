@@ -11,6 +11,7 @@
 #include <TileEditor.h>
 #include <ParticleSystem.h>
 #include <CollisionSystem.h>
+#include <TileMapRenderer.h>
 
 class GameState : public State
 {
@@ -29,6 +30,7 @@ class GameState : public State
 		PlayerSprite player;
 
 		TileMap map;
+		TileMapRenderer mRender;
 
 		TileEditor mapEditor;
 

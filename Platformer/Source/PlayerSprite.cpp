@@ -36,7 +36,7 @@ void PlayerSprite::setViewPosition()
 	view.move(x, y);
 }
 
-void PlayerSprite::pollEvent(const sf::Event &event)
+void PlayerSprite::handleEvent(const sf::Event &event)
 {
 	switch (event.key.code)
 	{

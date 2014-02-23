@@ -47,7 +47,7 @@ public:
 
 	void getCRectList(RectF cRect, std::vector<RectF> &list);
 
-	void pollEvent(const sf::Event &event);
+	void handleEvent(const sf::Event &event);
 
 	bool isPassable(int ix, int iy);
 
