@@ -31,6 +31,12 @@ namespace Block
 		DiamondOre,
 		RedstoneOre,
 		CoalOre,
+		Obsidian,
+		Portal,
+		RedFlower,
+		YellowFlower,
+		RedMushroom,
+		BrownMushroom,
 		TypeCount,
 	};
 }

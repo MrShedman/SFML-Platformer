@@ -13,7 +13,7 @@ mRender(context, map)
 	sf::Texture& texture = context.textures->get(Textures::GameBackground);
 	background.setTexture(texture);
 
-	map.load(context, Levels::Level002);
+	map.load(context, Levels::Level001);
 
 	collision.setMap(map);
 	collision.setPlayer(player);
@@ -54,7 +54,7 @@ bool GameState::update(sf::Time dt)
 
 	collision.calculate();
 	
-	//updateView();
+	updateView();
 	
 	map.update(player.getVX(), player.getVY());
 

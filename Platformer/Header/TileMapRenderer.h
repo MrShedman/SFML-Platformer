@@ -29,6 +29,13 @@ public:
 	void draw()
 	{
 		sf::View view = window->getView();
+		float x = view.getCenter().x;
+		float y = view.getCenter().y;
+		float cx = x - window->getSize().x / 2;
+		float cy = y - window->getSize().y / 2;
+		x = std::floor(x);
+		y = std::floor(y);
+		view.setCenter(x, y);
 		rTexture.setView(view);
 
 		rTexture.clear(sf::Color::Transparent);
@@ -39,8 +46,6 @@ public:
 
 		// draw it to the window
 		sf::Sprite sprite(texture);
-		float cx = view.getCenter().x - window->getSize().x / 2;
-		float cy = view.getCenter().y - window->getSize().y / 2;
 		sprite.setPosition(cx ,cy);
 
 		window->draw(sprite);

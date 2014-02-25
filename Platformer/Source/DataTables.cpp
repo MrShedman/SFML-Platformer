@@ -10,13 +10,13 @@ std::vector<TileData> initializeTileData()
 
 	data[Block::Air].ID = Block::Air;
 	data[Block::Air].txt = ' ';
-	data[Block::Air].texCoords = sf::Vector2f(5, 2);
-	data[Block::Air].color = sf::Color(255, 255, 255, 255);
+	data[Block::Air].texCoords = sf::Vector2f(0, 0);
+	data[Block::Air].color = sf::Color(255, 255, 255, 0);
 	data[Block::Air].passable = true;
 
 	data[Block::CobbleStone].ID = Block::CobbleStone;
 	data[Block::CobbleStone].txt = '^';
-	data[Block::CobbleStone].texCoords = sf::Vector2f(0, 0);
+	data[Block::CobbleStone].texCoords = sf::Vector2f(0, 1);
 	data[Block::CobbleStone].color = sf::Color(255, 255, 255, 255);
 	data[Block::CobbleStone].passable = false;
 
@@ -46,13 +46,13 @@ std::vector<TileData> initializeTileData()
 
 	data[Block::StoneBrick].ID = Block::StoneBrick;
 	data[Block::StoneBrick].txt = '#';
-	data[Block::StoneBrick].texCoords = sf::Vector2f(0, 1);
+	data[Block::StoneBrick].texCoords = sf::Vector2f(6, 3);
 	data[Block::StoneBrick].color = sf::Color(255, 255, 255, 255);
 	data[Block::StoneBrick].passable = false;
 
 	data[Block::CrackedStone].ID = Block::CrackedStone;
 	data[Block::CrackedStone].txt = '?';
-	data[Block::CrackedStone].texCoords = sf::Vector2f(1, 1);
+	data[Block::CrackedStone].texCoords = sf::Vector2f(5, 6);
 	data[Block::CrackedStone].color = sf::Color(255, 255, 255, 255);
 	data[Block::CrackedStone].passable = false;
 
@@ -76,49 +76,49 @@ std::vector<TileData> initializeTileData()
 
 	data[Block::Ladder].ID = Block::Ladder;
 	data[Block::Ladder].txt = '|';
-	data[Block::Ladder].texCoords = sf::Vector2f(5, 1);
+	data[Block::Ladder].texCoords = sf::Vector2f(3, 5);
 	data[Block::Ladder].color = sf::Color(255, 255, 255, 255);
 	data[Block::Ladder].passable = true;
 
 	data[Block::MossyStone].ID = Block::MossyStone;
 	data[Block::MossyStone].txt = '/';
-	data[Block::MossyStone].texCoords = sf::Vector2f(0, 2);
+	data[Block::MossyStone].texCoords = sf::Vector2f(4, 6);
 	data[Block::MossyStone].color = sf::Color(255, 255, 255, 255);
 	data[Block::MossyStone].passable = false;
 
 	data[Block::BedRock].ID = Block::BedRock;
 	data[Block::BedRock].txt = '%';
-	data[Block::BedRock].texCoords = sf::Vector2f(1, 2);
+	data[Block::BedRock].texCoords = sf::Vector2f(1, 1);
 	data[Block::BedRock].color = sf::Color(255, 255, 255, 255);
 	data[Block::BedRock].passable = false;
 
 	data[Block::Glass].ID = Block::Glass;
 	data[Block::Glass].txt = '&';
-	data[Block::Glass].texCoords = sf::Vector2f(2, 2);
+	data[Block::Glass].texCoords = sf::Vector2f(1, 3);
 	data[Block::Glass].color = sf::Color(255, 255, 255, 255);
 	data[Block::Glass].passable = false;
 
 	data[Block::TallGrass].ID = Block::TallGrass;
 	data[Block::TallGrass].txt = '_';
-	data[Block::TallGrass].texCoords = sf::Vector2f(3, 2);
-	data[Block::TallGrass].color = sf::Color(255, 255, 255, 255);
+	data[Block::TallGrass].texCoords = sf::Vector2f(7, 2);
+	data[Block::TallGrass].color = sf::Color(180, 255, 90, 255);
 	data[Block::TallGrass].passable = true;
 	
 	data[Block::Leaves].ID = Block::Leaves;
 	data[Block::Leaves].txt = '@';
-	data[Block::Leaves].texCoords = sf::Vector2f(4, 2);
-	data[Block::Leaves].color = sf::Color(255, 255, 255, 255);
+	data[Block::Leaves].texCoords = sf::Vector2f(4, 3);
+	data[Block::Leaves].color = sf::Color(180, 255, 90, 255);
 	data[Block::Leaves].passable = false;
 
 	data[Block::GoldOre].ID = Block::GoldOre;
 	data[Block::GoldOre].txt = '1';
-	data[Block::GoldOre].texCoords = sf::Vector2f(0, 3);
+	data[Block::GoldOre].texCoords = sf::Vector2f(0, 2);
 	data[Block::GoldOre].color = sf::Color(255, 255, 255, 255);
 	data[Block::GoldOre].passable = false;
 
 	data[Block::IronOre].ID = Block::IronOre;
 	data[Block::IronOre].txt = '2';
-	data[Block::IronOre].texCoords = sf::Vector2f(1, 3);
+	data[Block::IronOre].texCoords = sf::Vector2f(1, 2);
 	data[Block::IronOre].color = sf::Color(255, 255, 255, 255);
 	data[Block::IronOre].passable = false;
 
@@ -136,9 +136,45 @@ std::vector<TileData> initializeTileData()
 
 	data[Block::CoalOre].ID = Block::CoalOre;
 	data[Block::CoalOre].txt = '5';
-	data[Block::CoalOre].texCoords = sf::Vector2f(4, 3);
+	data[Block::CoalOre].texCoords = sf::Vector2f(2, 2);
 	data[Block::CoalOre].color = sf::Color(255, 255, 255, 255);
 	data[Block::CoalOre].passable = false;
+
+	data[Block::Obsidian].ID = Block::Obsidian;
+	data[Block::Obsidian].txt = '6';
+	data[Block::Obsidian].texCoords = sf::Vector2f(5, 2);
+	data[Block::Obsidian].color = sf::Color(255, 255, 255, 255);
+	data[Block::Obsidian].passable = false;
+
+	data[Block::Portal].ID = Block::Portal;
+	data[Block::Portal].txt = 'p';
+	data[Block::Portal].texCoords = sf::Vector2f(8, 2);
+	data[Block::Portal].color = sf::Color(100, 50, 200, 200);
+	data[Block::Portal].passable = true;
+
+	data[Block::RedFlower].ID = Block::RedFlower;
+	data[Block::RedFlower].txt = '7';
+	data[Block::RedFlower].texCoords = sf::Vector2f(12, 0);
+	data[Block::RedFlower].color = sf::Color(255, 255, 255, 255);
+	data[Block::RedFlower].passable = true;
+
+	data[Block::YellowFlower].ID = Block::YellowFlower;
+	data[Block::YellowFlower].txt = '8';
+	data[Block::YellowFlower].texCoords = sf::Vector2f(13, 0);
+	data[Block::YellowFlower].color = sf::Color(255, 255, 255, 255);
+	data[Block::YellowFlower].passable = true;
+
+	data[Block::RedMushroom].ID = Block::RedMushroom;
+	data[Block::RedMushroom].txt = '9';
+	data[Block::RedMushroom].texCoords = sf::Vector2f(12, 1);
+	data[Block::RedMushroom].color = sf::Color(255, 255, 255, 255);
+	data[Block::RedMushroom].passable = true;
+
+	data[Block::BrownMushroom].ID = Block::BrownMushroom;
+	data[Block::BrownMushroom].txt = '¬';
+	data[Block::BrownMushroom].texCoords = sf::Vector2f(13, 1);
+	data[Block::BrownMushroom].color = sf::Color(255, 255, 255, 255);
+	data[Block::BrownMushroom].passable = true;
 
 	return data;
 }

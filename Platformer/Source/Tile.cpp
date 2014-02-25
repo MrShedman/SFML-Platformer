@@ -45,12 +45,10 @@ void Tile::update()
 	sf::Vector2f t = data->texCoords;
 	sf::Vector2i s = TileData::texSize;
 
-	sf::Vector2f padding((t.x * 2 + 1) * 4, (t.y * 2 + 1) * 4);
-
-	quad[0].texCoords = sf::Vector2f(t.x * s.x, t.y * s.y) + padding;
-	quad[1].texCoords = sf::Vector2f((t.x + 1) * s.x, t.y * s.y) + padding;
-	quad[2].texCoords = sf::Vector2f((t.x + 1) * s.x, (t.y + 1) * s.y) + padding;
-	quad[3].texCoords = sf::Vector2f(t.x * s.x, (t.y + 1) * s.y) + padding;
+	quad[0].texCoords = sf::Vector2f(t.x * s.x, t.y * s.y);
+	quad[1].texCoords = sf::Vector2f((t.x + 1) * s.x, t.y * s.y);
+	quad[2].texCoords = sf::Vector2f((t.x + 1) * s.x, (t.y + 1) * s.y);
+	quad[3].texCoords = sf::Vector2f(t.x * s.x, (t.y + 1) * s.y);
 
 	quad[0].color = data->color;
 	quad[1].color = data->color;

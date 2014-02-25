@@ -30,13 +30,13 @@ void TileEditor::update()
 		block.setPosition(mPos + sf::Vector2f(20, 20));
 		border.setPosition(block.getPosition());
 
-		sf::Vector2f t = map.Table[tileID].texCoords;
-		sf::Vector2f size = static_cast<sf::Vector2f>(TileData::texSize);
-		sf::Vector2f padding((t.x * 2 + 1) * 4, (t.y * 2 + 1) * 4);
-		sf::Vector2f position = sf::Vector2f(t.x * size.x, t.y * size.y) + padding;
+		sf::Color c = map.Table[tileID].color;
+		sf::Vector2i t = static_cast<sf::Vector2i>(map.Table[tileID].texCoords);
+		sf::Vector2i size = TileData::texSize;
+		sf::Vector2i position = sf::Vector2i(t.x * size.x, t.y * size.y);
 
-		border.setSize(size);
-		block.setTextureRect(sf::IntRect(static_cast<sf::Vector2i>(position), static_cast<sf::Vector2i>(size)));
+		block.setColor(c);
+		block.setTextureRect(sf::IntRect(position, size));
 	}
 }
 
