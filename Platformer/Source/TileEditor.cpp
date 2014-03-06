@@ -9,16 +9,15 @@ TileEditor::TileEditor(State::Context context, TileMap &map)
 
 	window = context.window;
 	m_tileset = context.textures->get(Textures::TileMap);
-	block.setTexture(m_tileset);
 
 	tileID = 1;
 
-	border.setSize(static_cast<sf::Vector2f>(TileData::texSize));
-	border.setOutlineThickness(5.f);
-	border.setFillColor(sf::Color::Transparent);
-	border.setOutlineColor(sf::Color::Black);
-	border.setScale(0.6f, 0.6f);
-	block.setScale(0.6f, 0.6f);
+	block.resize(8);
+
+	block[0].color = sf::Color::Black;
+	block[1].color = sf::Color::Black;
+	block[2].color = sf::Color::Black;
+	block[3].color = sf::Color::Black;
 }
 
 void TileEditor::update()
@@ -27,18 +26,46 @@ void TileEditor::update()
 	{
 		sf::Vector2f mPos = window->mapPixelToCoords(sf::Mouse::getPosition(*window));
 
-		block.setPosition(mPos + sf::Vector2f(20, 20));
-		border.setPosition(block.getPosition());
+		mPos += sf::Vector2f(20, 20);
 
-		sf::Color c = map.Table[tileID].color;
-		sf::Vector2i t = static_cast<sf::Vector2i>(map.Table[tileID].texCoords);
-		sf::Vector2i size = TileData::texSize;
-		sf::Vector2i position = sf::Vector2i(t.x * size.x, t.y * size.y);
-
-		block.setColor(c);
-		block.setTextureRect(sf::IntRect(position, size));
+		createBlock(mPos, map.Table[tileID]);
 	}
 }
+
+void TileEditor::createBlock(sf::Vector2f position, TileData data)
+{
+	sf::Vector2f d;
+	d.x = data.tileSize.x;
+	d.y = data.tileSize.y;
+	sf::Vector2f l(position);
+	sf::Vector2f o(4, 4);
+
+	block[0].position = sf::Vector2f(l.x - o.x, l.y - o.y);
+	block[1].position = sf::Vector2f(l.x + d.x + o.x, l.y - o.y);
+	block[2].position = sf::Vector2f(l.x + d.x + o.x, l.y + d.y + o.y);
+	block[3].position = sf::Vector2f(l.x - o.x, l.y + d.y + o.y);
+
+	block[4].position = sf::Vector2f(l.x, l.y);
+	block[5].position = sf::Vector2f(l.x + d.x, l.y);
+	block[6].position = sf::Vector2f(l.x + d.x, l.y + d.y);
+	block[7].position = sf::Vector2f(l.x, l.y + d.y);
+
+	sf::Vector2f s(data.texSize);
+	sf::Vector2f p;
+	p.x = data.texCoords.x * s.x;
+	p.y = data.texCoords.y * s.y;
+
+	block[4].texCoords = sf::Vector2f(p.x, p.y);
+	block[5].texCoords = sf::Vector2f(p.x + s.x, p.y);
+	block[6].texCoords = sf::Vector2f(p.x + s.x, p.y + s.y);
+	block[7].texCoords = sf::Vector2f(p.x, p.y + s.y);
+
+	block[4].color = data.color;
+	block[5].color = data.color;
+	block[6].color = data.color;
+	block[7].color = data.color;
+}
+
 
 void TileEditor::handleEvent(const sf::Event &event)
 {
@@ -94,7 +121,7 @@ void TileEditor::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	if (isOn)
 	{
-		target.draw(block);
-		target.draw(border);
+		states.texture = &m_tileset;
+		target.draw(&block[0], 8, sf::Quads, states);
 	}
 }

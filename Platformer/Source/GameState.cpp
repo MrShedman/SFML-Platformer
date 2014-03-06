@@ -3,12 +3,13 @@
 
 
 GameState::GameState(StateStack& stack, Context context)
-: 
+:
 State(stack, context),
 player(context),
 map(context),
 mapEditor(context, map),
-mRender(context, map)
+mRender(context, map),
+health(context)
 {
 	sf::Texture& texture = context.textures->get(Textures::GameBackground);
 	background.setTexture(texture);
@@ -34,6 +35,10 @@ void GameState::draw()
 	window.draw(mapEditor);
 	window.draw(player);
 	window.draw(collision);
+	window.setView(window.getDefaultView());
+	window.draw(health);
+
+	updateView();
 }
 
 void GameState::updateView()
@@ -52,8 +57,17 @@ bool GameState::update(sf::Time dt)
 
 	player.GetState().OnUpdate(dt);
 
+	if (clock.getElapsedTime() > sf::seconds(1))
+	{
+		player.core.health++;
+		clamp(player.core.health, 0, 20);
+		clock.restart();
+	}
+
 	collision.calculate();
-	
+
+	health.update(player.core.health);
+
 	updateView();
 	
 	map.update(player.getVX(), player.getVY());
@@ -80,6 +94,11 @@ bool GameState::handleEvent(const sf::Event& event)
 		if (event.key.code == sf::Keyboard::Num2)
 		{
 			map.load(getContext(), Levels::Level002);
+			player.viewBoundary = RectF(0.f, static_cast<float>(map.getHeight()), 0.f, static_cast<float>(map.getWidth()));
+		}
+		if (event.key.code == sf::Keyboard::Num3)
+		{
+			map.load(getContext(), Levels::Level003);
 			player.viewBoundary = RectF(0.f, static_cast<float>(map.getHeight()), 0.f, static_cast<float>(map.getWidth()));
 		}
 	}

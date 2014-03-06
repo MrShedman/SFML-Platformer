@@ -140,6 +140,10 @@ void TileMap::update(float x, float y)
 {
 
 }
+bool TileMap::isClimable(int ix, int iy)
+{
+	return vTiles[ix + iy * width].data->ID == Block::Ladder;
+}
 
 bool TileMap::isPassable(int ix, int iy)
 {
@@ -169,8 +173,6 @@ void TileMap::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	top = std::max(0, std::min(top, height));
 	right = std::max(0, std::min(right, width));
 	bottom = std::max(0, std::min(bottom, height));
-
-	states.texture = &m_tileset;
 
 	for (int ix = left; ix < right; ++ix)
 	{

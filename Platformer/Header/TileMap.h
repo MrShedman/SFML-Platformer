@@ -49,6 +49,8 @@ public:
 
 	void handleEvent(const sf::Event &event);
 
+	bool isClimable(int ix, int iy);
+
 	bool isPassable(int ix, int iy);
 
 	void update(float x, float y);

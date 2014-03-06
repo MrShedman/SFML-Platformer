@@ -92,6 +92,7 @@
     <ClCompile Include="Source\GameState.cpp" />
     <ClCompile Include="Source\MenuState.cpp" />
     <ClCompile Include="Source\PauseState.cpp" />
+    <ClCompile Include="Source\PlayerClimbing.cpp" />
     <ClCompile Include="Source\PlayerJumping.cpp" />
     <ClCompile Include="Source\PlayerRunning.cpp" />
     <ClCompile Include="Source\PlayerSprite.cpp" />
@@ -106,6 +107,7 @@
   <ItemGroup>
     <ClInclude Include="Header\BiDirection.h" />
     <ClInclude Include="Header\Button.hpp" />
+    <ClInclude Include="Header\ClimbDirection.h" />
     <ClInclude Include="Header\CollisionSystem.h" />
     <ClInclude Include="Header\CollisionRectF.h" />
     <ClInclude Include="Header\Application.h" />
@@ -113,10 +115,12 @@
     <ClInclude Include="Header\Container.hpp" />
     <ClInclude Include="Header\DataTables.hpp" />
     <ClInclude Include="Header\GameState.hpp" />
+    <ClInclude Include="Header\HealthBar.h" />
     <ClInclude Include="Header\Level.h" />
     <ClInclude Include="Header\MenuState.hpp" />
     <ClInclude Include="Header\ParticleSystem.h" />
     <ClInclude Include="Header\PauseState.hpp" />
+    <ClInclude Include="Header\PlayerClimbing.h" />
     <ClInclude Include="Header\PlayerJumping.h" />
     <ClInclude Include="Header\PlayerRunning.h" />
     <ClInclude Include="Header\PlayerSprite.h" />
@@ -135,9 +139,11 @@
     <ClInclude Include="Header\TileEditor.h" />
     <ClInclude Include="Header\TileMap.h" />
     <ClInclude Include="Header\TileMapRenderer.h" />
+    <ClInclude Include="Header\Utility.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Header\ResourceHolder.inl" />
+    <None Include="Header\Utility.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

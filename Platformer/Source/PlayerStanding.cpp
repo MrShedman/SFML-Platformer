@@ -1,6 +1,7 @@
 #include "PlayerStanding.h"
 #include "PlayerRunning.h"
 #include <PlayerJumping.h>
+#include <PlayerClimbing.h>
 
 void PlayerStanding::OnUpdate(sf::Time dt)
 {
@@ -20,6 +21,15 @@ void PlayerStanding::OnCtrlDirPress(BiDirection d)
 void PlayerStanding::OnCtrlJumpPress()
 {
 	transition(new PlayerJumping(core, false));
+}
+
+void PlayerStanding::OnCtrlClimbPress(ClimbDirection d)
+{
+	if (core.canClimb)
+	{
+		core.climbdir = d;
+		transition(new PlayerClimbing(core));
+	}
 }
 
 void PlayerStanding::OnCollision(const CollisionRectF &rect)

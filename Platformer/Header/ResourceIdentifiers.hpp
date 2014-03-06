@@ -18,8 +18,10 @@ namespace Textures
 		PlayerRunning,
 		PlayerJumping,
 		PlayerFalling,
+		PlayerClimbing,
 		MenuBackground,
 		GameBackground,
+		HealthBar,
 	};
 }
 

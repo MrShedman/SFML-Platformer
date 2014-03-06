@@ -37,6 +37,12 @@ namespace Block
 		YellowFlower,
 		RedMushroom,
 		BrownMushroom,
+		Water,
+		Lava,
+		NetherRack,
+		NetherBrick,
+		SlowSand,
+		GlowStone,
 		TypeCount,
 	};
 }

@@ -1,0 +1,48 @@
+RRRR                                        RRRR
+RRRR                          B             RRRR
+RRRR                          B             RRRR
+RRR                           B             RRRR
+RR                            BBBB           RRR
+RR                            BBBBBB         RRR
+RR        BBBLLLLLBBB         BBBBBBBB       RRR
+RR         BBBLBBBBB                         RRR
+RRR           L                              RRR
+RRR           L                             RRRR
+RRR           L                             RRRR
+RRR           L                             RRRR
+RRRRR         L                            RRRRR
+RGGGGRR       L                            RRRRR
+RGGG          L                           RRRRRR
+RGGGG         L                        RRRRRRRRR
+RRGG          L                          RRRRRRR
+RRR          LL                           RRRRRR
+RRR       LLLLSSS                          RRRRR
+RRR       LRRRRSSS            RR            RRRR
+RRR       L RRRRSSSSR       RRRRRR           RRR
+RRRR      L  RRRRRRR       RRGRRRRRR         RRR
+RRRR      L   RRRRR        RRGGGGG           RRR
+RRRR      L                  GGGG            RRR
+RRRR      L                   GG             RRR
+RRRR      L                    G             RRR
+RRRRRR   LL                    G            RRRR
+RRRR     LR                                 RRRR
+RRR     LLRRR                              RRRRR
+RRR     LLRRRR                             RRRRR
+RRR     LLRRRRR                            RRRRR
+RRR     LLRRRSRR                           RRRRR
+RR      LLRRRSS                             RRRR
+RR      LLLRSS                               RRR
+RR     RLLLRS        RRR                      RR
+RR     RRLLR         RRR                      RR
+RR      RRRR         RRRRRRR                  RR
+RR       RR           RRRR                    RR
+RR                                           RRR
+RR                               RRRG        RRR
+RRR                            RRRGGGG      RRRR
+RRR                           RRR GGG       RRRR
+RRR                                G        RRRR
+RRRR                                        RRRR
+RRRR                                        RRRR
+RRRR                                        RRRR
+RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
+RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR

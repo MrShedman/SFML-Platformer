@@ -12,6 +12,7 @@
 #include <ParticleSystem.h>
 #include <CollisionSystem.h>
 #include <TileMapRenderer.h>
+#include <HealthBar.h>
 
 class GameState : public State
 {
@@ -27,6 +28,8 @@ class GameState : public State
 
 		void updateView();
 
+		sf::Clock clock;
+
 		PlayerSprite player;
 
 		TileMap map;
@@ -35,6 +38,8 @@ class GameState : public State
 		TileEditor mapEditor;
 
 		CollisionSystem collision;
+
+		HealthBar health;
 
 		sf::Sprite background;		
 };

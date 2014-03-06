@@ -1,10 +1,10 @@
 #pragma once
 
-#include <list>
-
 #include "Sprite.h"
 #include "SpriteCore.h"
 #include <BiDirection.h>
+#include <ClimbDirection.h>
+#include <Utility.h>
 
 class SpriteState
 {
@@ -26,6 +26,17 @@ public:
 
 	virtual void OnCollision(const CollisionRectF &rect) {}
 	virtual void OnFreeFall() {}
+
+	virtual void OnCtrlClimbPress(ClimbDirection d) {};
+	virtual void OnCtrlClimbRelease(ClimbDirection d) {};
+	virtual void OnCtrlClimbFreezePress(){};
+	virtual void OnCtrlClimbFreezeRelease(){};
+
+	void applyDamage(int amount)
+	{
+		core.health -= amount;
+		clamp(core.health, 0, 20);
+	}
 
 	int ID;
 

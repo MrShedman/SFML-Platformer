@@ -20,6 +20,7 @@ public:
 	virtual void OnUpdate(sf::Time dt);
 	virtual void OnCtrlDirPress(BiDirection d);
 	virtual void OnCtrlDirRelease(BiDirection d);
+	virtual void OnCtrlClimbPress(ClimbDirection d);
 	virtual void OnCtrlJumpPress();
 	virtual void OnCollision(const CollisionRectF &rect);
 	virtual void OnFreeFall();

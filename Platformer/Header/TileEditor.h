@@ -17,6 +17,8 @@ public:
 
 	void update();
 
+	void createBlock(sf::Vector2f position, TileData data);
+
 	void handleEvent(const sf::Event &event);
 
 private:
@@ -27,8 +29,7 @@ private:
 
 	bool isOn;
 
-	sf::RectangleShape border;
-	sf::Sprite block;
+	std::vector<sf::Vertex> block;
 	sf::Texture m_tileset;
 
 	TileMap &map;

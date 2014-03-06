@@ -39,9 +39,12 @@ void Application::loadResources()
 	mTextures.load(Textures::PlayerRunning, "Textures/running.png");
 	mTextures.load(Textures::PlayerJumping, "Textures/jumping.png");
 	mTextures.load(Textures::PlayerFalling, "Textures/falling.png");
+	mTextures.load(Textures::PlayerClimbing, "Textures/climbingvertical.png");
+	mTextures.load(Textures::HealthBar, "Textures/hearts.png");
 
 	mLevels.load(Levels::Level001, "Levels/001.txt");
 	mLevels.load(Levels::Level002, "Levels/002.txt");
+	mLevels.load(Levels::Level003, "Levels/003.txt");
 }
 
 void Application::getInput()
@@ -66,7 +69,7 @@ void Application::update(sf::Time dt)
 
 void Application::render()
 {
-	window.clear(sf::Color(153, 217, 234));
+	window.clear(sf::Color(100, 10, 10));//153, 217, 234));
 
 	mStateStack.draw();
 	

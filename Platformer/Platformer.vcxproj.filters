@@ -72,6 +72,9 @@
     <ClCompile Include="Source\Container.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\PlayerClimbing.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Header\PlayerSprite.h">
@@ -167,9 +170,24 @@
     <ClInclude Include="Header\TileMapRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Header\HealthBar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Utility.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\PlayerClimbing.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\ClimbDirection.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Header\ResourceHolder.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Header\Utility.inl">
       <Filter>Header Files</Filter>
     </None>
   </ItemGroup>

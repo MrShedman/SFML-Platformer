@@ -19,7 +19,6 @@ public:
 		index(0),
 		scale(0.72f)
 	{
-		//texture.loadFromFile(file);
 		texture.setSmooth(true);
 		sprite.setTexture(texture);
 
@@ -78,7 +77,6 @@ public:
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
 	{
 		states.transform *= getTransform();
-
 		target.draw(sprite, states);
 	}
 

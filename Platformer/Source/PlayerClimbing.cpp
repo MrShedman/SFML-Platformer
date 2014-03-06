@@ -1,13 +1,20 @@
+#include <PlayerClimbing.h>
 #include "PlayerRunning.h"
 #include "PlayerStanding.h"
 #include <PlayerJumping.h>
-#include <PlayerClimbing.h>
 
 #include <algorithm>
 
-void PlayerJumping::OnUpdate(sf::Time dt)
+void PlayerClimbing::OnUpdate(sf::Time dt)
 {
-	core.vy += ay;
+	if (!isFrozen)
+	{
+		core.vy += core.climbdir.transform(say);
+		core.vy = std::min(core.vy, maxsy);
+		core.vy = std::max(core.vy, -maxsy);
+
+		core.y += core.vy;
+	}
 
 	if (isMoving)
 	{
@@ -20,29 +27,26 @@ void PlayerJumping::OnUpdate(sf::Time dt)
 		core.vx *= sdx;
 	}
 
-	if (!isBoosting && core.vy < 0.0f)
+	core.x += core.vx;
+
+	if (!isFrozen || isMoving)
 	{
-		core.vy *= sdy;
-	}
-	
-	if (core.vy >= 0.f)
-	{
-		core.currentSeq = core.seqs[3];
+		core.currentSeq->advance(core.x, core.y, core.dir);
 	}
 
-	core.x += core.vx;
-	core.y += core.vy;
-	
-	core.currentSeq->advance(core.x, core.y, core.dir);
+	if (!core.canClimb)
+	{
+		transition(new PlayerJumping(core, isMoving, true));
+	}
 }
 
-void PlayerJumping::OnCtrlDirPress(BiDirection d)
+void PlayerClimbing::OnCtrlDirPress(BiDirection d)
 {
 	core.dir = d;
 	isMoving = true;
 }
 
-void PlayerJumping::OnCtrlDirRelease(BiDirection d)
+void PlayerClimbing::OnCtrlDirRelease(BiDirection d)
 {
 	if (core.dir == d)
 	{
@@ -50,35 +54,37 @@ void PlayerJumping::OnCtrlDirRelease(BiDirection d)
 	}
 }
 
-void PlayerJumping::OnCtrlJumpPress()
+void PlayerClimbing::OnCtrlClimbPress(ClimbDirection d)
 {
-	//DOUBLE JUMP FEATURE//
+	core.climbdir = d;
+}
 
-	if (core.vy < 18.f && core.vy > -10.f && !doubleJumped)
+void PlayerClimbing::OnCtrlClimbRelease(ClimbDirection d)
+{
+	if (core.climbdir == d)
 	{
-		doubleJumped = true;
-
-		core.vy = jumpImpulse;
-		core.currentSeq = core.seqs[2];
-		core.currentSeq->reset();
+		if (core.canClimb)
+		{
+			core.climbdir.Reverse();
+		}
+		else
+		{
+			transition(new PlayerJumping(core, isMoving, true));
+		}
 	}
 }
 
-void PlayerJumping::OnCtrlJumpRelease()
+void PlayerClimbing::OnCtrlClimbFreezePress()
 {
-	isBoosting = false;
+	isFrozen = true;
 }
 
-void PlayerJumping::OnCtrlClimbPress(ClimbDirection d)
+void PlayerClimbing::OnCtrlClimbFreezeRelease()
 {
-	if (core.canClimb)
-	{
-		core.climbdir = d;
-		transition(new PlayerClimbing(core, isMoving));
-	}
+	isFrozen = false;
 }
 
-void PlayerJumping::OnCollision(const CollisionRectF &rect)
+void PlayerClimbing::OnCollision(const CollisionRectF &rect)
 {
 	CollisionRectF sRect = core.getCRect();
 
@@ -93,7 +99,7 @@ void PlayerJumping::OnCollision(const CollisionRectF &rect)
 			{
 				//top collision
 				core.vy = 0.f;
-				core.y -= py;			
+				core.y -= py;
 
 				if (isMoving)
 				{
@@ -127,7 +133,7 @@ void PlayerJumping::OnCollision(const CollisionRectF &rect)
 				//side collision
 				core.vx = 0.f;
 				core.x -= px;
-			}			
+			}
 		}
 	}
 	else // core.vx > 0.f

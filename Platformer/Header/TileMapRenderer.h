@@ -15,6 +15,7 @@ public:
 	window(context.window),
 	map(&map)
 	{
+		m_tileset = context.textures->get(Textures::ID::TileMap);
 		rTexture.create(window->getSize().x, window->getSize().y);
 	}
 
@@ -33,13 +34,20 @@ public:
 		float y = view.getCenter().y;
 		float cx = x - window->getSize().x / 2;
 		float cy = y - window->getSize().y / 2;
+
 		x = std::floor(x);
 		y = std::floor(y);
+		x += 0.375f;
+		y += 0.375f;
+
 		view.setCenter(x, y);
 		rTexture.setView(view);
 
+		sf::RenderStates states;
+		states.texture = &m_tileset;
+
 		rTexture.clear(sf::Color::Transparent);
-		rTexture.draw(*map);
+		rTexture.draw(*map, states);
 		rTexture.display();
 
 		const sf::Texture& texture = rTexture.getTexture();
@@ -51,6 +59,7 @@ public:
 		window->draw(sprite);
 	}
 
+	sf::Texture m_tileset;
 	sf::RenderWindow *window;
 	sf::RenderTexture rTexture;
 	TileMap *map;

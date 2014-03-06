@@ -2,6 +2,7 @@
 
 #include <SpriteSequence.h>
 #include <CollisionRectF.h>
+#include <ClimbDirection.h>
 
 class SpriteCore
 {
@@ -15,6 +16,7 @@ public:
 	SpriteSequence** seqs;
 	class SpriteState* state;
 	BiDirection dir;
+	ClimbDirection climbdir;
 
 	CollisionRectF getCRect() const
 	{
@@ -22,6 +24,10 @@ public:
 		cRect.translate(x, y);
 		return cRect;
 	}
+
+	bool canClimb;
+	int health;
+	float lastPlatformHeightIndex;
 
 	RectF rect;
 };

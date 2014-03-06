@@ -39,6 +39,10 @@ public:
 
 	void calculate()
 	{
+		//save player velocity to check if damage should be given by fall etc..
+		float vx = player->core.vx;
+		float vy = player->core.vy;
+
 		//update vertex array with tiles in contact
 		getVisibleContacts();
 
@@ -55,13 +59,33 @@ public:
 
 		CollisionRectF cRect = player->getCRect();
 
-		int iy = map->getIndexYBiasBottom(cRect.bottom);
+		//get the tile the bottom centre of the player is over
+		int cx = cRect.left + (cRect.right - cRect.left) / 2;
+		int cy = cRect.bottom;
+
+		int ix = map->getIndexXBiasLeft(cx);
+		int iy = map->getIndexYBiasTop(cy);
+
+		//find if player is standing on tile that is climable ie ladders etc..
+		player->core.canClimb = map->isClimable(ix, iy);
+
+		iy = map->getIndexYBiasBottom(cRect.bottom);
 
 		//find if player is standing on tile
 		for (int ix = map->getIndexXBiasRight(cRect.left), ixEnd = map->getIndexXBiasLeft(cRect.right); ix <= ixEnd; ++ix)
 		{
 			if (!map->isPassable(ix, iy) && map->getCRect(ix, iy).top == cRect.bottom)
 			{
+				//if player has fallen more than 10 blocks apply fall damage
+				int dHeight = iy - player->core.lastPlatformHeightIndex;
+
+				if (dHeight >= 10)
+				{
+					player->GetState().applyDamage(dHeight - 9);
+				}
+
+				player->core.lastPlatformHeightIndex = iy;
+
 				return;
 			}
 		}

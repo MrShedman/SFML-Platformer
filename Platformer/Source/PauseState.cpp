@@ -1,7 +1,7 @@
 #include <PauseState.hpp>
 #include <ResourceHolder.hpp>
 #include <Button.hpp>
-
+#include <GameState.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/View.hpp>

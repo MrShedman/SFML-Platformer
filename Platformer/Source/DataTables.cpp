@@ -10,7 +10,7 @@ std::vector<TileData> initializeTileData()
 
 	data[Block::Air].ID = Block::Air;
 	data[Block::Air].txt = ' ';
-	data[Block::Air].texCoords = sf::Vector2f(0, 0);
+	data[Block::Air].texCoords = sf::Vector2f(4, 11);
 	data[Block::Air].color = sf::Color(255, 255, 255, 0);
 	data[Block::Air].passable = true;
 
@@ -175,6 +175,42 @@ std::vector<TileData> initializeTileData()
 	data[Block::BrownMushroom].texCoords = sf::Vector2f(13, 1);
 	data[Block::BrownMushroom].color = sf::Color(255, 255, 255, 255);
 	data[Block::BrownMushroom].passable = true;
+
+	data[Block::Water].ID = Block::Water;
+	data[Block::Water].txt = 'W';
+	data[Block::Water].texCoords = sf::Vector2f(13, 12);
+	data[Block::Water].color = sf::Color(200, 200, 255, 255);
+	data[Block::Water].passable = true;
+
+	data[Block::Lava].ID = Block::Lava;
+	data[Block::Lava].txt = 'L';
+	data[Block::Lava].texCoords = sf::Vector2f(13, 14);
+	data[Block::Lava].color = sf::Color(255, 255, 255, 255);
+	data[Block::Lava].passable = true;
+
+	data[Block::NetherRack].ID = Block::NetherRack;
+	data[Block::NetherRack].txt = 'R';
+	data[Block::NetherRack].texCoords = sf::Vector2f(7, 6);
+	data[Block::NetherRack].color = sf::Color(255, 255, 255, 255);
+	data[Block::NetherRack].passable = false;
+
+	data[Block::NetherBrick].ID = Block::NetherBrick;
+	data[Block::NetherBrick].txt = 'B';
+	data[Block::NetherBrick].texCoords = sf::Vector2f(0, 14);
+	data[Block::NetherBrick].color = sf::Color(255, 255, 255, 255);
+	data[Block::NetherBrick].passable = false;
+
+	data[Block::SlowSand].ID = Block::SlowSand;
+	data[Block::SlowSand].txt = 'S';
+	data[Block::SlowSand].texCoords = sf::Vector2f(8, 6);
+	data[Block::SlowSand].color = sf::Color(255, 255, 255, 255);
+	data[Block::SlowSand].passable = false;
+
+	data[Block::GlowStone].ID = Block::GlowStone;
+	data[Block::GlowStone].txt = 'G';
+	data[Block::GlowStone].texCoords = sf::Vector2f(9, 6);
+	data[Block::GlowStone].color = sf::Color(255, 255, 255, 255);
+	data[Block::GlowStone].passable = false;
 
 	return data;
 }

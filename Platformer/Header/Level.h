@@ -41,8 +41,6 @@ public:
 
 		infile.close();
 
-		std::cout << cTiles.size() << std::endl;
-
 		width = nColumns;
 		height = nRows;
 
