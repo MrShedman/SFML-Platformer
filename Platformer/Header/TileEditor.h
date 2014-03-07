@@ -17,11 +17,11 @@ public:
 
 	void update();
 
-	void createBlock(sf::Vector2f position, TileData data);
-
 	void handleEvent(const sf::Event &event);
 
 private:
+
+	void createBlock(sf::Vector2f position, TileData data);
 
 	void TileEditor::draw(sf::RenderTarget& target, sf::RenderStates states) const;
 

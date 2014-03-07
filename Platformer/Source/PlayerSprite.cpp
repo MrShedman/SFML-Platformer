@@ -33,10 +33,8 @@ void PlayerSprite::setViewPosition()
 	float x = core.x - view.getCenter().x;
 	float y = core.y - view.getCenter().y;
 
-	x = std::max(x, viewBoundary.left);
-	y = std::max(y, viewBoundary.top);
-	x = std::min(x, viewBoundary.right - view.getSize().x);
-	y = std::min(y, viewBoundary.bottom - view.getSize().y);
+	clamp(x, viewBoundary.left, viewBoundary.right - view.getSize().x);
+	clamp(y, viewBoundary.top, viewBoundary.bottom - view.getSize().y);
 
 	view.move(x, y);
 }

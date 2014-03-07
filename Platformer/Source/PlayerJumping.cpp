@@ -34,6 +34,12 @@ void PlayerJumping::OnUpdate(sf::Time dt)
 	core.y += core.vy;
 	
 	core.currentSeq->advance(core.x, core.y, core.dir);
+
+	if (core.canClimb && core.vy > 0.0f)
+	{
+		core.climbdir.SetDown();
+		transition(new PlayerClimbing(core, isMoving));
+	}
 }
 
 void PlayerJumping::OnCtrlDirPress(BiDirection d)

@@ -61,16 +61,9 @@ void PlayerClimbing::OnCtrlClimbPress(ClimbDirection d)
 
 void PlayerClimbing::OnCtrlClimbRelease(ClimbDirection d)
 {
-	if (core.climbdir == d)
+	if (d.IsUp())
 	{
-		if (core.canClimb)
-		{
-			core.climbdir.Reverse();
-		}
-		else
-		{
-			transition(new PlayerJumping(core, isMoving, true));
-		}
+		core.climbdir.SetDown();
 	}
 }
 

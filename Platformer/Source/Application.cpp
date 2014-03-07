@@ -69,7 +69,7 @@ void Application::update(sf::Time dt)
 
 void Application::render()
 {
-	window.clear(sf::Color(100, 10, 10));//153, 217, 234));
+	window.clear();
 
 	mStateStack.draw();
 	
