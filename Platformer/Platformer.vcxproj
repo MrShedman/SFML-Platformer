@@ -93,6 +93,7 @@
     <ClCompile Include="Source\MenuState.cpp" />
     <ClCompile Include="Source\PauseState.cpp" />
     <ClCompile Include="Source\PlayerClimbing.cpp" />
+    <ClCompile Include="Source\PlayerDying.cpp" />
     <ClCompile Include="Source\PlayerJumping.cpp" />
     <ClCompile Include="Source\PlayerRunning.cpp" />
     <ClCompile Include="Source\PlayerSprite.cpp" />
@@ -103,6 +104,7 @@
     <ClCompile Include="Source\Tile.cpp" />
     <ClCompile Include="Source\TileEditor.cpp" />
     <ClCompile Include="Source\TileMap.cpp" />
+    <ClCompile Include="Source\Utility.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Header\BiDirection.h" />
@@ -121,6 +123,7 @@
     <ClInclude Include="Header\ParticleSystem.h" />
     <ClInclude Include="Header\PauseState.hpp" />
     <ClInclude Include="Header\PlayerClimbing.h" />
+    <ClInclude Include="Header\PlayerDying.h" />
     <ClInclude Include="Header\PlayerJumping.h" />
     <ClInclude Include="Header\PlayerRunning.h" />
     <ClInclude Include="Header\PlayerSprite.h" />

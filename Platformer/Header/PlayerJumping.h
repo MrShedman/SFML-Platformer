@@ -28,7 +28,8 @@ public:
 			core.currentSeq = core.seqs[3];
 		}
 		core.currentSeq->reset();
-		core.currentSeq->advance(core.x, core.y, core.dir);
+		core.currentSeq->advanceFrame(core.dir);
+		core.currentSeq->setPosition(core.x, core.y);
 
 		ID = 3;
 	}

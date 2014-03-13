@@ -8,17 +8,18 @@ public:
 	PlayerClimbing(SpriteCore& core, bool isMoving = false)
 		:
 		SpriteState(core),
-		say(0.5f),
+		say(0.8f),
 		maxsy(5.f),
-		sax(0.2),
-		maxsx(3.3),
+		sax(0.2f),
+		maxsx(3.3f),
 		sdx(0.8f),
 		isMoving(isMoving),
 		isFrozen(false)
 	{
 		core.currentSeq = core.seqs[4];
 		core.currentSeq->reset();
-		core.currentSeq->advance(core.x, core.y, core.dir);
+		core.currentSeq->advanceFrame(core.dir);
+		core.currentSeq->setPosition(core.x, core.y);
 
 		ID = 4;
 	}

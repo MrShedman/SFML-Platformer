@@ -49,8 +49,16 @@ public:
 		CollisionRectF rect;
 
 		//find and correct collisions with tiles
-		while (map->getCRectSingle(player->getCRect(), rect))
+		while (map->getCRectSingle(player->getCRect(), rect) && player->isAlive())
 		{
+			if (player->isAlive())
+			{
+				std::cout << "alive!" << std::endl;
+			}
+			else
+			{
+				std::cout << "Dead" << std::endl;
+			}
 			player->GetState().OnCollision(rect);
 		}
 
@@ -60,11 +68,16 @@ public:
 		CollisionRectF cRect = player->getCRect();
 
 		//get the tile the bottom centre of the player is over
-		int cx = cRect.left + (cRect.right - cRect.left) / 2;
-		int cy = cRect.bottom;
+		float cx = cRect.left + (cRect.right - cRect.left) / 2.f;
+		float cy = cRect.bottom;
 
 		int ix = map->getIndexXBiasLeft(cx);
 		int iy = map->getIndexYBiasTop(cy);
+
+		if (map->isHarmful(ix, iy))
+		{
+			player->GetState().applyDamage(1);
+		}
 
 		//find if player is standing on tile that is climable ie ladders etc..
 		player->core.canClimb = map->isClimable(ix, iy);
@@ -77,14 +90,14 @@ public:
 			if (!map->isPassable(ix, iy) && map->getCRect(ix, iy).top == cRect.bottom)
 			{
 				//if player has fallen more than 10 blocks apply fall damage
-				int dHeight = iy - player->core.lastPlatformHeightIndex;
+				int dHeight = iy - player->core.lastPlatformHeight / TileData::tileSize.y;
 
-				if (dHeight >= 10)
+				if (dHeight > 10)
 				{
-					player->GetState().applyDamage(dHeight - 9);
+					player->GetState().applyDamage(dHeight - 10);
 				}
 
-				player->core.lastPlatformHeightIndex = iy;
+				player->core.lastPlatformHeight = iy * TileData::tileSize.y;
 
 				return;
 			}

@@ -27,7 +27,7 @@ public:
 
 	bool canClimb;
 	int health;
-	float lastPlatformHeightIndex;
+	int lastPlatformHeight;
 
 	RectF rect;
 };

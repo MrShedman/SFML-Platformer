@@ -28,15 +28,15 @@ void TileEditor::update()
 
 		mPos += sf::Vector2f(20, 20);
 
-		createBlock(mPos, map.Table[tileID]);
+		createBlock(mPos, map.getTileData(static_cast<Block::ID>(tileID)));
 	}
 }
 
-void TileEditor::createBlock(sf::Vector2f position, TileData data)
+void TileEditor::createBlock(sf::Vector2f position, TileData &data)
 {
 	sf::Vector2f d;
-	d.x = data.tileSize.x;
-	d.y = data.tileSize.y;
+	d.x = static_cast<float>(data.tileSize.x);
+	d.y = static_cast<float>(data.tileSize.y);
 	sf::Vector2f l(position);
 	sf::Vector2f o(4, 4);
 
@@ -82,27 +82,26 @@ void TileEditor::handleEvent(const sf::Event &event)
 		return;
 	}
 
-	sf::Vector2i mPos = static_cast<sf::Vector2i>(window->mapPixelToCoords(sf::Mouse::getPosition(*window)));
+	sf::Vector2f mPos = window->mapPixelToCoords(sf::Mouse::getPosition(*window));
 
 	if (event.type == sf::Event::MouseButtonPressed)
 	{
 		if (event.mouseButton.button == sf::Mouse::Left)
 		{
-			map.modifyTile(mPos.x, mPos.y, map.Table[tileID]);
+			map.modifyTile(mPos.x, mPos.y, static_cast<Block::ID>(tileID));
 		}
 		if (event.mouseButton.button == sf::Mouse::Middle)
 		{
-			map.modifyTile(mPos.x, mPos.y, map.Table[Block::Air]);
+			map.modifyTile(mPos.x, mPos.y, Block::ID::Air);
 		}
 		if (event.mouseButton.button == sf::Mouse::Right)
 		{
-			int id = map.getIndexXBiasRight(static_cast<float>(mPos.x)) + map.getIndexYBiasBottom(static_cast<float>(mPos.y)) * map.width;
-			tileID = map.vTiles[id].data->ID;
+			tileID = map.getTileID(mPos.x, mPos.y);
 		}
 	}
 	if (event.type == sf::Event::MouseWheelMoved)
 	{
-		int size = map.Table.size();
+		int size = Block::ID::TypeCount;
 
 		tileID += event.mouseWheel.delta;
 

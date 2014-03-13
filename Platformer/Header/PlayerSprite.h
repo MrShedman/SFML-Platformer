@@ -17,7 +17,9 @@ public:
 	virtual ~PlayerSprite();
 	void handleEvent(const sf::Event &event);
 
-	void setViewPosition();
+	void reset();
+
+	void setViewPosition(sf::Time dt);
 
 	RectF viewBoundary;
 	sf::View view;

@@ -15,9 +15,9 @@ Application::Application(unsigned int width, unsigned int height)
 	mFonts(),
 	mStateStack(State::Context(window, mTextures, mFonts, mLevels))
 {
-	window.setFramerateLimit(60);
+	//window.setFramerateLimit(60);
 	window.setKeyRepeatEnabled(false);
-	window.setVerticalSyncEnabled(true);
+	//window.setVerticalSyncEnabled(true);
 
 	loadResources();
 
@@ -40,6 +40,7 @@ void Application::loadResources()
 	mTextures.load(Textures::PlayerJumping, "Textures/jumping.png");
 	mTextures.load(Textures::PlayerFalling, "Textures/falling.png");
 	mTextures.load(Textures::PlayerClimbing, "Textures/climbingvertical.png");
+	mTextures.load(Textures::PlayerDying, "Textures/dying.png");
 	mTextures.load(Textures::HealthBar, "Textures/hearts.png");
 
 	mLevels.load(Levels::Level001, "Levels/001.txt");

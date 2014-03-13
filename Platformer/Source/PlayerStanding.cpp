@@ -2,6 +2,7 @@
 #include "PlayerRunning.h"
 #include <PlayerJumping.h>
 #include <PlayerClimbing.h>
+#include <PlayerDying.h>
 
 void PlayerStanding::OnUpdate(sf::Time dt)
 {
@@ -9,7 +10,13 @@ void PlayerStanding::OnUpdate(sf::Time dt)
 
 	core.x += core.vx;
 
-	core.currentSeq->advance(core.x, core.y, core.dir);
+	core.currentSeq->advanceFrame(core.dir);
+	core.currentSeq->setPosition(core.x, core.y);
+
+	if (core.health <= 0)
+	{
+		transition(new PlayerDying(core));
+	}
 }
 
 void PlayerStanding::OnCtrlDirPress(BiDirection d)

@@ -17,7 +17,7 @@ public:
 		nFrames(nFrames),
 		nHoldFrames(nHoldFrames),
 		index(0),
-		scale(0.72f)
+		m_scale(0.72f)
 	{
 		texture.setSmooth(true);
 		sprite.setTexture(texture);
@@ -39,19 +39,19 @@ public:
 		}
 
 		sprite.setTextureRect(sequence.front());
-		sprite.setOrigin(90, 90);
-		sprite.setScale(scale, scale);
+		setOrigin(90, 90);
+		setScale(m_scale, m_scale);
 	}
 
-	void advance(float x, float y, BiDirection d)
+	void advanceFrame(BiDirection d)
 	{
 		if (d.IsRight())
 		{
-			sprite.setScale(scale, scale);
+			setScale(m_scale, m_scale);
 		}
 		else
 		{
-			sprite.setScale(-scale, scale);
+			setScale(-m_scale, m_scale);
 		}
 
 		curHoldCount++;
@@ -64,7 +64,6 @@ public:
 		}
 
 		sprite.setTextureRect(sequence[index]);
-		sprite.setPosition(x, y);
 	}
 
 	void reset()
@@ -82,12 +81,12 @@ public:
 
 private:
 
-	unsigned int nHoldFrames;
-	unsigned int nFrames;
-	unsigned int index;
-	unsigned int curHoldCount;
+	const int nHoldFrames;
+	const int nFrames;
+	int index;
+	int curHoldCount;
 
-	const float scale;
+	const float m_scale;
 
 	sf::Sprite sprite;
 	sf::Texture &texture;

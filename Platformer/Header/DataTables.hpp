@@ -5,10 +5,16 @@
 #include <SFML/Graphics.hpp>
 
 #include <vector>
+#include <map>
+
+namespace Block
+{
+	enum ID;
+}
 
 struct TileData
 {
-	int ID;
+	Block::ID type;
 	char txt;
 	sf::Vector2f texCoords;
 	sf::Color color;
@@ -19,3 +25,4 @@ struct TileData
 };
 
 std::vector<TileData>	initializeTileData();
+//void initializeTile(std::map<Block::ID, TileData> &mData);

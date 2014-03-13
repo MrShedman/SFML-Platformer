@@ -26,7 +26,7 @@ class GameState : public State
 
 	private:
 
-		void updateView();
+		void updateView(sf::Time dt);
 
 		sf::Clock clock;
 

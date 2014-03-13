@@ -35,6 +35,7 @@ public:
 	void applyDamage(int amount)
 	{
 		core.health -= amount;
+
 		clamp(core.health, 0, 20);
 	}
 

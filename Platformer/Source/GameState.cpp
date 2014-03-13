@@ -18,7 +18,6 @@ health(context)
 
 	collision.setMap(map);
 	collision.setPlayer(player);
-
 	player.viewBoundary = RectF(0.f, static_cast<float>(map.getHeight()), 0.f, static_cast<float>(map.getWidth()));
 }
 
@@ -29,7 +28,7 @@ void GameState::draw()
 	window.setView(window.getDefaultView());
 	window.draw(background);
 	
-	updateView();
+	window.setView(player.view);
 	
 	mRender.draw();
 	window.draw(mapEditor);
@@ -38,15 +37,13 @@ void GameState::draw()
 	window.setView(window.getDefaultView());
 	window.draw(health);
 
-	updateView();
+	window.setView(player.view);
 }
 
-void GameState::updateView()
+void GameState::updateView(sf::Time dt)
 {
 	sf::RenderWindow& window = *getContext().window;
-	sf::FloatRect visibleArea(sf::Vector2f(0.f, 0.f), static_cast<sf::Vector2f>(window.getSize()));
-	player.view = sf::View(visibleArea);
-	player.setViewPosition();
+	player.setViewPosition(dt);
 
 	window.setView(player.view);
 }
@@ -57,7 +54,7 @@ bool GameState::update(sf::Time dt)
 
 	player.GetState().OnUpdate(dt);
 
-	if (clock.getElapsedTime() > sf::seconds(1))
+	if (clock.getElapsedTime() > sf::seconds(1) && player.isAlive())
 	{
 		player.core.health++;
 		clamp(player.core.health, 0, 20);
@@ -68,7 +65,7 @@ bool GameState::update(sf::Time dt)
 
 	health.update(player.core.health);
 
-	updateView();
+	updateView(dt);
 	
 	map.update(player.getVX(), player.getVY());
 
@@ -79,6 +76,12 @@ bool GameState::update(sf::Time dt)
 
 bool GameState::handleEvent(const sf::Event& event)
 {
+	if (event.type == sf::Event::Resized)
+	{
+		sf::FloatRect visibleArea(sf::Vector2f(0.f, 0.f), sf::Vector2f(event.size.width, event.size.height));
+		player.view.reset(visibleArea);
+	}
+
 	// Escape pressed, trigger the pause screen
 	if (event.type == sf::Event::KeyPressed)
 	{

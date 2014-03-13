@@ -16,12 +16,12 @@
 class TileMap : public sf::Drawable
 {
 public:
-
-	friend class TileEditor;
-
+	
 	TileMap(State::Context context);
 
 	TileData& getTileData(char c);
+
+	TileData& getTileData(Block::ID type);
 
 	void load(State::Context context, Levels::ID type);
 
@@ -34,12 +34,14 @@ public:
 	int getIndexYBiasTop(float y) const;
 
 	int getIndexYBiasBottom(float y) const;
-
+	
 	int getWidth() const;
 
 	int getHeight() const;
 
-	void modifyTile(int x, int y, TileData &prop);
+	int getTileID(float x, float y);
+
+	void modifyTile(float x, float y, Block::ID newBlock); // TileData &prop);
 
 	RectF getCRect(int ix, int iy);
 
@@ -48,6 +50,10 @@ public:
 	void getCRectList(RectF cRect, std::vector<RectF> &list);
 
 	void handleEvent(const sf::Event &event);
+
+	bool isRealTile(int ix, int iy);
+
+	bool isHarmful(int ix, int iy);
 
 	bool isClimable(int ix, int iy);
 

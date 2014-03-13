@@ -22,6 +22,11 @@ public:
 		return core.getCRect();
 	}
 
+	bool isAlive()
+	{
+		return core.health > 0;
+	}
+
 	float getX()
 	{
 		return core.x;

@@ -3,6 +3,7 @@
 #include <TileMap.h>
 #include <TileEditor.h>
 #include <ResourceHolder.hpp>
+#include <Utility.h>
 
 
 TileMap::TileMap(State::Context context)
@@ -19,6 +20,19 @@ TileData& TileMap::getTileData(char c)
 	for (auto &d : Table)
 	{
 		if (d.txt == c)
+		{
+			return d;
+		}
+	}
+
+	return Table[Block::Air];
+}
+
+TileData& TileMap::getTileData(Block::ID t)
+{
+	for (auto &d : Table)
+	{
+		if (d.type == t)
 		{
 			return d;
 		}
@@ -117,11 +131,23 @@ RectF TileMap::getCRect(int ix, int iy)
 	return vTiles[ix + iy * width].rect;
 }
 
-void TileMap::modifyTile(int x, int y, TileData &prop)
+int TileMap::getTileID(float x, float y)
 {
-	int id = getIndexXBiasRight(static_cast<float>(x)) + getIndexYBiasBottom(static_cast<float>(y)) * width;
+	int id = getIndexXBiasRight(x) + getIndexYBiasBottom(y) * width;
 
-	vTiles[id].data = &prop;
+	return vTiles[id].data->type;
+}
+
+void TileMap::modifyTile(float x, float y, Block::ID newBlock)
+{
+	int id = getIndexXBiasRight(x) + getIndexYBiasBottom(y) * width;
+
+	if (vTiles[id].data->type == Block::ID::BedRock)
+	{
+		return;
+	}
+
+	vTiles[id].data = &getTileData(newBlock);
 	vTiles[id].update();
 }
 
@@ -140,39 +166,54 @@ void TileMap::update(float x, float y)
 {
 
 }
+
+bool TileMap::isHarmful(int ix, int iy)
+{
+	if (outOfRange(ix + iy * width, 0, width * height))
+	{
+		return false;
+	}
+
+	return vTiles[ix + iy * width].data->type == Block::Lava;
+}
+
 bool TileMap::isClimable(int ix, int iy)
 {
-	return vTiles[ix + iy * width].data->ID == Block::Ladder;
+	if (outOfRange(ix + iy * width, 0, width * height))
+	{
+		return false;
+	}
+
+	return vTiles[ix + iy * width].data->type == Block::Ladder;
 }
 
 bool TileMap::isPassable(int ix, int iy)
 {
-	if (static_cast<size_t>(ix + iy * width) >= vTiles.size())
+	if (outOfRange(ix + iy * width, 0, width * height))
 	{
 		return true;
 	}
+
 	return vTiles[ix + iy * width].data->passable;
 }
 
 void TileMap::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	int left = 0, right = 0, top = 0, bottom = 0;
 	//get chunk indices into which top left and bottom right points of view fall:
 	sf::Vector2f temp = target.getView().getCenter() - (target.getView().getSize() / 2.f);//get top left point of view
 
-	left = static_cast<int>(temp.x / (TileData::tileSize.x));
-	top = static_cast<int>(temp.y / (TileData::tileSize.y));
+	int left = getIndexXBiasLeft(temp.x);
+	int top = getIndexYBiasTop(temp.y);
 
 	temp += target.getView().getSize();//get bottom right point of view
 
-	right = 1 + static_cast<int>(temp.x / (TileData::tileSize.x));
-	bottom = 1 + static_cast<int>(temp.y / (TileData::tileSize.y));
+	int right = getIndexXBiasRight(temp.x) + 1;
+	int bottom = getIndexYBiasBottom(temp.y) + 1;
 
-	//clamp these to fit into array bounds:
-	left = std::max(0, std::min(left, width));
-	top = std::max(0, std::min(top, height));
-	right = std::max(0, std::min(right, width));
-	bottom = std::max(0, std::min(bottom, height));
+	clamp(left, 0, width);
+	clamp(top, 0, height);
+	clamp(right, 0, width);
+	clamp(bottom, 0, height);
 
 	for (int ix = left; ix < right; ++ix)
 	{

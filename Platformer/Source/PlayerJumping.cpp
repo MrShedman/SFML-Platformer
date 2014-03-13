@@ -2,6 +2,7 @@
 #include "PlayerStanding.h"
 #include <PlayerJumping.h>
 #include <PlayerClimbing.h>
+#include <PlayerDying.h>
 
 #include <algorithm>
 
@@ -12,8 +13,7 @@ void PlayerJumping::OnUpdate(sf::Time dt)
 	if (isMoving)
 	{
 		core.vx += core.dir.transform(sax);
-		core.vx = std::min(core.vx, maxsx);
-		core.vx = std::max(core.vx, -maxsx);
+		clamp(core.vx, -maxsx, maxsx);
 	}
 	else
 	{
@@ -33,12 +33,20 @@ void PlayerJumping::OnUpdate(sf::Time dt)
 	core.x += core.vx;
 	core.y += core.vy;
 	
-	core.currentSeq->advance(core.x, core.y, core.dir);
+	core.currentSeq->advanceFrame(core.dir);
+	core.currentSeq->setPosition(core.x, core.y);
 
 	if (core.canClimb && core.vy > 0.0f)
 	{
-		core.climbdir.SetDown();
-		transition(new PlayerClimbing(core, isMoving));
+		if (core.health <= 0)
+		{
+			transition(new PlayerDying(core));
+		}
+		else
+		{
+			core.climbdir.SetDown();
+			transition(new PlayerClimbing(core, isMoving));
+		}
 	}
 }
 

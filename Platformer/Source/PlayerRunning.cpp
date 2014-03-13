@@ -2,16 +2,22 @@
 #include "PlayerStanding.h"
 #include <PlayerJumping.h>
 #include <PlayerClimbing.h>
+#include <PlayerDying.h>
 
 void PlayerRunning::OnUpdate(sf::Time dt)
 {
 	core.vx += core.dir.transform(sax);
-	core.vx = std::min(core.vx, maxsx);
-	core.vx = std::max(core.vx, -maxsx);
+	clamp(core.vx, -maxsx, maxsx);
 
 	core.x += core.vx;
 
-	core.currentSeq->advance(core.x, core.y, core.dir);
+	core.currentSeq->advanceFrame(core.dir);
+	core.currentSeq->setPosition(core.x, core.y);
+
+	if (core.health <= 0)
+	{
+		transition(new PlayerDying(core));
+	}
 }
 
 void PlayerRunning::OnCtrlDirPress(BiDirection d)

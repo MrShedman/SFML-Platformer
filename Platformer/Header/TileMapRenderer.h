@@ -50,10 +50,8 @@ public:
 		rTexture.draw(*map, states);
 		rTexture.display();
 
-		const sf::Texture& texture = rTexture.getTexture();
-
 		// draw it to the window
-		sf::Sprite sprite(texture);
+		sf::Sprite sprite(rTexture.getTexture());
 		sprite.setPosition(cx ,cy);
 
 		window->draw(sprite);
