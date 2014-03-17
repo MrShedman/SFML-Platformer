@@ -4,6 +4,7 @@
 #include <ResourceIdentifiers.hpp>
 #include <State.hpp>
 #include <ResourceHolder.hpp>
+#include <SoundPlayer.hpp>
 
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/Text.hpp>
@@ -40,14 +41,14 @@ class Button : public Component
 		void					setToggle(bool flag);
 
         virtual void			handleEvent(const sf::Event& event);
-
+		virtual void			update();
 
     private:
 
-		bool mouseOver(int x, int y);
-		void mouseMoved(int x, int y);
-		void mousePressed(int x, int y);
-		void mouseReleased(int x, int y);
+		bool mouseOver(float x, float y);
+		void mouseMoved(float x, float y);
+		void mousePressed(float x, float y);
+		void mouseReleased(float x, float y);
 
         virtual void			draw(sf::RenderTarget& target, sf::RenderStates states) const;
 		void					changeState(Type buttonType);
@@ -57,7 +58,8 @@ class Button : public Component
         Callback				mCallback;
         sf::RectangleShape		mShape;
 		sf::Text				mText;
-		sf::RenderWindow *window;
+		SoundPlayer				mSounds;
+		sf::RenderWindow		*window;
 };
 
 }

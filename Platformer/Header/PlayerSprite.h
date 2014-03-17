@@ -19,10 +19,5 @@ public:
 
 	void reset();
 
-	void setViewPosition(sf::Time dt);
-
-	RectF viewBoundary;
-	sf::View view;
-	sf::SoundBuffer buffer;
-	sf::Sound jump;
+	SoundPlayer &sounds;
 };

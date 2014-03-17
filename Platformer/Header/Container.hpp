@@ -21,7 +21,7 @@ class Container : public Component
         void				pack(Component::Ptr component);
 
         virtual void		handleEvent(const sf::Event& event);
-
+		virtual void		update();
 
     private:
         virtual void		draw(sf::RenderTarget& target, sf::RenderStates states) const;

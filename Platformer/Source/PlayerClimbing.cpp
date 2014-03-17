@@ -35,14 +35,13 @@ void PlayerClimbing::OnUpdate(sf::Time dt)
 		core.currentSeq->setPosition(core.x, core.y);
 	}
 
-	if (!core.canClimb)
-	{
-		transition(new PlayerJumping(core, isMoving, true));
-	}
-
 	if (core.health <= 0)
 	{
 		transition(new PlayerDying(core));
+	}
+	else if (!core.canClimb)
+	{
+		transition(new PlayerJumping(core, isMoving, true));
 	}
 }
 

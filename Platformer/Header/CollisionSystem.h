@@ -51,14 +51,6 @@ public:
 		//find and correct collisions with tiles
 		while (map->getCRectSingle(player->getCRect(), rect) && player->isAlive())
 		{
-			if (player->isAlive())
-			{
-				std::cout << "alive!" << std::endl;
-			}
-			else
-			{
-				std::cout << "Dead" << std::endl;
-			}
 			player->GetState().OnCollision(rect);
 		}
 

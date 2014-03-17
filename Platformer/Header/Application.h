@@ -9,6 +9,8 @@
 #include <ResourceHolder.hpp>
 #include <ResourceIdentifiers.hpp>
 #include <StateStack.hpp>
+#include <MusicPlayer.hpp>
+#include <SoundPlayer.hpp>
 
 class Application
 {
@@ -19,6 +21,8 @@ private:
 	TextureHolder mTextures;
 	FontHolder mFonts;
 	LevelHolder mLevels;
+	MusicPlayer mMusic;
+	SoundPlayer mSounds;
 
 	StateStack mStateStack;
 

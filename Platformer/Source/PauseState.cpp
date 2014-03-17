@@ -22,8 +22,11 @@ PauseState::PauseState(StateStack& stack, Context context)
 	mPausedText.setOrigin(std::floor(bounds.width / 2.f), std::floor(bounds.height / 2.f));
 	mPausedText.setPosition(0.5f * windowSize.x, 0.4f * windowSize.y);
 
+	float y = 0.6f * context.window->getSize().y;
+	float x = 0.5f * context.window->getSize().x;
+
 	auto returnButton = std::make_shared<GUI::Button>(context);
-	returnButton->setPosition(425, 400);
+	returnButton->setPosition(x - 255, y);
 	returnButton->setText("Return");
 	returnButton->setCallback([this]()
 	{
@@ -31,7 +34,7 @@ PauseState::PauseState(StateStack& stack, Context context)
 	});
 
 	auto exitButton = std::make_shared<GUI::Button>(context);
-	exitButton->setPosition(665, 400);
+	exitButton->setPosition(x + 15, y);
 	exitButton->setText("Exit");
 	exitButton->setCallback([this]()
 	{
@@ -61,6 +64,7 @@ void PauseState::draw()
 
 bool PauseState::update(sf::Time dt)
 {
+	mGUIContainer.update();
 	return false;
 }
 

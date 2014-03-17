@@ -1,5 +1,6 @@
 #include <TileEditor.h>
 #include <TileMap.h>
+#include <Utility.h>
 
 TileEditor::TileEditor(State::Context context, TileMap &map)
 	:
@@ -24,7 +25,7 @@ void TileEditor::update()
 {
 	if (isOn)
 	{
-		sf::Vector2f mPos = window->mapPixelToCoords(sf::Mouse::getPosition(*window));
+		sf::Vector2f mPos = getMousePosition(*window);
 
 		mPos += sf::Vector2f(20, 20);
 
@@ -82,7 +83,7 @@ void TileEditor::handleEvent(const sf::Event &event)
 		return;
 	}
 
-	sf::Vector2f mPos = window->mapPixelToCoords(sf::Mouse::getPosition(*window));
+	sf::Vector2f mPos = getMousePosition(*window);
 
 	if (event.type == sf::Event::MouseButtonPressed)
 	{

@@ -13,6 +13,7 @@
 #include <CollisionSystem.h>
 #include <TileMapRenderer.h>
 #include <HealthBar.h>
+#include <Camera.h>
 
 class GameState : public State
 {
@@ -23,23 +24,19 @@ class GameState : public State
 		virtual bool		update(sf::Time dt);
 		virtual bool		handleEvent(const sf::Event& event);
 
-
 	private:
 
-		void updateView(sf::Time dt);
-
 		sf::Clock clock;
+
+		Camera camera;
 
 		PlayerSprite player;
 
 		TileMap map;
 		TileMapRenderer mRender;
-
 		TileEditor mapEditor;
 
 		CollisionSystem collision;
 
-		HealthBar health;
-
-		sf::Sprite background;		
+		HealthBar health;	
 };

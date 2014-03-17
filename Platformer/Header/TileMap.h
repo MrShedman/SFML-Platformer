@@ -34,7 +34,9 @@ public:
 	int getIndexYBiasTop(float y) const;
 
 	int getIndexYBiasBottom(float y) const;
-	
+
+	RectF getBoundary();
+
 	int getWidth() const;
 
 	int getHeight() const;
@@ -42,6 +44,8 @@ public:
 	int getTileID(float x, float y);
 
 	void modifyTile(float x, float y, Block::ID newBlock); // TileData &prop);
+
+	Levels::ID getLevelID();
 
 	RectF getCRect(int ix, int iy);
 
@@ -69,6 +73,8 @@ private:
 
 	int width;
 	int height;
+
+	Levels::ID loadedLevel;
 
 	std::vector<TileData> Table;
 	std::vector<Tile> vTiles;

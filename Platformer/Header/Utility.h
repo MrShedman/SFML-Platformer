@@ -1,5 +1,6 @@
 #pragma once
 
+#include <SFML/Graphics.hpp>
 #include <algorithm>
 
 template <class T>
@@ -7,6 +8,10 @@ void clamp(T &value, T min, T max);
 
 template <class T>
 bool outOfRange(T value, T min, T max);
+
+extern sf::Vector2f getMousePosition(sf::RenderWindow &window);
+
+extern void scaleSpriteToFitWindow(sf::Sprite &sprite, sf::RenderWindow &window);
 
 extern float randomize(float min, float max);
 

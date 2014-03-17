@@ -5,6 +5,7 @@
 
 #include <State.hpp>
 #include <TileMap.h>
+#include <Utility.h>
 
 class TileMapRenderer
 {
@@ -15,8 +16,10 @@ public:
 	window(context.window),
 	map(&map)
 	{
-		m_tileset = context.textures->get(Textures::ID::TileMap);
+		mTileset = context.textures->get(Textures::TileMap);
+
 		rTexture.create(window->getSize().x, window->getSize().y);
+		sprite.setTexture(rTexture.getTexture());
 	}
 
 	void handleEvent(const sf::Event &event)
@@ -24,19 +27,21 @@ public:
 		if (event.type == sf::Event::Resized)
 		{
 			rTexture.create(event.size.width, event.size.height);
+			sprite.setTexture(rTexture.getTexture(), true);
 		}
 	}
 
 	void draw()
 	{
 		sf::View view = window->getView();
+		sf::View original = view;
 		float x = view.getCenter().x;
 		float y = view.getCenter().y;
 		float cx = x - window->getSize().x / 2;
 		float cy = y - window->getSize().y / 2;
 
-		x = std::floor(x);
-		y = std::floor(y);
+		x = std::round(x);
+		y = std::round(y);
 		x += 0.375f;
 		y += 0.375f;
 
@@ -44,20 +49,32 @@ public:
 		rTexture.setView(view);
 
 		sf::RenderStates states;
-		states.texture = &m_tileset;
+		states.texture = &mTileset;
 
-		rTexture.clear(sf::Color::Transparent);
+		sf::Color color;
+
+		if (map->getLevelID() == Levels::ID::Level003)
+		{
+			color = sf::Color(140, 0, 20);
+		}
+		else
+		{
+			color = sf::Color(120, 200, 255);
+		}
+
+		rTexture.clear(color);
 		rTexture.draw(*map, states);
 		rTexture.display();
 
 		// draw it to the window
-		sf::Sprite sprite(rTexture.getTexture());
 		sprite.setPosition(cx ,cy);
 
+		window->setView(original);
 		window->draw(sprite);
 	}
+	sf::Sprite sprite;
+	sf::Texture mTileset;
 
-	sf::Texture m_tileset;
 	sf::RenderWindow *window;
 	sf::RenderTexture rTexture;
 	TileMap *map;

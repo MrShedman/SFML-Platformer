@@ -5,6 +5,8 @@
 #include <GameState.hpp>
 #include <MenuState.hpp>
 #include <PauseState.hpp>
+#include <MusicPlayer.hpp>
+#include <SoundPlayer.hpp>
 
 const sf::Time Application::timePerFrame = sf::seconds(1.f / 60.f);
 
@@ -13,11 +15,10 @@ Application::Application(unsigned int width, unsigned int height)
 	window(sf::VideoMode(width, height), "Platformer", sf::Style::Default, sf::ContextSettings(32, 24, 8, 4, 2)),
 	mTextures(),
 	mFonts(),
-	mStateStack(State::Context(window, mTextures, mFonts, mLevels))
+	mStateStack(State::Context(window, mTextures, mFonts, mLevels, mMusic, mSounds))
 {
-	//window.setFramerateLimit(60);
 	window.setKeyRepeatEnabled(false);
-	//window.setVerticalSyncEnabled(true);
+	window.setVerticalSyncEnabled(true);
 
 	loadResources();
 
@@ -30,10 +31,9 @@ Application::Application(unsigned int width, unsigned int height)
 
 void Application::loadResources()
 {
-	mFonts.load(Fonts::Main, "Fonts/Sansation.ttf");
+	mFonts.load(Fonts::Main, "Fonts/Sansation.otf");
 
 	mTextures.load(Textures::MenuBackground, "Textures/MenuBackground.png");
-	mTextures.load(Textures::GameBackground, "Textures/GameBackground.png");
 	mTextures.load(Textures::TileMap, "Textures/terrain.png");
 	mTextures.load(Textures::PlayerStanding, "Textures/standing.png");
 	mTextures.load(Textures::PlayerRunning, "Textures/running.png");
@@ -81,10 +81,11 @@ void Application::run()
 {
 	sf::Clock clock;
 	sf::Time timeSinceLastUpdate = sf::Time::Zero;
+	sf::Time dt;
 
 	while (window.isOpen())
 	{
-		sf::Time dt = clock.restart();
+		dt = clock.restart();
 		timeSinceLastUpdate += dt;
 	
 		while (timeSinceLastUpdate > timePerFrame)

@@ -1,9 +1,12 @@
 #include "PlayerSprite.h"
 #include "PlayerStanding.h"
+#include <SoundPlayer.hpp>
 
 PlayerSprite::PlayerSprite(State::Context context)
+:
+sounds(*context.sounds)
 {
-	core.lastPlatformHeight = 0;
+	core.lastPlatformHeight = 900;
 	core.health = 20;
 	core.canClimb = false;
 
@@ -23,13 +26,7 @@ PlayerSprite::PlayerSprite(State::Context context)
 	core.state = new PlayerStanding( core );
 	core.dir.SetRight();
 
-	sf::FloatRect visibleArea(sf::Vector2f(0.f, 0.f), sf::Vector2f(1280, 720));
-	view.reset(visibleArea);
-
 	core.rect = RectF(-40, 48, -20, 20);
-
-	buffer.loadFromFile("Sounds/jump.wav");
-	jump.setBuffer(buffer);
 }
 
 void PlayerSprite::reset()
@@ -45,44 +42,6 @@ void PlayerSprite::reset()
 
 	core.state = new PlayerStanding(core);
 	core.dir.SetRight();
-}
-
-void PlayerSprite::setViewPosition(sf::Time dt)
-{
-	float x = core.x - view.getCenter().x;
-	float y = core.lastPlatformHeight - view.getCenter().y;
-	
-	if (std::abs(core.lastPlatformHeight - core.y - 6 * 48) > view.getSize().y / 2.f)
-	{
-		y = core.y - view.getCenter().y + 5 * 48;
-	}
-
-	if (core.canClimb)
-	{
-		y = core.y - view.getCenter().y;
-	}
-
-	if (!isAlive())
-	{
-		y = 0.f;
-	}
-
-	float dx = dt.asSeconds() * 2.f + (std::abs(core.vx) * 0.005f);
-	float dy = dt.asSeconds() * 3.f;
-
-	x *= dx;
-	y *= dy;
-
-	x = floorf(x * 10.f + 0.5f) / 10.f;
-	y = floorf(y * 10.f + 0.5f) / 10.f;
-	
-	float nx = view.getCenter().x + x;
-	float ny = view.getCenter().y + y;
-
-	clamp(nx, viewBoundary.left + view.getSize().x / 2.f, viewBoundary.right - view.getSize().x / 2.f);
-	clamp(ny, viewBoundary.top + view.getSize().y / 2.f, viewBoundary.bottom - view.getSize().y / 2.f);
-
-	view.setCenter(nx, ny);
 }
 
 void PlayerSprite::handleEvent(const sf::Event &event)
@@ -134,7 +93,7 @@ void PlayerSprite::handleEvent(const sf::Event &event)
 		{
 			if (GetState().ID != 3)
 			{
-				jump.play();
+				sounds.play(SoundEffect::PlayerJump);
 			}
 			GetState().OnCtrlJumpPress();
 		}

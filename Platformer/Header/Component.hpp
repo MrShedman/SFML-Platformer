@@ -28,7 +28,7 @@ class Component : public sf::Drawable, public sf::Transformable, private sf::Non
         virtual bool		isActive() const;
 
         virtual void		handleEvent(const sf::Event& event) = 0;
-
+		virtual void		update() = 0;
 
     private:
         bool				mIsActive;

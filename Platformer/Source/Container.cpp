@@ -26,6 +26,14 @@ void Container::handleEvent(const sf::Event& event)
 	}
 }
 
+void Container::update()
+{
+	for (auto &child : mChildren)
+	{
+		child->update();
+	}
+}
+
 void Container::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
     states.transform *= getTransform();

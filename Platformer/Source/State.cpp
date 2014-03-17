@@ -2,11 +2,13 @@
 #include <StateStack.hpp>
 
 
-State::Context::Context(sf::RenderWindow& window, TextureHolder& textures, FontHolder& fonts, LevelHolder &levels)
+State::Context::Context(sf::RenderWindow& window, TextureHolder& textures, FontHolder& fonts, LevelHolder &levels, MusicPlayer& music, SoundPlayer& sounds)
 : window(&window)
 , textures(&textures)
 , fonts(&fonts)
 , levels(&levels)
+, music(&music)
+, sounds(&sounds)
 {
 }
 

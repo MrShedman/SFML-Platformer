@@ -1,5 +1,7 @@
 #include <GameState.hpp>
 #include <ResourceHolder.hpp>
+#include <MusicPlayer.hpp>
+#include <SoundPlayer.hpp>
 
 
 GameState::GameState(StateStack& stack, Context context)
@@ -11,24 +13,23 @@ mapEditor(context, map),
 mRender(context, map),
 health(context)
 {
-	sf::Texture& texture = context.textures->get(Textures::GameBackground);
-	background.setTexture(texture);
-
 	map.load(context, Levels::Level001);
 
 	collision.setMap(map);
 	collision.setPlayer(player);
-	player.viewBoundary = RectF(0.f, static_cast<float>(map.getHeight()), 0.f, static_cast<float>(map.getWidth()));
+
+	camera.setSpriteToFollow(player);
+	camera.setViewBoundary(map.getBoundary());
+	camera.setViewSize(static_cast<sf::Vector2f>(context.window->getSize()));
+
+	context.music->play(Music::GameTheme);
 }
 
 void GameState::draw()
 {
 	sf::RenderWindow& window = *getContext().window;
 	
-	window.setView(window.getDefaultView());
-	window.draw(background);
-	
-	window.setView(player.view);
+	window.setView(camera.getView());
 	
 	mRender.draw();
 	window.draw(mapEditor);
@@ -37,15 +38,7 @@ void GameState::draw()
 	window.setView(window.getDefaultView());
 	window.draw(health);
 
-	window.setView(player.view);
-}
-
-void GameState::updateView(sf::Time dt)
-{
-	sf::RenderWindow& window = *getContext().window;
-	player.setViewPosition(dt);
-
-	window.setView(player.view);
+	window.setView(camera.getView());
 }
 
 bool GameState::update(sf::Time dt)
@@ -60,15 +53,14 @@ bool GameState::update(sf::Time dt)
 		clamp(player.core.health, 0, 20);
 		clock.restart();
 	}
-
+	
 	collision.calculate();
 
 	health.update(player.core.health);
 
-	updateView(dt);
+	camera.updatePosition(dt);
+	window.setView(camera.getView());
 	
-	map.update(player.getVX(), player.getVY());
-
 	mapEditor.update();
 
 	return true;
@@ -78,13 +70,12 @@ bool GameState::handleEvent(const sf::Event& event)
 {
 	if (event.type == sf::Event::Resized)
 	{
-		sf::FloatRect visibleArea(sf::Vector2f(0.f, 0.f), sf::Vector2f(event.size.width, event.size.height));
-		player.view.reset(visibleArea);
+		camera.setViewSize(static_cast<sf::Vector2f>(getContext().window->getSize()));
 	}
 
-	// Escape pressed, trigger the pause screen
 	if (event.type == sf::Event::KeyPressed)
 	{
+		// Escape pressed, trigger the pause screen
 		if (event.key.code == sf::Keyboard::Escape)
 		{
 			requestStackPush(States::Pause);
@@ -92,17 +83,17 @@ bool GameState::handleEvent(const sf::Event& event)
 		if (event.key.code == sf::Keyboard::Num1)
 		{
 			map.load(getContext(), Levels::Level001);
-			player.viewBoundary = RectF(0.f, static_cast<float>(map.getHeight()), 0.f, static_cast<float>(map.getWidth()));
+			camera.setViewBoundary(map.getBoundary());
 		}
 		if (event.key.code == sf::Keyboard::Num2)
 		{
 			map.load(getContext(), Levels::Level002);
-			player.viewBoundary = RectF(0.f, static_cast<float>(map.getHeight()), 0.f, static_cast<float>(map.getWidth()));
+			camera.setViewBoundary(map.getBoundary());
 		}
 		if (event.key.code == sf::Keyboard::Num3)
 		{
 			map.load(getContext(), Levels::Level003);
-			player.viewBoundary = RectF(0.f, static_cast<float>(map.getHeight()), 0.f, static_cast<float>(map.getWidth()));
+			camera.setViewBoundary(map.getBoundary());
 		}
 	}
 

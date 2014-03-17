@@ -36,17 +36,14 @@ void PlayerJumping::OnUpdate(sf::Time dt)
 	core.currentSeq->advanceFrame(core.dir);
 	core.currentSeq->setPosition(core.x, core.y);
 
-	if (core.canClimb && core.vy > 0.0f)
+	if (core.health <= 0)
 	{
-		if (core.health <= 0)
-		{
-			transition(new PlayerDying(core));
-		}
-		else
-		{
-			core.climbdir.SetDown();
-			transition(new PlayerClimbing(core, isMoving));
-		}
+		transition(new PlayerDying(core));
+	}
+	else if (core.canClimb && core.vy > 0.0f)
+	{
+		core.climbdir.SetDown();
+		transition(new PlayerClimbing(core, isMoving));
 	}
 }
 

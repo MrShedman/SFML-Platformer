@@ -43,6 +43,8 @@ TileData& TileMap::getTileData(Block::ID t)
 
 void TileMap::load(State::Context context, Levels::ID type)
 {
+	loadedLevel = type;
+
 	Level* temp = &context.levels->get(type);
 	file = temp->getFileName();
 	
@@ -82,6 +84,16 @@ void TileMap::save()
 	}
 
 	outfile.close();
+}
+
+Levels::ID TileMap::getLevelID()
+{
+	return loadedLevel;
+}
+
+RectF TileMap::getBoundary()
+{
+	return RectF(0.f, static_cast<float>(getHeight()), 0.f, static_cast<float>(getWidth()));
 }
 
 int TileMap::getWidth() const

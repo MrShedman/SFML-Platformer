@@ -13,10 +13,13 @@ public:
 	bool loadFromFile(const std::string& filename)
 	{
 		this->filename = filename;
-		std::ifstream infile(filename);
+		std::ifstream infile;
+
+		infile.open(filename, std::ifstream::in);
 
 		if (!infile.is_open())
 		{
+			std::cout << filename << " not open" << std::endl;
 			return false;
 		}		
 
