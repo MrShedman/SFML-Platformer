@@ -5,14 +5,17 @@
 #include <GameState.hpp>
 #include <MenuState.hpp>
 #include <PauseState.hpp>
+#include <SettingsState.hpp>
 #include <MusicPlayer.hpp>
 #include <SoundPlayer.hpp>
+
+#include <icon.c>
 
 const sf::Time Application::timePerFrame = sf::seconds(1.f / 60.f);
 
 Application::Application(unsigned int width, unsigned int height)
 	:
-	window(sf::VideoMode(width, height), "Platformer", sf::Style::Default, sf::ContextSettings(32, 24, 8, 4, 2)),
+	window(sf::VideoMode(width, height), "Platformer", sf::Style::Close, sf::ContextSettings(32, 24, 8, 4, 2)),
 	mTextures(),
 	mFonts(),
 	mStateStack(State::Context(window, mTextures, mFonts, mLevels, mMusic, mSounds))
@@ -20,11 +23,14 @@ Application::Application(unsigned int width, unsigned int height)
 	window.setKeyRepeatEnabled(false);
 	window.setVerticalSyncEnabled(true);
 
+	window.setIcon(icon_image.width, icon_image.height, icon_image.pixel_data);
+
 	loadResources();
 
 	mStateStack.registerState<MenuState>(States::Menu);
 	mStateStack.registerState<GameState>(States::Game);
 	mStateStack.registerState<PauseState>(States::Pause);
+	mStateStack.registerState<SettingsState>(States::Settings);
 
 	mStateStack.pushState(States::Menu);
 }

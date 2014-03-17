@@ -90,6 +90,7 @@
     <ClCompile Include="Source\Container.cpp" />
     <ClCompile Include="Source\DataTables.cpp" />
     <ClCompile Include="Source\GameState.cpp" />
+    <ClCompile Include="Source\icon.c" />
     <ClCompile Include="Source\MenuState.cpp" />
     <ClCompile Include="Source\MusicPlayer.cpp" />
     <ClCompile Include="Source\PauseState.cpp" />
@@ -99,6 +100,7 @@
     <ClCompile Include="Source\PlayerRunning.cpp" />
     <ClCompile Include="Source\PlayerSprite.cpp" />
     <ClCompile Include="Source\PlayerStanding.cpp" />
+    <ClCompile Include="Source\SettingsState.cpp" />
     <ClCompile Include="Source\SoundPlayer.cpp" />
     <ClCompile Include="Source\Sprite.cpp" />
     <ClCompile Include="Source\State.cpp" />
@@ -135,6 +137,7 @@
     <ClInclude Include="Header\Rect.h" />
     <ClInclude Include="Header\ResourceHolder.hpp" />
     <ClInclude Include="Header\ResourceIdentifiers.hpp" />
+    <ClInclude Include="Header\SettingsState.hpp" />
     <ClInclude Include="Header\SoundPlayer.hpp" />
     <ClInclude Include="Header\Sprite.h" />
     <ClInclude Include="Header\SpriteCore.h" />

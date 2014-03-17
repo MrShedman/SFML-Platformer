@@ -19,6 +19,7 @@ class Container : public Component
 		Container();
 
         void				pack(Component::Ptr component);
+		void				clear();
 
         virtual void		handleEvent(const sf::Event& event);
 		virtual void		update();
@@ -29,7 +30,6 @@ class Container : public Component
   
     private:
         std::vector<Component::Ptr>		mChildren;
-        int								mSelectedChild;
 };
 
 }

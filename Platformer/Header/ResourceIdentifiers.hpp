@@ -57,6 +57,7 @@ namespace Music
 {
 	enum ID
 	{
+		None,
 		MenuTheme,
 		GameTheme,
 	};

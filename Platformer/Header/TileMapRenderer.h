@@ -20,6 +20,7 @@ public:
 
 		rTexture.create(window->getSize().x, window->getSize().y);
 		sprite.setTexture(rTexture.getTexture());
+		sprite.setOrigin(window->getSize().x / 2, window->getSize().y / 2);
 	}
 
 	void handleEvent(const sf::Event &event)
@@ -28,17 +29,18 @@ public:
 		{
 			rTexture.create(event.size.width, event.size.height);
 			sprite.setTexture(rTexture.getTexture(), true);
+			sprite.setOrigin(window->getSize().x / 2, window->getSize().y / 2);
 		}
 	}
 
 	void draw()
 	{
 		sf::View view = window->getView();
-		sf::View original = view;
 		float x = view.getCenter().x;
 		float y = view.getCenter().y;
-		float cx = x - window->getSize().x / 2;
-		float cy = y - window->getSize().y / 2;
+
+		//set sprite position before rounding
+		sprite.setPosition(x, y);
 
 		x = std::round(x);
 		y = std::round(y);
@@ -66,12 +68,9 @@ public:
 		rTexture.draw(*map, states);
 		rTexture.display();
 
-		// draw it to the window
-		sprite.setPosition(cx ,cy);
-
-		window->setView(original);
 		window->draw(sprite);
 	}
+
 	sf::Sprite sprite;
 	sf::Texture mTileset;
 

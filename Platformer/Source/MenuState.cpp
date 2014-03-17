@@ -16,12 +16,20 @@ MenuState::MenuState(StateStack& stack, Context context)
 
 	scaleSpriteToFitWindow(mBackgroundSprite, *context.window);
 
+	initializeButtons();
 
-	float y = 0.6f * context.window->getSize().y;
-	float x = 0.5f * context.window->getSize().x;
+	context.music->play(Music::MenuTheme);
+}
 
-	auto playButton = std::make_shared<GUI::Button>(context);
-	playButton->setPosition(x - 255, y);
+void MenuState::initializeButtons()
+{
+	mGUIContainer.clear();
+
+	float y = 0.5f * getContext().window->getSize().y;
+	float x = 0.5f * getContext().window->getSize().x;
+
+	auto playButton = std::make_shared<GUI::Button>(getContext());
+	playButton->setPosition(x - 120, y);
 	playButton->setText("Play");
 	playButton->setCallback([this]()
 	{
@@ -29,27 +37,26 @@ MenuState::MenuState(StateStack& stack, Context context)
 		requestStackPush(States::Game);
 	});
 
-	auto exitButton = std::make_shared<GUI::Button>(context);
-	exitButton->setPosition(x + 15, y);
+	auto settingsButton = std::make_shared<GUI::Button>(getContext());
+	settingsButton->setPosition(x - 120, y + 90);
+	settingsButton->setText("Settings");
+	settingsButton->setCallback([this]()
+	{
+		requestStateClear();
+		requestStackPush(States::Settings);
+	});
+
+	auto exitButton = std::make_shared<GUI::Button>(getContext());
+	exitButton->setPosition(x - 120, y + 180);
 	exitButton->setText("Exit");
 	exitButton->setCallback([this]()
 	{
 		requestStackPop();
 	});
 
-	auto toggleFsButton = std::make_shared<GUI::Button>(context);
-	toggleFsButton->setPosition(x - 255, y + 100);
-	toggleFsButton->setText("FullScreen");
-	toggleFsButton->setCallback([this]()
-	{
-		toggleFullscreen();
-	});
-
 	mGUIContainer.pack(playButton);
 	mGUIContainer.pack(exitButton);
-	mGUIContainer.pack(toggleFsButton);
-
-	context.music->play(Music::MenuTheme);
+	mGUIContainer.pack(settingsButton);
 }
 
 void MenuState::draw()
@@ -72,27 +79,4 @@ bool MenuState::handleEvent(const sf::Event& event)
 {
 	mGUIContainer.handleEvent(event);
 	return false;
-}
-
-void MenuState::toggleFullscreen()
-{
-	sf::RenderWindow& window = *getContext().window;
-
-	std::vector<sf::VideoMode> resolution = sf::VideoMode::getFullscreenModes();
-
-	sf::Vector2u max;
-	max.x = resolution.front().width;
-	max.y = resolution.front().height;
-
-	sf::Vector2u currentSize = window.getSize();
-	static sf::Vector2u prevSize = currentSize;
-
-	if (currentSize.x == max.x && currentSize.y == max.y)
-	{
-		window.create(sf::VideoMode(prevSize.x, prevSize.y), "Platformer", sf::Style::Default, sf::ContextSettings(32, 24, 8, 4, 2));
-	}
-	else
-	{
-		window.create(sf::VideoMode(max.x, max.y), "Platformer", sf::Style::Fullscreen, sf::ContextSettings(32, 24, 8, 4, 2));
-	}	
 }

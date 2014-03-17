@@ -5,12 +5,18 @@ MusicPlayer::MusicPlayer()
 , mFilenames()
 , mVolume(100.f)
 {
+	mCurrent = Music::ID::None;
 	mFilenames[Music::MenuTheme] = "Sounds/Menu Theme.ogg";
 	mFilenames[Music::GameTheme] = "Sounds/Game Theme.ogg";
 }
 
 void MusicPlayer::play(Music::ID theme)
 {
+	if (mCurrent == theme)
+	{
+		return;
+	}
+
 	std::string filename = mFilenames[theme];
 
 	if (!mMusic.openFromFile(filename))
@@ -19,6 +25,7 @@ void MusicPlayer::play(Music::ID theme)
 	mMusic.setVolume(mVolume);
 	mMusic.setLoop(true);
 	mMusic.play();
+	mCurrent = theme;
 }
 
 void MusicPlayer::stop()

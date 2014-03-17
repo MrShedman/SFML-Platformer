@@ -9,13 +9,17 @@ namespace GUI
 
 Container::Container()
 : mChildren()
-, mSelectedChild(-1)
 {
 }
 
 void Container::pack(Component::Ptr component)
 {
 	mChildren.push_back(component);
+}
+
+void Container::clear()
+{
+	mChildren.clear();
 }
 
 void Container::handleEvent(const sf::Event& event)

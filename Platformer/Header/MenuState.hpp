@@ -17,7 +17,8 @@ class MenuState : public State
 		virtual bool			handleEvent(const sf::Event& event);
 
 	private:
-		void toggleFullscreen();
+
+		void initializeButtons();
 
 		sf::Sprite				mBackgroundSprite;
 		GUI::Container			mGUIContainer;
