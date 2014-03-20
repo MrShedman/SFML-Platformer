@@ -4,6 +4,7 @@
 
 #include <TileMap.h>
 #include <PlayerSprite.h>
+#include <SoundPlayer.hpp>
 
 class CollisionSystem : public sf::Drawable
 {
@@ -66,9 +67,18 @@ public:
 		int ix = map->getIndexXBiasLeft(cx);
 		int iy = map->getIndexYBiasTop(cy);
 
+		// find tiles that do damage ie lava etc..
 		if (map->isHarmful(ix, iy))
 		{
 			player->GetState().applyDamage(1);
+		}
+
+		// find tiles that are pickups (collectibles) ie yellowflower etc..
+		if (map->isPickup(ix, iy))
+		{
+			map->modifyTile(ix, iy, Block::ID::Air);
+			player->sounds.play(SoundEffect::ID::PlayerPickup);
+			player->scoreboard.increment();
 		}
 
 		//find if player is standing on tile that is climable ie ladders etc..

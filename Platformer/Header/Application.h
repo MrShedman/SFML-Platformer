@@ -4,23 +4,26 @@
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
-#include <Level.h>
+#include <LevelFactory.h>
 
 #include <ResourceHolder.hpp>
 #include <ResourceIdentifiers.hpp>
 #include <StateStack.hpp>
 #include <MusicPlayer.hpp>
 #include <SoundPlayer.hpp>
+#include <Settings.h>
 
 class Application
 {
 private:
 
+	Settings mSettings;
+
 	sf::RenderWindow window;
 
 	TextureHolder mTextures;
 	FontHolder mFonts;
-	LevelHolder mLevels;
+	LevelFactory mLevels;
 	MusicPlayer mMusic;
 	SoundPlayer mSounds;
 

@@ -1,4 +1,4 @@
-#include <Button.hpp>
+#include <Toggle.h>
 #include <iostream>
 
 #include <SFML/Window/Event.hpp>
@@ -10,15 +10,13 @@
 namespace GUI
 {
 
-Button::Button(State::Context context)
-: mCallback()
-, mShape(sf::Vector2f(240, 70))
-, mText("", context.fonts->get(Fonts::Main), 35)
-, window(*context.window)
-, mSounds(*context.sounds)
-, isPressed(false)
-, isToggle(false)
-, isSelected(false)
+Toggle::Toggle(State::Context context)
+	: mCallback()
+	, mShape(sf::Vector2f(240, 70))
+	, mText("", context.fonts->get(Fonts::Main), 35)
+	, window(*context.window)
+	, mSounds(*context.sounds)
+	, isSelected(false)
 {
 	changeState(Normal);
 	mShape.setOutlineThickness(-5.f);
@@ -29,31 +27,41 @@ Button::Button(State::Context context)
 	mText.setColor(sf::Color::Black);
 }
 
-void Button::setCallback(Callback callback)
+void Toggle::setCallback(Callback callback)
 {
 	mCallback = std::move(callback);
 }
 
-void Button::setText(const std::string& text)
+void Toggle::setText(const std::string& offText, const std::string& onText)
 {
+	this->offText = offText;
+	this->onText = onText;
+
+	updateText();
+}
+
+void Toggle::updateText()
+{
+	std::string text = isSelected ? onText : offText;
 	mText.setString(text);
 	sf::FloatRect bounds = mText.getLocalBounds();
 	mText.setOrigin(std::floor((bounds.left + bounds.width) / 2.f), std::floor((bounds.top + bounds.height) / 2.f));
 }
 
-void Button::setToggle(bool flag)
-{
-	isToggle = flag;
-}
-
-void Button::setSize(sf::Vector2f size)
+void Toggle::setSize(sf::Vector2f size)
 {
 	mShape.setSize(size);
 	sf::FloatRect bounds = mShape.getLocalBounds();
 	mText.setPosition(bounds.width / 2.f, bounds.height / 2.f - 5);
 }
+void Toggle::setState(bool flag)
+{
+	isSelected = flag;
+	updateText();
+	isSelected ? changeState(Pressed) : changeState(Normal);
+}
 
-void Button::handleEvent(const sf::Event& event)
+void Toggle::handleEvent(const sf::Event& event)
 {
 	if (event.type == sf::Event::MouseMoved)
 	{
@@ -69,8 +77,8 @@ void Button::handleEvent(const sf::Event& event)
 	}
 }
 
-void Button::update()
-{	
+void Toggle::update()
+{
 	static float factor = 0.f;
 
 	if (mouseOver())
@@ -85,83 +93,52 @@ void Button::update()
 	}
 }
 
-bool Button::mouseOver()
+bool Toggle::mouseOver()
 {
 	return getTransform().transformRect(mShape.getLocalBounds()).contains(getMousePosition(window));
 }
 
-void Button::mouseMoved()
+void Toggle::mouseMoved()
 {
 	if (mouseOver())
 	{
-		if (isToggle)
-		{
-			isSelected ? changeState(Pressed) : changeState(Hover);
-		}
-		else
-		{
-			isPressed ? changeState(Pressed) : changeState(Hover);
-		}
+		isSelected ? changeState(Pressed) : changeState(Hover);
 	}
 	else
 	{
-		if (isToggle)
-		{
-			isSelected ? changeState(Pressed) : changeState(Normal);			
-		}
-		else
-		{
-			changeState(Normal);
-			isPressed = false;
-		}
+		isSelected ? changeState(Pressed) : changeState(Normal);
 	}
 }
 
-void Button::mousePressed()
+void Toggle::mousePressed()
 {
 	if (mouseOver())
 	{
-		if (isToggle)
-		{
-			isSelected = !isSelected;
-			isSelected ? changeState(Pressed) : changeState(Hover);
-		}
-		else
-		{
-			changeState(Pressed);
-			isPressed = true;
-		}
-
+		isSelected = !isSelected;
+		isSelected ? changeState(Pressed) : changeState(Hover);
+	
+		updateText();
+			
 		mSounds.play(SoundEffect::Button);
 	}
 }
 
-void Button::mouseReleased()
+void Toggle::mouseReleased()
 {
 	if (mouseOver())
 	{
-		if (isToggle)
-		{
-			mCallback();
-		}
-		else if (isPressed)
-		{
-			changeState(Hover);
-			isPressed = false;
-
-			mCallback();
-		}
+		mCallback(isSelected);
 	}
 }
 
-void Button::draw(sf::RenderTarget& target, sf::RenderStates states) const
+void Toggle::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	states.transform *= getTransform();
 	target.draw(mShape, states);
 	target.draw(mText, states);
 }
 
-void Button::changeState(Type buttonType)
+void Toggle::changeState(Type buttonType)
 {
 	sf::Color color;
 

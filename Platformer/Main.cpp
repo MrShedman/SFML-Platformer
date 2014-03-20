@@ -9,7 +9,7 @@
 #pragma comment(lib, "sndfile.lib")
 #endif // SFML_STATIC
 
-#pragma comment(linker, "/SUBSYSTEM:windows /ENTRY:mainCRTStartup")
+//#pragma comment(linker, "/SUBSYSTEM:windows /ENTRY:mainCRTStartup")
 
 #include <Application.h>
 

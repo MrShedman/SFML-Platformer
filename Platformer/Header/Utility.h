@@ -2,12 +2,17 @@
 
 #include <SFML/Graphics.hpp>
 #include <algorithm>
+#include <string>
+#include <sstream>
 
 template <class T>
 void clamp(T &value, T min, T max);
 
 template <class T>
 bool outOfRange(T value, T min, T max);
+
+template <class T>
+std::string toString(const T& value);
 
 extern sf::Vector2f getMousePosition(sf::RenderWindow &window);
 

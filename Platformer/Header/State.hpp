@@ -2,6 +2,8 @@
 
 #include <StateIdentifiers.hpp>
 #include <ResourceIdentifiers.hpp>
+#include <LevelFactory.h>
+#include <Settings.h>
 
 #include <SFML/System/Time.hpp>
 #include <SFML/Window/Event.hpp>
@@ -25,14 +27,15 @@ class State
 
 		struct Context
 		{
-			Context(sf::RenderWindow& window, TextureHolder& textures, FontHolder& fonts, LevelHolder &levels, MusicPlayer& music, SoundPlayer& sounds);
+			Context(sf::RenderWindow &window, TextureHolder &textures, FontHolder &fonts, LevelFactory &levels, MusicPlayer& music, SoundPlayer &sounds, Settings &settings);
 
 			sf::RenderWindow *window;
 			TextureHolder *textures;
 			FontHolder *fonts;
-			LevelHolder *levels;
+			LevelFactory *levels;
 			MusicPlayer *music;
 			SoundPlayer *sounds;
+			Settings *settings;
 		};
 
 
@@ -53,7 +56,6 @@ class State
 		void requestStateClear();
 
 		Context	getContext() const;
-
 
 	private:
 		StateStack* mStack;

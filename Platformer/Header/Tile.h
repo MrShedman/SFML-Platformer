@@ -32,6 +32,7 @@ namespace Block
 		RedstoneOre,
 		CoalOre,
 		Obsidian,
+		ObsidianPassable,
 		Portal,
 		RedFlower,
 		YellowFlower,

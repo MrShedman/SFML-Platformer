@@ -25,4 +25,3 @@ struct TileData
 };
 
 std::vector<TileData>	initializeTileData();
-//void initializeTile(std::map<Block::ID, TileData> &mData);

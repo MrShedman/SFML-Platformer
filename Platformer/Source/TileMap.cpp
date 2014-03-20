@@ -10,8 +10,6 @@ TileMap::TileMap(State::Context context)
 {
 	window = context.window;
 
-	m_tileset = context.textures->get(Textures::ID::TileMap);	
-
 	Table = initializeTileData();
 }
 
@@ -41,17 +39,15 @@ TileData& TileMap::getTileData(Block::ID t)
 	return Table[Block::Air];
 }
 
-void TileMap::load(State::Context context, Levels::ID type)
+void TileMap::load(State::Context context)
 {
-	loadedLevel = type;
+	loadedLevel = context.levels->getID();
 
-	Level* temp = &context.levels->get(type);
-	file = temp->getFileName();
-	
-	width = temp->getWidth();
-	height = temp->getHeight();
+	file = context.levels->getFileName();
+	width = context.levels->getWidth();
+	height = context.levels->getHeight();
 
-	std::vector<char> levelData = temp->getLevelData();
+	std::vector<char> levelData = context.levels->getLevelData();
 
 	vTiles.clear();
 	vTiles.resize(width * height);
@@ -143,7 +139,7 @@ RectF TileMap::getCRect(int ix, int iy)
 	return vTiles[ix + iy * width].rect;
 }
 
-int TileMap::getTileID(float x, float y)
+Block::ID TileMap::getTileID(float x, float y)
 {
 	int id = getIndexXBiasRight(x) + getIndexYBiasBottom(y) * width;
 
@@ -152,12 +148,12 @@ int TileMap::getTileID(float x, float y)
 
 void TileMap::modifyTile(float x, float y, Block::ID newBlock)
 {
-	int id = getIndexXBiasRight(x) + getIndexYBiasBottom(y) * width;
+	modifyTile(getIndexXBiasRight(x), getIndexYBiasBottom(y), newBlock);
+}
 
-	if (vTiles[id].data->type == Block::ID::BedRock)
-	{
-		return;
-	}
+void TileMap::modifyTile(int ix, int iy, Block::ID newBlock)
+{
+	int id = ix + iy * width;
 
 	vTiles[id].data = &getTileData(newBlock);
 	vTiles[id].update();
@@ -177,6 +173,18 @@ void TileMap::handleEvent(const sf::Event &event)
 void TileMap::update(float x, float y)
 {
 
+}
+
+bool TileMap::isPickup(int ix, int iy)
+{
+	if (outOfRange(ix + iy * width, 0, width * height))
+	{
+		return false;
+	}
+
+	Block::ID type = vTiles[ix + iy * width].data->type;
+
+	return (type == Block::YellowFlower || type == Block::RedFlower || type == Block::RedMushroom || type == Block::BrownMushroom);
 }
 
 bool TileMap::isHarmful(int ix, int iy)
@@ -302,18 +310,4 @@ bool TileMap::getCRectSingle(CollisionRectF cRect, CollisionRectF &rect)
 	}
 
 	return false;
-}
-
-void TileMap::getCRectList(RectF cRect, std::vector<RectF> &list)
-{
-	for (int iy = getIndexYBiasBottom(cRect.top), iyEnd = getIndexYBiasTop(cRect.bottom); iy <= iyEnd; ++iy)
-	{
-		for (int ix = getIndexXBiasRight(cRect.left), ixEnd = getIndexXBiasLeft(cRect.right); ix <= ixEnd; ++ix)
-		{
-			if (!isPassable(ix, iy))
-			{
-				list.push_back(getCRect(ix, iy));
-			}
-		}
-	}
 }

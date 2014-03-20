@@ -6,6 +6,7 @@ namespace States
 	{
 		None,
 		Menu,
+		LevelSelection,
 		Settings,
 		Game,
 		Pause,

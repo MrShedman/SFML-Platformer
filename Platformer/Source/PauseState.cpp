@@ -10,17 +10,11 @@
 PauseState::PauseState(StateStack& stack, Context context)
 : State(stack, context)
 , mBackgroundSprite()
-, mPausedText()
+, mPausedText("Game Paused", context.fonts->get(Fonts::Main), 70)
 {
-	sf::Font& font = context.fonts->get(Fonts::Main);
-	sf::Vector2f windowSize(context.window->getSize());
-
-	mPausedText.setFont(font);
-	mPausedText.setString("Game Paused");	
-	mPausedText.setCharacterSize(70);
 	sf::FloatRect bounds = mPausedText.getLocalBounds();
 	mPausedText.setOrigin(std::floor(bounds.width / 2.f), std::floor(bounds.height / 2.f));
-	mPausedText.setPosition(0.5f * windowSize.x, 0.4f * windowSize.y);
+	mPausedText.setPosition(0.5f * context.window->getSize().x, 0.4f * context.window->getSize().y);
 
 	float y = 0.6f * context.window->getSize().y;
 	float x = 0.5f * context.window->getSize().x;

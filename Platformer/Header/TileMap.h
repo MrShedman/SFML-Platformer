@@ -23,7 +23,7 @@ public:
 
 	TileData& getTileData(Block::ID type);
 
-	void load(State::Context context, Levels::ID type);
+	void load(State::Context context);
 
 	void save();
 
@@ -41,9 +41,11 @@ public:
 
 	int getHeight() const;
 
-	int getTileID(float x, float y);
+	Block::ID getTileID(float x, float y);
 
-	void modifyTile(float x, float y, Block::ID newBlock); // TileData &prop);
+	void modifyTile(float x, float y, Block::ID newBlock);
+
+	void modifyTile(int ix, int iy, Block::ID newBlock);
 
 	Levels::ID getLevelID();
 
@@ -51,11 +53,9 @@ public:
 
 	bool getCRectSingle(CollisionRectF cRect, CollisionRectF &rect);
 
-	void getCRectList(RectF cRect, std::vector<RectF> &list);
-
 	void handleEvent(const sf::Event &event);
 
-	bool isRealTile(int ix, int iy);
+	bool isPickup(int ix, int iy);
 
 	bool isHarmful(int ix, int iy);
 
@@ -78,7 +78,6 @@ private:
 
 	std::vector<TileData> Table;
 	std::vector<Tile> vTiles;
-	sf::Texture m_tileset;
 
 	sf::RenderWindow *window;
 };

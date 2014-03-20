@@ -91,6 +91,9 @@
     <ClCompile Include="Source\DataTables.cpp" />
     <ClCompile Include="Source\GameState.cpp" />
     <ClCompile Include="Source\icon.c" />
+    <ClCompile Include="Source\Level.cpp" />
+    <ClCompile Include="Source\LevelFactory.cpp" />
+    <ClCompile Include="Source\LevelSelectionState.cpp" />
     <ClCompile Include="Source\MenuState.cpp" />
     <ClCompile Include="Source\MusicPlayer.cpp" />
     <ClCompile Include="Source\PauseState.cpp" />
@@ -101,6 +104,7 @@
     <ClCompile Include="Source\PlayerSprite.cpp" />
     <ClCompile Include="Source\PlayerStanding.cpp" />
     <ClCompile Include="Source\SettingsState.cpp" />
+    <ClCompile Include="Source\Slider.cpp" />
     <ClCompile Include="Source\SoundPlayer.cpp" />
     <ClCompile Include="Source\Sprite.cpp" />
     <ClCompile Include="Source\State.cpp" />
@@ -108,6 +112,7 @@
     <ClCompile Include="Source\Tile.cpp" />
     <ClCompile Include="Source\TileEditor.cpp" />
     <ClCompile Include="Source\TileMap.cpp" />
+    <ClCompile Include="Source\Toggle.cpp" />
     <ClCompile Include="Source\Utility.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -124,6 +129,8 @@
     <ClInclude Include="Header\GameState.hpp" />
     <ClInclude Include="Header\HealthBar.h" />
     <ClInclude Include="Header\Level.h" />
+    <ClInclude Include="Header\LevelFactory.h" />
+    <ClInclude Include="Header\LevelSelectionState.h" />
     <ClInclude Include="Header\MenuState.hpp" />
     <ClInclude Include="Header\MusicPlayer.hpp" />
     <ClInclude Include="Header\ParticleSystem.h" />
@@ -137,7 +144,10 @@
     <ClInclude Include="Header\Rect.h" />
     <ClInclude Include="Header\ResourceHolder.hpp" />
     <ClInclude Include="Header\ResourceIdentifiers.hpp" />
+    <ClInclude Include="Header\Scoreboard.h" />
+    <ClInclude Include="Header\Settings.h" />
     <ClInclude Include="Header\SettingsState.hpp" />
+    <ClInclude Include="Header\Slider.h" />
     <ClInclude Include="Header\SoundPlayer.hpp" />
     <ClInclude Include="Header\Sprite.h" />
     <ClInclude Include="Header\SpriteCore.h" />
@@ -150,6 +160,7 @@
     <ClInclude Include="Header\TileEditor.h" />
     <ClInclude Include="Header\TileMap.h" />
     <ClInclude Include="Header\TileMapRenderer.h" />
+    <ClInclude Include="Header\Toggle.h" />
     <ClInclude Include="Header\Utility.h" />
   </ItemGroup>
   <ItemGroup>

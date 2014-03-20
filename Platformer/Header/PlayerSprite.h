@@ -9,6 +9,7 @@
 #include <State.hpp>
 #include <ResourceHolder.hpp>
 #include <ResourceIdentifiers.hpp>
+#include <Scoreboard.h>
 
 class PlayerSprite : public Sprite
 {
@@ -19,5 +20,6 @@ public:
 
 	void reset();
 
+	Scoreboard scoreboard;
 	SoundPlayer &sounds;
 };

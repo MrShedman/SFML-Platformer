@@ -19,8 +19,11 @@ class SettingsState : public State
 	private:
 
 		void initializeButtons();
-		void toggleFullscreen();
+		void applyChanges();
+		
+		sf::VideoMode				desiredMode;
+		std::vector<sf::VideoMode>	validModes;
 
-		sf::Sprite											mBackgroundSprite;
-		GUI::Container										mGUIContainer;
+		sf::Sprite					mBackgroundSprite;
+		GUI::Container				mGUIContainer;
 };

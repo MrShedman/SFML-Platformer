@@ -4,7 +4,8 @@
 
 PlayerSprite::PlayerSprite(State::Context context)
 :
-sounds(*context.sounds)
+sounds(*context.sounds),
+scoreboard(context)
 {
 	core.lastPlatformHeight = 900;
 	core.health = 20;
@@ -27,11 +28,13 @@ sounds(*context.sounds)
 	core.dir.SetRight();
 
 	core.rect = RectF(-40, 48, -20, 20);
+
+	scoreboard.setPosition(20, 20);
 }
 
 void PlayerSprite::reset()
 {
-	core.lastPlatformHeight = 0;
+	core.lastPlatformHeight = 900;
 	core.health = 20;
 	core.canClimb = false;
 

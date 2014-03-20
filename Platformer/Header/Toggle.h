@@ -17,12 +17,11 @@
 
 namespace GUI
 {
-
-class Button : public Component
-{
-    public:
-        typedef std::shared_ptr<Button>		Ptr;
-        typedef std::function<void()>		Callback;
+	class Toggle : public Component
+	{
+	public:
+		typedef std::shared_ptr<Toggle>		Ptr;
+		typedef std::function<void(bool)>	Callback;
 
 		enum Type
 		{
@@ -34,36 +33,36 @@ class Button : public Component
 
 
 	public:
-								Button(State::Context context);
+		Toggle(State::Context context);
 
-        void					setCallback(Callback callback);
-        void					setText(const std::string& text);
-		void					setToggle(bool flag);
+		void					setCallback(Callback callback);
+		void					setText(const std::string& offText, const std::string& onText);
 		void					setSize(sf::Vector2f size);
-
-        virtual void			handleEvent(const sf::Event& event);
+		void					setState(bool flag);
+		virtual void			handleEvent(const sf::Event& event);
 		virtual void			update();
 
-    private:
+	private:
 
 		bool mouseOver();
 		void mouseMoved();
 		void mousePressed();
 		void mouseReleased();
 
-        virtual void			draw(sf::RenderTarget& target, sf::RenderStates states) const;
+		virtual void			draw(sf::RenderTarget& target, sf::RenderStates states) const;
 		void					changeState(Type buttonType);
+		void					updateText();
 
-    private:
-		bool isPressed;
-		bool isToggle;
+	private:
 		bool isSelected;
 
-        Callback				mCallback;
-        sf::RectangleShape		mShape;
+		std::string				offText;
+		std::string				onText;
+		Callback				mCallback;
+		sf::RectangleShape		mShape;
 		sf::Text				mText;
 		SoundPlayer				&mSounds;
 		sf::RenderWindow		&window;
-};
+	};
 
 }

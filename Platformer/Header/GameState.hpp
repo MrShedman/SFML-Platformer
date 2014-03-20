@@ -14,6 +14,7 @@
 #include <TileMapRenderer.h>
 #include <HealthBar.h>
 #include <Camera.h>
+#include <Scoreboard.h>
 
 class GameState : public State
 {

@@ -8,8 +8,6 @@ namespace sf
 	class SoundBuffer;
 }
 
-class Level;
-
 namespace Textures
 {
 	enum ID
@@ -49,6 +47,7 @@ namespace SoundEffect
 	enum ID
 	{
 		PlayerJump,
+		PlayerPickup,
 		Button,
 	};
 }
@@ -59,7 +58,9 @@ namespace Music
 	{
 		None,
 		MenuTheme,
-		GameTheme,
+		GameTheme001,
+		GameTheme002,
+		GameTheme003,
 	};
 }
 
@@ -67,7 +68,6 @@ namespace Music
 template <typename Resource, typename Identifier>
 class ResourceHolder;
 
-typedef ResourceHolder<Level, Levels::ID>					LevelHolder;
 typedef ResourceHolder<sf::Texture, Textures::ID>			TextureHolder;
 typedef ResourceHolder<sf::Font, Fonts::ID>					FontHolder;
 typedef ResourceHolder<sf::SoundBuffer, SoundEffect::ID>	SoundBufferHolder;

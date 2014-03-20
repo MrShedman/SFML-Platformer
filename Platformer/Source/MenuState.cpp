@@ -23,30 +23,32 @@ MenuState::MenuState(StateStack& stack, Context context)
 
 void MenuState::initializeButtons()
 {
+	Context context = getContext();
+
 	mGUIContainer.clear();
 
-	float y = 0.5f * getContext().window->getSize().y;
-	float x = 0.5f * getContext().window->getSize().x;
+	float y = 0.5f * context.window->getSize().y;
+	float x = 0.5f * context.window->getSize().x;
 
-	auto playButton = std::make_shared<GUI::Button>(getContext());
+	auto playButton = std::make_shared<GUI::Button>(context);
 	playButton->setPosition(x - 120, y);
 	playButton->setText("Play");
 	playButton->setCallback([this]()
 	{
 		requestStackPop();
-		requestStackPush(States::Game);
+		requestStackPush(States::LevelSelection);
 	});
 
-	auto settingsButton = std::make_shared<GUI::Button>(getContext());
+	auto settingsButton = std::make_shared<GUI::Button>(context);
 	settingsButton->setPosition(x - 120, y + 90);
 	settingsButton->setText("Settings");
 	settingsButton->setCallback([this]()
 	{
-		requestStateClear();
+		requestStackPop();
 		requestStackPush(States::Settings);
 	});
 
-	auto exitButton = std::make_shared<GUI::Button>(getContext());
+	auto exitButton = std::make_shared<GUI::Button>(context);
 	exitButton->setPosition(x - 120, y + 180);
 	exitButton->setText("Exit");
 	exitButton->setCallback([this]()

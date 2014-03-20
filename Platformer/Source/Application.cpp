@@ -6,6 +6,7 @@
 #include <MenuState.hpp>
 #include <PauseState.hpp>
 #include <SettingsState.hpp>
+#include <LevelSelectionState.h>
 #include <MusicPlayer.hpp>
 #include <SoundPlayer.hpp>
 
@@ -15,22 +16,24 @@ const sf::Time Application::timePerFrame = sf::seconds(1.f / 60.f);
 
 Application::Application(unsigned int width, unsigned int height)
 	:
-	window(sf::VideoMode(width, height), "Platformer", sf::Style::Close, sf::ContextSettings(32, 24, 8, 4, 2)),
+	mSettings(true, 0, false, false),
+	window(sf::VideoMode(width, height), "Platformer", mSettings.fullScreen ? sf::Style::Fullscreen : sf::Style::Close, sf::ContextSettings(32, 24, 8, 4, 2)),
 	mTextures(),
 	mFonts(),
-	mStateStack(State::Context(window, mTextures, mFonts, mLevels, mMusic, mSounds))
+	mStateStack(State::Context(window, mTextures, mFonts, mLevels, mMusic, mSounds, mSettings))
 {
-	window.setKeyRepeatEnabled(false);
-	window.setVerticalSyncEnabled(true);
+	window.setKeyRepeatEnabled(mSettings.keyRepeat);
+	window.setVerticalSyncEnabled(mSettings.vSync);
 
 	window.setIcon(icon_image.width, icon_image.height, icon_image.pixel_data);
 
 	loadResources();
 
 	mStateStack.registerState<MenuState>(States::Menu);
+	mStateStack.registerState<LevelSelectionState>(States::LevelSelection);
+	mStateStack.registerState<SettingsState>(States::Settings);
 	mStateStack.registerState<GameState>(States::Game);
 	mStateStack.registerState<PauseState>(States::Pause);
-	mStateStack.registerState<SettingsState>(States::Settings);
 
 	mStateStack.pushState(States::Menu);
 }
@@ -48,10 +51,6 @@ void Application::loadResources()
 	mTextures.load(Textures::PlayerClimbing, "Textures/climbingvertical.png");
 	mTextures.load(Textures::PlayerDying, "Textures/dying.png");
 	mTextures.load(Textures::HealthBar, "Textures/hearts.png");
-
-	mLevels.load(Levels::Level001, "Levels/001.txt");
-	mLevels.load(Levels::Level002, "Levels/002.txt");
-	mLevels.load(Levels::Level003, "Levels/003.txt");
 }
 
 void Application::getInput()
