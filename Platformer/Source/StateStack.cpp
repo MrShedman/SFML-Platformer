@@ -2,7 +2,6 @@
 
 #include <cassert>
 
-
 StateStack::StateStack(State::Context context)
 : mStack()
 , mPendingList()

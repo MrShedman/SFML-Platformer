@@ -103,8 +103,8 @@
     <ClCompile Include="Source\PlayerRunning.cpp" />
     <ClCompile Include="Source\PlayerSprite.cpp" />
     <ClCompile Include="Source\PlayerStanding.cpp" />
+    <ClCompile Include="Source\SettingsParser.cpp" />
     <ClCompile Include="Source\SettingsState.cpp" />
-    <ClCompile Include="Source\Slider.cpp" />
     <ClCompile Include="Source\SoundPlayer.cpp" />
     <ClCompile Include="Source\Sprite.cpp" />
     <ClCompile Include="Source\State.cpp" />
@@ -146,6 +146,7 @@
     <ClInclude Include="Header\ResourceIdentifiers.hpp" />
     <ClInclude Include="Header\Scoreboard.h" />
     <ClInclude Include="Header\Settings.h" />
+    <ClInclude Include="Header\SettingsParser.h" />
     <ClInclude Include="Header\SettingsState.hpp" />
     <ClInclude Include="Header\Slider.h" />
     <ClInclude Include="Header\SoundPlayer.hpp" />
@@ -165,6 +166,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Header\ResourceHolder.inl" />
+    <None Include="Header\Slider.inl" />
     <None Include="Header\Utility.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

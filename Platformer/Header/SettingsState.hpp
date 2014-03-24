@@ -18,6 +18,8 @@ class SettingsState : public State
 
 	private:
 
+		bool							mIsChanged;
+
 		void initializeButtons();
 		void applyChanges();
 		

@@ -4,12 +4,11 @@
 
 TileEditor::TileEditor(State::Context context, TileMap &map)
 	:
-	map(map)
+	map(map),
+	window(*context.window),
+	m_tileset(context.textures->get(Textures::TileMap))
 {
-	isOn = false;
-
-	window = context.window;
-	m_tileset = context.textures->get(Textures::TileMap);
+	editingMode = false;
 
 	tileID = 1;
 
@@ -23,13 +22,15 @@ TileEditor::TileEditor(State::Context context, TileMap &map)
 
 void TileEditor::update()
 {
-	if (isOn)
+	if (editingMode)
 	{
-		sf::Vector2f mPos = getMousePosition(*window);
+		sf::Vector2f mPos = getMousePosition(window);
 
 		mPos += sf::Vector2f(20, 20);
 
-		createBlock(mPos, map.getTileData(static_cast<Block::ID>(tileID)));
+		Block::ID type = static_cast<Block::ID>(tileID);
+
+		createBlock(mPos, map.getTileData([&](TileData data) { return data.type == type; }));
 	}
 }
 
@@ -74,16 +75,16 @@ void TileEditor::handleEvent(const sf::Event &event)
 	{
 		if (event.key.code == sf::Keyboard::E)
 		{
-			isOn = !isOn;
+			editingMode = !editingMode;
 		}
 	}
 
-	if (!isOn)
+	if (!editingMode)
 	{
 		return;
 	}
 
-	sf::Vector2f mPos = getMousePosition(*window);
+	sf::Vector2f mPos = getMousePosition(window);
 
 	if (event.type == sf::Event::MouseButtonPressed)
 	{
@@ -119,7 +120,7 @@ void TileEditor::handleEvent(const sf::Event &event)
 
 void TileEditor::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	if (isOn)
+	if (editingMode)
 	{
 		states.texture = &m_tileset;
 		target.draw(&block[0], 8, sf::Quads, states);

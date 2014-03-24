@@ -12,13 +12,14 @@
 #include <MusicPlayer.hpp>
 #include <SoundPlayer.hpp>
 #include <Settings.h>
+#include <SettingsParser.h>
 
 class Application
 {
 private:
 
 	Settings mSettings;
-
+	SettingsParser mParser;
 	sf::RenderWindow window;
 
 	TextureHolder mTextures;
@@ -31,6 +32,7 @@ private:
 
 	static const sf::Time timePerFrame;
 	
+	void close();
 	void loadResources();
 	void getInput();
 	void update(sf::Time dt);

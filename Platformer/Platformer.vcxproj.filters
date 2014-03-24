@@ -102,10 +102,10 @@
     <ClCompile Include="Source\Level.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Slider.cpp">
+    <ClCompile Include="Source\Toggle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Toggle.cpp">
+    <ClCompile Include="Source\SettingsParser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -248,12 +248,18 @@
     <ClInclude Include="Header\Settings.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Header\SettingsParser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Header\ResourceHolder.inl">
       <Filter>Header Files</Filter>
     </None>
     <None Include="Header\Utility.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Header\Slider.inl">
       <Filter>Header Files</Filter>
     </None>
   </ItemGroup>

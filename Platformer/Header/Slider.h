@@ -19,11 +19,13 @@
 namespace GUI
 {
 
+template<class T>
 class Slider : public Component
 {
 public:
 	typedef std::shared_ptr<Slider>			Ptr;
 	typedef std::function<void(int)>		Callback;
+	typedef std::function<std::string(T)>	DisplayFunction;
 
 	enum Type
 	{
@@ -34,44 +36,58 @@ public:
 	};
 
 public:
+
 	Slider(State::Context context);
 
 	void					setCallback(Callback callback);
 	void					setText(const std::string& text);
 	void					setSize(sf::Vector2f size);
 
-	void					setCurrentValue(std::string value);
-	void					setPossibleValues(std::vector<std::string> values);
-	std::string				getDisplayString();
+	void					setDisplayFunction(DisplayFunction func);
+	void					setCurrentValue(T value);
+	void					setPossibleValues(std::vector<T> values);
 
 	virtual void			handleEvent(const sf::Event& event);
 	virtual void			update();
 
 private:
 
-	bool					mouseOver();
+	bool					mouseOver(sf::FloatRect rect);
 	void					mouseMoved();
 	void					mousePressed();
 	void					mouseReleased();
+
 	void					changeState(Type buttonType);
-	void					setRange(float min, float max);
+	void					updateRange();
+
 	int						getIndex();
+	float					getOffset();
+	std::string				getDisplay();
 
 	virtual void			draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
 private:
 
-	bool						isPressed;
-	float						minRange;
-	float						maxRange;
-	float						offset;
+	bool					isPressed;
+	float					minRange;
+	float					maxRange;
+	float					offset;
 
-	std::vector<std::string>	possibleValues;
-	Callback					mCallback;
-	sf::RectangleShape			mOutline;
-	sf::RectangleShape			mShape;
-	sf::Text					mText;
-	sf::RenderWindow			&window;
+private:
+
+	T						mCurrent;
+	std::vector<T>			possibleValues;
+	DisplayFunction			mDisplayFunction;
+	Callback				mCallback;
+
+private:
+
+	sf::RectangleShape		mOutline;
+	sf::RectangleShape		mShape;
+	sf::Text				mText;
+	sf::RenderWindow		&window;
 };
 
 }
+
+#include <Slider.inl>

@@ -4,6 +4,7 @@
 #include <fstream>
 #include <string>
 #include <algorithm>
+#include <functional>
 
 #include <SFML/Graphics.hpp>
 
@@ -19,9 +20,7 @@ public:
 	
 	TileMap(State::Context context);
 
-	TileData& getTileData(char c);
-
-	TileData& getTileData(Block::ID type);
+	TileData& getTileData(std::function<bool(TileData)> search);
 
 	void load(State::Context context);
 

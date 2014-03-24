@@ -21,6 +21,15 @@ public:
 		rTexture.create(window->getSize().x, window->getSize().y);
 		sprite.setTexture(rTexture.getTexture());
 		sprite.setOrigin(window->getSize().x / 2, window->getSize().y / 2);
+
+		if (map.getLevelID() == Levels::ID::Level003)
+		{
+			color = sf::Color(140, 0, 20);
+		}
+		else
+		{
+			color = sf::Color(120, 200, 255);
+		}
 	}
 
 	void handleEvent(const sf::Event &event)
@@ -53,17 +62,6 @@ public:
 		sf::RenderStates states;
 		states.texture = &mTileset;
 
-		sf::Color color;
-
-		if (map->getLevelID() == Levels::ID::Level003)
-		{
-			color = sf::Color(140, 0, 20);
-		}
-		else
-		{
-			color = sf::Color(120, 200, 255);
-		}
-
 		rTexture.clear(color);
 		rTexture.draw(*map, states);
 		rTexture.display();
@@ -71,6 +69,7 @@ public:
 		window->draw(sprite);
 	}
 
+	sf::Color color;
 	sf::Sprite sprite;
 	sf::Texture mTileset;
 

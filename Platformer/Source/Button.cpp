@@ -17,10 +17,9 @@ Button::Button(State::Context context)
 , window(*context.window)
 , mSounds(*context.sounds)
 , isPressed(false)
-, isToggle(false)
-, isSelected(false)
 {
 	changeState(Normal);
+
 	mShape.setOutlineThickness(-5.f);
 	mShape.setOutlineColor(sf::Color::Black);
 
@@ -39,11 +38,6 @@ void Button::setText(const std::string& text)
 	mText.setString(text);
 	sf::FloatRect bounds = mText.getLocalBounds();
 	mText.setOrigin(std::floor((bounds.left + bounds.width) / 2.f), std::floor((bounds.top + bounds.height) / 2.f));
-}
-
-void Button::setToggle(bool flag)
-{
-	isToggle = flag;
 }
 
 void Button::setSize(sf::Vector2f size)
@@ -94,26 +88,12 @@ void Button::mouseMoved()
 {
 	if (mouseOver())
 	{
-		if (isToggle)
-		{
-			isSelected ? changeState(Pressed) : changeState(Hover);
-		}
-		else
-		{
-			isPressed ? changeState(Pressed) : changeState(Hover);
-		}
+		isPressed ? changeState(Pressed) : changeState(Hover);
 	}
 	else
 	{
-		if (isToggle)
-		{
-			isSelected ? changeState(Pressed) : changeState(Normal);			
-		}
-		else
-		{
-			changeState(Normal);
-			isPressed = false;
-		}
+		changeState(Normal);
+		isPressed = false;
 	}
 }
 
@@ -121,16 +101,8 @@ void Button::mousePressed()
 {
 	if (mouseOver())
 	{
-		if (isToggle)
-		{
-			isSelected = !isSelected;
-			isSelected ? changeState(Pressed) : changeState(Hover);
-		}
-		else
-		{
-			changeState(Pressed);
-			isPressed = true;
-		}
+		changeState(Pressed);
+		isPressed = true;
 
 		mSounds.play(SoundEffect::Button);
 	}
@@ -138,19 +110,11 @@ void Button::mousePressed()
 
 void Button::mouseReleased()
 {
-	if (mouseOver())
+	if (mouseOver() && isPressed)
 	{
-		if (isToggle)
-		{
-			mCallback();
-		}
-		else if (isPressed)
-		{
-			changeState(Hover);
-			isPressed = false;
-
-			mCallback();
-		}
+		changeState(Hover);
+		isPressed = false;
+		mCallback();
 	}
 }
 

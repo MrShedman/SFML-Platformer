@@ -27,12 +27,12 @@ private:
 
 	int tileID;
 
-	bool isOn;
+	bool editingMode;
 
 	std::vector<sf::Vertex> block;
 	sf::Texture m_tileset;
 
 	TileMap &map;
 
-	sf::RenderWindow *window;
+	sf::RenderWindow &window;
 };

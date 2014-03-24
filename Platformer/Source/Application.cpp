@@ -17,11 +17,51 @@ const sf::Time Application::timePerFrame = sf::seconds(1.f / 60.f);
 Application::Application(unsigned int width, unsigned int height)
 	:
 	mSettings(true, 0, false, false),
-	window(sf::VideoMode(width, height), "Platformer", mSettings.fullScreen ? sf::Style::Fullscreen : sf::Style::Close, sf::ContextSettings(32, 24, 8, 4, 2)),
 	mTextures(),
 	mFonts(),
 	mStateStack(State::Context(window, mTextures, mFonts, mLevels, mMusic, mSounds, mSettings))
 {
+	if (!mParser.loadFile("settings.ini"))
+	{
+		std::cout << "Error loading settings file!" << std::endl;
+	}
+
+	int w = width;
+	int h = height;
+	mParser.get("width", w);
+	mParser.get("height", h);
+	mParser.get("fullscreen", mSettings.fullScreen);
+	mParser.get("vSync", mSettings.vSync);
+	int mVolume = 100;
+	int sVolume = 100;
+	mParser.get("mvolume", mVolume);
+	mParser.get("svolume", sVolume);
+	mMusic.setVolume(mVolume);
+	mSounds.setVolume(sVolume);
+
+
+	sf::VideoMode mode(w, h, sf::VideoMode::getFullscreenModes()[0].bitsPerPixel);
+
+	if (!mode.isValid())
+	{
+		std::vector<sf::VideoMode> validModes = getValidVideoModes();
+		
+		auto low = std::lower_bound(validModes.begin(), validModes.end(), mode);
+
+		low--;
+
+		mode.bitsPerPixel = low->bitsPerPixel;
+		mode.width = low->width;
+		mode.height = low->height;
+	}
+
+	sf::Uint32 style = mSettings.fullScreen ? sf::Style::Fullscreen : sf::Style::Close;
+
+	sf::ContextSettings settings;
+	settings.antialiasingLevel = 8;
+
+	window.create(mode, "Platformer", style, settings);
+
 	window.setKeyRepeatEnabled(mSettings.keyRepeat);
 	window.setVerticalSyncEnabled(mSettings.vSync);
 
@@ -61,7 +101,7 @@ void Application::getInput()
 	{
 		if (event.type == sf::Event::Closed)
 		{
-			window.close();
+			close();
 		}
 
 		mStateStack.handleEvent(event);
@@ -102,10 +142,22 @@ void Application::run()
 
 			if (mStateStack.isEmpty())
 			{
-				window.close();
+				close();
 			}
 		}
 
 		render();		
 	}
+}
+
+void Application::close()
+{
+	mParser.set("width", static_cast<int>(window.getSize().x));
+	mParser.set("height", static_cast<int>(window.getSize().y));
+	mParser.set("fullscreen", mSettings.fullScreen);
+	mParser.set("vSync", mSettings.vSync);
+	mParser.set("mvolume", mMusic.getVolume());
+	mParser.set("svolume", mSounds.getVolume());
+
+	window.close();
 }

@@ -38,7 +38,6 @@ class Button : public Component
 
         void					setCallback(Callback callback);
         void					setText(const std::string& text);
-		void					setToggle(bool flag);
 		void					setSize(sf::Vector2f size);
 
         virtual void			handleEvent(const sf::Event& event);
@@ -56,13 +55,11 @@ class Button : public Component
 
     private:
 		bool isPressed;
-		bool isToggle;
-		bool isSelected;
 
         Callback				mCallback;
+		SoundPlayer				&mSounds;
         sf::RectangleShape		mShape;
 		sf::Text				mText;
-		SoundPlayer				&mSounds;
 		sf::RenderWindow		&window;
 };
 

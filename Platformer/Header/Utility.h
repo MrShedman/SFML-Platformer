@@ -14,9 +14,11 @@ bool outOfRange(T value, T min, T max);
 template <class T>
 std::string toString(const T& value);
 
-extern sf::Vector2f getMousePosition(sf::RenderWindow &window);
+extern std::vector<sf::VideoMode> getValidVideoModes();
 
-extern void scaleSpriteToFitWindow(sf::Sprite &sprite, sf::RenderWindow &window);
+extern sf::Vector2f getMousePosition(const sf::RenderWindow &window);
+
+extern void scaleSpriteToFitWindow(sf::Sprite &sprite, const sf::RenderWindow &window);
 
 extern float randomize(float min, float max);
 

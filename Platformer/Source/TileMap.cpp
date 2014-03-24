@@ -5,7 +5,6 @@
 #include <ResourceHolder.hpp>
 #include <Utility.h>
 
-
 TileMap::TileMap(State::Context context)
 {
 	window = context.window;
@@ -13,29 +12,17 @@ TileMap::TileMap(State::Context context)
 	Table = initializeTileData();
 }
 
-TileData& TileMap::getTileData(char c)
+TileData& TileMap::getTileData(std::function<bool(TileData)> search)
 {
-	for (auto &d : Table)
+	for (auto &data : Table)
 	{
-		if (d.txt == c)
+		if (search(data))
 		{
-			return d;
+			return data;
 		}
 	}
 
-	return Table[Block::Air];
-}
-
-TileData& TileMap::getTileData(Block::ID t)
-{
-	for (auto &d : Table)
-	{
-		if (d.type == t)
-		{
-			return d;
-		}
-	}
-
+	// if we did not find the data default to air block
 	return Table[Block::Air];
 }
 
@@ -52,13 +39,15 @@ void TileMap::load(State::Context context)
 	vTiles.clear();
 	vTiles.resize(width * height);
 
+	std::cout << width;
+
 	// populate the vertex array, with one quad per tile
 	for (int x = 0; x < width; ++x)
 	{
 		for (int y = 0; y < height; ++y)
 		{
 			int id = x + y * width;
-			vTiles[id] = Tile(static_cast<float>(x), static_cast<float>(y), getTileData(levelData[id]));
+			vTiles[id] = Tile(static_cast<float>(x), static_cast<float>(y), getTileData([&](TileData data) { return data.txt == levelData[id]; }));
 		}
 	}
 }
@@ -155,7 +144,7 @@ void TileMap::modifyTile(int ix, int iy, Block::ID newBlock)
 {
 	int id = ix + iy * width;
 
-	vTiles[id].data = &getTileData(newBlock);
+	vTiles[id].data = &getTileData([&](TileData data) { return data.type == newBlock; });
 	vTiles[id].update();
 }
 
