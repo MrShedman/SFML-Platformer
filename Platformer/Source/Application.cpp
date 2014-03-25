@@ -19,7 +19,10 @@ Application::Application(unsigned int width, unsigned int height)
 	mSettings(true, 0, false, false),
 	mTextures(),
 	mFonts(),
-	mStateStack(State::Context(window, mTextures, mFonts, mLevels, mMusic, mSounds, mSettings))
+	mStateStack(State::Context(window, mTextures, mFonts, mLevels, mMusic, mSounds, mSettings, mEffects)),
+	mStatisticsText(),
+	mStatisticsUpdateTime(),
+	mStatisticsNumFrames(0)
 {
 	if (!mParser.loadFile("settings.ini"))
 	{
@@ -38,7 +41,6 @@ Application::Application(unsigned int width, unsigned int height)
 	mParser.get("svolume", sVolume);
 	mMusic.setVolume(mVolume);
 	mSounds.setVolume(sVolume);
-
 
 	sf::VideoMode mode(w, h, sf::VideoMode::getFullscreenModes()[0].bitsPerPixel);
 
@@ -69,6 +71,11 @@ Application::Application(unsigned int width, unsigned int height)
 
 	loadResources();
 
+	mStatisticsText.setFont(mFonts.get(Fonts::Main));
+	mStatisticsText.setPosition(5.f, 5.f);
+	mStatisticsText.setCharacterSize(30u);
+	mStatisticsText.setColor(sf::Color::Yellow);
+
 	mStateStack.registerState<MenuState>(States::Menu);
 	mStateStack.registerState<LevelSelectionState>(States::LevelSelection);
 	mStateStack.registerState<SettingsState>(States::Settings);
@@ -76,21 +83,6 @@ Application::Application(unsigned int width, unsigned int height)
 	mStateStack.registerState<PauseState>(States::Pause);
 
 	mStateStack.pushState(States::Menu);
-}
-
-void Application::loadResources()
-{
-	mFonts.load(Fonts::Main, "Fonts/Sansation.otf");
-
-	mTextures.load(Textures::MenuBackground, "Textures/MenuBackground.png");
-	mTextures.load(Textures::TileMap, "Textures/terrain.png");
-	mTextures.load(Textures::PlayerStanding, "Textures/standing.png");
-	mTextures.load(Textures::PlayerRunning, "Textures/running.png");
-	mTextures.load(Textures::PlayerJumping, "Textures/jumping.png");
-	mTextures.load(Textures::PlayerFalling, "Textures/falling.png");
-	mTextures.load(Textures::PlayerClimbing, "Textures/climbingvertical.png");
-	mTextures.load(Textures::PlayerDying, "Textures/dying.png");
-	mTextures.load(Textures::HealthBar, "Textures/hearts.png");
 }
 
 void Application::getInput()
@@ -118,6 +110,9 @@ void Application::render()
 	window.clear();
 
 	mStateStack.draw();
+
+	window.setView(window.getDefaultView());
+	window.draw(mStatisticsText);
 	
 	window.display();
 }
@@ -126,10 +121,10 @@ void Application::run()
 {
 	sf::Clock clock;
 	sf::Time timeSinceLastUpdate = sf::Time::Zero;
-	sf::Time dt;
 
 	while (window.isOpen())
 	{
+		sf::Time dt;
 		dt = clock.restart();
 		timeSinceLastUpdate += dt;
 	
@@ -146,7 +141,37 @@ void Application::run()
 			}
 		}
 
+		updateStatistics(dt);
 		render();		
+	}
+}
+
+void Application::loadResources()
+{
+	mFonts.load(Fonts::Main, "Fonts/Sansation.otf");
+
+	mTextures.load(Textures::MenuBackground, "Textures/MenuBackground.png");
+	mTextures.load(Textures::TileMap, "Textures/terrain.png");
+	mTextures.load(Textures::PlayerStanding, "Textures/standing.png");
+	mTextures.load(Textures::PlayerRunning, "Textures/running.png");
+	mTextures.load(Textures::PlayerJumping, "Textures/jumping.png");
+	mTextures.load(Textures::PlayerFalling, "Textures/falling.png");
+	mTextures.load(Textures::PlayerClimbing, "Textures/climbingvertical.png");
+	mTextures.load(Textures::PlayerDying, "Textures/dying.png");
+	mTextures.load(Textures::HealthBar, "Textures/hearts.png");
+}
+
+void Application::updateStatistics(sf::Time dt)
+{
+	mStatisticsUpdateTime += dt;
+	mStatisticsNumFrames += 1;
+
+	if (mStatisticsUpdateTime >= sf::seconds(1.f))
+	{
+		mStatisticsText.setString("FPS: " + toString(mStatisticsNumFrames));
+
+		mStatisticsUpdateTime -= sf::seconds(1.f);
+		mStatisticsNumFrames = 0;
 	}
 }
 

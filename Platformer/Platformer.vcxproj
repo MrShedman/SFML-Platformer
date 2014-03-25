@@ -126,6 +126,7 @@
     <ClInclude Include="Header\Component.hpp" />
     <ClInclude Include="Header\Container.hpp" />
     <ClInclude Include="Header\DataTables.hpp" />
+    <ClInclude Include="Header\Effect.h" />
     <ClInclude Include="Header\GameState.hpp" />
     <ClInclude Include="Header\HealthBar.h" />
     <ClInclude Include="Header\Level.h" />
@@ -148,6 +149,7 @@
     <ClInclude Include="Header\Settings.h" />
     <ClInclude Include="Header\SettingsParser.h" />
     <ClInclude Include="Header\SettingsState.hpp" />
+    <ClInclude Include="Header\EffectFactory.h" />
     <ClInclude Include="Header\Slider.h" />
     <ClInclude Include="Header\SoundPlayer.hpp" />
     <ClInclude Include="Header\Sprite.h" />

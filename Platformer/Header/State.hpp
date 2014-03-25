@@ -4,6 +4,7 @@
 #include <ResourceIdentifiers.hpp>
 #include <LevelFactory.h>
 #include <Settings.h>
+#include <EffectFactory.h>
 
 #include <SFML/System/Time.hpp>
 #include <SFML/Window/Event.hpp>
@@ -27,7 +28,9 @@ class State
 
 		struct Context
 		{
-			Context(sf::RenderWindow &window, TextureHolder &textures, FontHolder &fonts, LevelFactory &levels, MusicPlayer& music, SoundPlayer &sounds, Settings &settings);
+			Context(sf::RenderWindow &window, TextureHolder &textures, FontHolder &fonts, 
+					LevelFactory &levels, MusicPlayer &music, SoundPlayer &sounds, 
+					Settings &settings, EffectFactory &effects);
 
 			sf::RenderWindow *window;
 			TextureHolder *textures;
@@ -36,6 +39,7 @@ class State
 			MusicPlayer *music;
 			SoundPlayer *sounds;
 			Settings *settings;
+			EffectFactory *effects;
 		};
 
 

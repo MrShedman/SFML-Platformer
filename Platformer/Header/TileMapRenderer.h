@@ -14,8 +14,12 @@ public:
 	TileMapRenderer(State::Context context, TileMap &map)
 		:
 	window(context.window),
-	map(&map)
+	map(&map),
+	effect(context.effects->getCurrentEffect())
 	{
+		sf::Vector2f InSize = sf::Vector2f(context.window->getSize().x, context.window->getSize().y);
+		effect.getShader().setParameter("InSize", InSize);
+
 		mTileset = context.textures->get(Textures::TileMap);
 
 		rTexture.create(window->getSize().x, window->getSize().y);
@@ -42,6 +46,11 @@ public:
 		}
 	}
 
+	void update(sf::Time dt)
+	{
+		effect.update();
+	}
+
 	void draw()
 	{
 		sf::View view = window->getView();
@@ -66,12 +75,15 @@ public:
 		rTexture.draw(*map, states);
 		rTexture.display();
 
-		window->draw(sprite);
+		window->draw(sprite, &effect.getShader());
 	}
 
+	sf::Clock clock;
 	sf::Color color;
 	sf::Sprite sprite;
 	sf::Texture mTileset;
+
+	Effect &effect;
 
 	sf::RenderWindow *window;
 	sf::RenderTexture rTexture;

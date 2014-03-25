@@ -2,7 +2,7 @@
 #include <StateStack.hpp>
 
 
-State::Context::Context(sf::RenderWindow& window, TextureHolder& textures, FontHolder& fonts, LevelFactory &levels, MusicPlayer& music, SoundPlayer& sounds, Settings &settings)
+State::Context::Context(sf::RenderWindow& window, TextureHolder& textures, FontHolder& fonts, LevelFactory &levels, MusicPlayer& music, SoundPlayer& sounds, Settings &settings, EffectFactory &effects)
 : window(&window)
 , textures(&textures)
 , fonts(&fonts)
@@ -10,6 +10,7 @@ State::Context::Context(sf::RenderWindow& window, TextureHolder& textures, FontH
 , music(&music)
 , sounds(&sounds)
 , settings(&settings)
+, effects(&effects)
 {
 }
 

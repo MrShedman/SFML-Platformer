@@ -64,6 +64,8 @@ bool GameState::update(sf::Time dt)
 	
 	mapEditor.update();
 
+	mRender.update(dt);
+
 	return true;
 }
 

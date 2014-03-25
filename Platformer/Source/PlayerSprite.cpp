@@ -29,7 +29,8 @@ scoreboard(context)
 
 	core.rect = RectF(-40, 48, -20, 20);
 
-	scoreboard.setPosition(20, 20);
+	float half = context.window->getSize().x / 2.f;
+	scoreboard.setPosition(half, 40);
 }
 
 void PlayerSprite::reset()

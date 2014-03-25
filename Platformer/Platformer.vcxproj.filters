@@ -251,6 +251,12 @@
     <ClInclude Include="Header\SettingsParser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Header\Effect.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\EffectFactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Header\ResourceHolder.inl">

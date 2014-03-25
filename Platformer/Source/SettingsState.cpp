@@ -43,6 +43,22 @@ void SettingsState::initializeButtons()
 		iVolume.push_back(i);
 	}
 
+	std::vector<Effect*> effects = getContext().effects->getAllEffects();
+	
+	auto effectType = std::make_shared<GUI::Slider<Effect*>>(getContext());
+	effectType->setSize(sf::Vector2f(240, 70));
+	effectType->setPosition(sf::Vector2f(x - 250, y - 90));
+	effectType->setPossibleValues(effects);
+	effectType->setCurrentValue(&getContext().effects->getCurrentEffect());
+	effectType->setDisplayFunction([](Effect* d)
+	{
+		return d->getName();
+	});
+	effectType->setCallback([this](int id)
+	{
+		getContext().effects->setCurrentEffect(static_cast<Effects::ID>(id));
+	});
+
 	auto musicVolume = std::make_shared<GUI::Slider<int>>(getContext());
 	musicVolume->setSize(sf::Vector2f(240, 70));
 	musicVolume->setPosition(sf::Vector2f(x - 250, y));
@@ -122,6 +138,7 @@ void SettingsState::initializeButtons()
 		requestStackPush(States::Menu);
 	});
 
+	mGUIContainer.pack(effectType);
 	mGUIContainer.pack(musicVolume);
 	mGUIContainer.pack(soundVolume);
 	mGUIContainer.pack(resolution);

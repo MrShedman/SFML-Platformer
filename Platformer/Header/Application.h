@@ -1,45 +1,55 @@
 #pragma once
 
-#include <iostream>
-
-#include <SFML/Graphics.hpp>
-#include <SFML/Window.hpp>
-#include <LevelFactory.h>
+#include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/Graphics/Text.hpp>
+#include <SFML/System/Time.hpp>
 
 #include <ResourceHolder.hpp>
 #include <ResourceIdentifiers.hpp>
 #include <StateStack.hpp>
+
 #include <MusicPlayer.hpp>
 #include <SoundPlayer.hpp>
+#include <LevelFactory.h>
+#include <EffectFactory.h>
 #include <Settings.h>
 #include <SettingsParser.h>
 
 class Application
 {
+public:
+	Application(unsigned int width, unsigned int height);
+	
+	void						run();
+
 private:
 
-	Settings mSettings;
-	SettingsParser mParser;
-	sf::RenderWindow window;
+	void						getInput();
+	void						update(sf::Time dt);
+	void						render();
 
-	TextureHolder mTextures;
-	FontHolder mFonts;
-	LevelFactory mLevels;
-	MusicPlayer mMusic;
-	SoundPlayer mSounds;
+	void						updateStatistics(sf::Time dt);
+	void						loadResources();
+	void						close();
 
-	StateStack mStateStack;
+private:
 
-	static const sf::Time timePerFrame;
-	
-	void close();
-	void loadResources();
-	void getInput();
-	void update(sf::Time dt);
-	void render();
+	static const sf::Time		timePerFrame;
 
-public:
+	sf::RenderWindow			window;
+	Settings					mSettings;
+	SettingsParser				mParser;
 
-	void run();
-	Application(unsigned int width, unsigned int height);
+	TextureHolder				mTextures;
+	FontHolder					mFonts;
+	LevelFactory				mLevels;
+	MusicPlayer					mMusic;
+	SoundPlayer					mSounds;
+	EffectFactory				mEffects;
+
+	StateStack					mStateStack;
+
+	sf::Text					mStatisticsText;
+	sf::Time					mStatisticsUpdateTime;
+	std::size_t					mStatisticsNumFrames;
 };

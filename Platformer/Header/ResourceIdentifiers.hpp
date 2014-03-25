@@ -64,6 +64,18 @@ namespace Music
 	};
 }
 
+namespace Effects
+{
+	enum ID
+	{
+		Default,
+		Acid,
+		Invert,
+		Outline,
+		PinCushion
+	};
+}
+
 // Forward declaration and a few type definitions
 template <typename Resource, typename Identifier>
 class ResourceHolder;
