@@ -28,12 +28,13 @@ class State
 
 		struct Context
 		{
-			Context(sf::RenderWindow &window, TextureHolder &textures, FontHolder &fonts, 
+			Context(sf::RenderWindow &window, TextureHolder &textures, ImageHolder &images, FontHolder &fonts, 
 					LevelFactory &levels, MusicPlayer &music, SoundPlayer &sounds, 
 					Settings &settings, EffectFactory &effects);
 
 			sf::RenderWindow *window;
 			TextureHolder *textures;
+			ImageHolder *images;
 			FontHolder *fonts;
 			LevelFactory *levels;
 			MusicPlayer *music;

@@ -1,5 +1,5 @@
-#include "PlayerStanding.h"
-#include "PlayerRunning.h"
+#include <PlayerStanding.h>
+#include <PlayerRunning.h>
 #include <PlayerJumping.h>
 #include <PlayerClimbing.h>
 #include <PlayerDying.h>
@@ -7,11 +7,11 @@
 void PlayerStanding::OnUpdate(sf::Time dt)
 {
 	core.vx *= sdx;
-
 	core.x += core.vx;
 
-	core.currentSeq->advanceFrame(core.dir);
-	core.currentSeq->setPosition(core.x, core.y);
+	animation->setXDirection(core.xDirection);
+	animation->update();
+	animation->setPosition(core.x, core.y);
 
 	if (core.health <= 0)
 	{
@@ -19,9 +19,9 @@ void PlayerStanding::OnUpdate(sf::Time dt)
 	}
 }
 
-void PlayerStanding::OnCtrlDirPress(BiDirection d)
+void PlayerStanding::OnCtrlDirPress(BiDirectionX d)
 {
-	core.dir = d;
+	core.xDirection = d;
 	transition(new PlayerRunning(core));
 }
 
@@ -30,11 +30,11 @@ void PlayerStanding::OnCtrlJumpPress()
 	transition(new PlayerJumping(core, false));
 }
 
-void PlayerStanding::OnCtrlClimbPress(ClimbDirection d)
+void PlayerStanding::OnCtrlClimbPress(BiDirectionY d)
 {
 	if (core.canClimb)
 	{
-		core.climbdir = d;
+		core.yDirection = d;
 		transition(new PlayerClimbing(core));
 	}
 }

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "SpriteState.h"
+#include <SpriteState.h>
 
 class PlayerJumping : public SpriteState
 {
@@ -21,22 +21,24 @@ public:
 		if (!isFalling && !doubleJumped)
 		{
 			core.vy = jumpImpulse;
-			core.currentSeq = core.seqs[2];
+			animation = &core.mAnimationFactory.get(Animations::Jumping);
+			core.sounds->play(SoundEffect::PlayerJump);
 		}
 		else
 		{
-			core.currentSeq = core.seqs[3];
+			animation = &core.mAnimationFactory.get(Animations::Falling);
 		}
-		core.currentSeq->reset();
-		core.currentSeq->advanceFrame(core.dir);
-		core.currentSeq->setPosition(core.x, core.y);
+
+		animation->reset();
+		animation->setXDirection(core.xDirection);
+		animation->setPosition(core.x, core.y);
 
 		ID = 3;
 	}
 	virtual void OnUpdate(sf::Time dt);
-	virtual void OnCtrlDirPress(BiDirection d);
-	virtual void OnCtrlDirRelease(BiDirection d);
-	virtual void OnCtrlClimbPress(ClimbDirection d);
+	virtual void OnCtrlDirPress(BiDirectionX d);
+	virtual void OnCtrlDirRelease(BiDirectionX d);
+	virtual void OnCtrlClimbPress(BiDirectionY d);
 	virtual void OnCtrlJumpPress();
 	virtual void OnCtrlJumpRelease();
 	virtual void OnCollision(const CollisionRectF &rect);

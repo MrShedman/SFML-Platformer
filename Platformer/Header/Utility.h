@@ -18,6 +18,8 @@ extern std::vector<sf::VideoMode> getValidVideoModes();
 
 extern sf::Vector2f getMousePosition(const sf::RenderWindow &window);
 
+extern void centreText(sf::Text &text);
+
 extern void scaleSpriteToFitWindow(sf::Sprite &sprite, const sf::RenderWindow &window);
 
 extern float randomize(float min, float max);

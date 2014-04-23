@@ -43,7 +43,7 @@ namespace GUI
 	template<class T>
 	void Slider<T>::setPossibleValues(std::vector<T> values)
 	{
-		possibleValues = values;
+		possibleValues = std::move(values);
 	}
 
 	template<class T>
@@ -79,8 +79,7 @@ namespace GUI
 	void Slider<T>::setText(const std::string& text)
 	{
 		mText.setString(text);
-		sf::FloatRect bounds = mText.getLocalBounds();
-		mText.setOrigin(std::floor((bounds.left + bounds.width) / 2.f), std::floor((bounds.top + bounds.height) / 2.f));
+		centreText(mText);
 	}
 
 	template<class T>
@@ -116,7 +115,7 @@ namespace GUI
 		float percent = (mShape.getPosition().x - minRange) / (maxRange - minRange);
 
 		float index = std::round(percent * size);
-
+		
 		clamp(index, 0.f, size);
 
 		return static_cast<int>(index);

@@ -1,5 +1,5 @@
-#include "PlayerRunning.h"
-#include "PlayerStanding.h"
+#include <PlayerRunning.h>
+#include <PlayerStanding.h>
 #include <PlayerJumping.h>
 #include <PlayerClimbing.h>
 #include <PlayerDying.h>
@@ -12,7 +12,7 @@ void PlayerJumping::OnUpdate(sf::Time dt)
 
 	if (isMoving)
 	{
-		core.vx += core.dir.transform(sax);
+		core.vx += core.xDirection.transform(sax);
 		clamp(core.vx, -maxsx, maxsx);
 	}
 	else
@@ -27,14 +27,15 @@ void PlayerJumping::OnUpdate(sf::Time dt)
 	
 	if (core.vy >= 0.f)
 	{
-		core.currentSeq = core.seqs[3];
+		animation = &core.mAnimationFactory.get(Animations::Falling);
 	}
 
 	core.x += core.vx;
 	core.y += core.vy;
-	
-	core.currentSeq->advanceFrame(core.dir);
-	core.currentSeq->setPosition(core.x, core.y);
+
+	animation->setXDirection(core.xDirection);
+	animation->update();
+	animation->setPosition(core.x, core.y);
 
 	if (core.health <= 0)
 	{
@@ -42,20 +43,20 @@ void PlayerJumping::OnUpdate(sf::Time dt)
 	}
 	else if (core.canClimb && core.vy > 0.0f)
 	{
-		core.climbdir.SetDown();
+		core.yDirection.SetDown();
 		transition(new PlayerClimbing(core, isMoving));
 	}
 }
 
-void PlayerJumping::OnCtrlDirPress(BiDirection d)
+void PlayerJumping::OnCtrlDirPress(BiDirectionX d)
 {
-	core.dir = d;
+	core.xDirection = d;
 	isMoving = true;
 }
 
-void PlayerJumping::OnCtrlDirRelease(BiDirection d)
+void PlayerJumping::OnCtrlDirRelease(BiDirectionX d)
 {
-	if (core.dir == d)
+	if (core.xDirection == d)
 	{
 		isMoving = false;
 	}
@@ -70,8 +71,11 @@ void PlayerJumping::OnCtrlJumpPress()
 		doubleJumped = true;
 
 		core.vy = jumpImpulse;
-		core.currentSeq = core.seqs[2];
-		core.currentSeq->reset();
+
+		animation = &core.mAnimationFactory.get(Animations::Jumping);
+		animation->reset();
+
+		core.sounds->play(SoundEffect::PlayerJump);
 	}
 }
 
@@ -80,11 +84,11 @@ void PlayerJumping::OnCtrlJumpRelease()
 	isBoosting = false;
 }
 
-void PlayerJumping::OnCtrlClimbPress(ClimbDirection d)
+void PlayerJumping::OnCtrlClimbPress(BiDirectionY d)
 {
 	if (core.canClimb)
 	{
-		core.climbdir = d;
+		core.yDirection = d;
 		transition(new PlayerClimbing(core, isMoving));
 	}
 }

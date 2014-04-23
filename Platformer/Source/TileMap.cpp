@@ -5,11 +5,15 @@
 #include <ResourceHolder.hpp>
 #include <Utility.h>
 
-TileMap::TileMap(State::Context context)
+TileMap::TileMap(State::Context context, EnemyFactory &eFactory)
+:
+eFactory(eFactory),
+lightManager(context)
 {
-	window = context.window;
-
 	Table = initializeTileData();
+	Animations = initializeTileAnimations(context);
+
+	load(context);
 }
 
 TileData& TileMap::getTileData(std::function<bool(TileData)> search)
@@ -39,15 +43,34 @@ void TileMap::load(State::Context context)
 	vTiles.clear();
 	vTiles.resize(width * height);
 
-	std::cout << width;
-
 	// populate the vertex array, with one quad per tile
-	for (int x = 0; x < width; ++x)
+	for (int ix = 0; ix < width; ++ix)
 	{
-		for (int y = 0; y < height; ++y)
+		for (int iy = 0; iy < height; ++iy)
 		{
-			int id = x + y * width;
-			vTiles[id] = Tile(static_cast<float>(x), static_cast<float>(y), getTileData([&](TileData data) { return data.txt == levelData[id]; }));
+			int id = ix + iy * width;
+			float x = static_cast<float> (ix);
+			float y = static_cast<float> (iy);
+			
+			TileData &data = getTileData([&](TileData data) { return data.txt == levelData[id]; });
+			
+			if (data.animation != BlockAnimation::None)
+			{
+				vTiles[id] = std::make_unique<AnimatedTile>(x, y, data, Animations[data.animation]);
+				addAnimation(id);
+			}
+			else if (data.type == Block::Spawner)
+			{
+				vTiles[id] = std::make_unique<SpawnerTile>(x, y, data, eFactory);
+			}
+			else
+			{
+				vTiles[id] = std::make_unique<StaticTile>(x, y, data);
+			}
+			if (data.light)
+			{
+				addLight(id);
+			}
 		}
 	}
 }
@@ -62,7 +85,7 @@ void TileMap::save()
 	{
 		for (int i = 0; i < width; ++i)
 		{
-			outfile << vTiles[i + j * width].data->txt;
+			outfile << vTiles[i + j * width]->data->txt;
 		}
 
 		outfile << std::endl;
@@ -125,14 +148,41 @@ int TileMap::getIndexYBiasBottom(float y) const
 
 RectF TileMap::getCRect(int ix, int iy)
 {
-	return vTiles[ix + iy * width].rect;
+	return vTiles[ix + iy * width]->rect;
 }
 
 Block::ID TileMap::getTileID(float x, float y)
 {
 	int id = getIndexXBiasRight(x) + getIndexYBiasBottom(y) * width;
 
-	return vTiles[id].data->type;
+	return vTiles[id]->data->type;
+}
+
+void TileMap::addAnimation(int id)
+{
+	if (std::none_of(animationID.begin(), animationID.end(), [&](int t){return t == id; }))
+	{
+		animationID.push_back(id);
+	}
+}
+
+void TileMap::removeAnimation(int id)
+{
+	auto end = std::remove_if(animationID.begin(), animationID.end(), [&](int t){return t == id; });
+
+	auto size = end - animationID.begin();
+
+	animationID.resize(size);
+}
+
+void TileMap::addLight(int id)
+{
+	lightManager.addLight(id, *vTiles[id].get());
+}
+
+void TileMap::removeLight(int id)
+{
+	lightManager.removeLight(id);
 }
 
 void TileMap::modifyTile(float x, float y, Block::ID newBlock)
@@ -144,8 +194,53 @@ void TileMap::modifyTile(int ix, int iy, Block::ID newBlock)
 {
 	int id = ix + iy * width;
 
-	vTiles[id].data = &getTileData([&](TileData data) { return data.type == newBlock; });
-	vTiles[id].update();
+	TileData &data = getTileData([&](TileData data) { return data.type == newBlock; });
+
+	float x = static_cast<float>(ix);
+	float y = static_cast<float>(iy);
+
+	if (data.animation != BlockAnimation::None)
+	{
+		vTiles[id] = std::make_unique<AnimatedTile>(x, y, data, Animations[data.animation]);
+		addAnimation(id);
+	}
+	else if (data.type == Block::Spawner)
+	{
+		vTiles[id] = std::make_unique<SpawnerTile>(x, y, data, eFactory);
+	}
+	else
+	{
+		if (vTiles[id]->data->light)
+		{
+			removeLight(id);
+		}
+
+		if (vTiles[id]->data->animation != BlockAnimation::None)
+		{
+			vTiles[id] = std::make_unique<StaticTile>(x, y, data);
+			removeAnimation(id);
+		}
+		else if (vTiles[id]->data->type == Block::Spawner)
+		{
+			vTiles[id] = std::make_unique<StaticTile>(x, y, data);
+		}
+		else if (vTiles[id]->data->light)
+		{
+			vTiles[id] = std::make_unique<StaticTile>(x, y, data);
+		}
+		else
+		{
+			vTiles[id]->data = &data;
+			vTiles[id]->updatePosition();
+			vTiles[id]->updateTexCoords();
+			vTiles[id]->updateColor();
+		}
+	}
+
+	if (data.light)
+	{
+		addLight(id);
+	}
 }
 
 void TileMap::handleEvent(const sf::Event &event)
@@ -157,11 +252,32 @@ void TileMap::handleEvent(const sf::Event &event)
 			save();
 		}
 	}
+
+	lightManager.handleEvent(event);
 }
 
-void TileMap::update(float x, float y)
+void TileMap::update(sf::Time dt)
 {
+	lightManager.update(dt);
 
+	for (auto &a : Animations)
+	{
+		a.update();
+	}
+	for (auto i : animationID)
+	{
+		vTiles[i]->updateTexCoords();
+	}
+}
+
+bool TileMap::isCheckPoint(int ix, int iy)
+{
+	if (outOfRange(ix + iy * width, 0, width * height))
+	{
+		return false;
+	}
+
+	return vTiles[ix + iy * width]->data->type == Block::RedstoneTorch;
 }
 
 bool TileMap::isPickup(int ix, int iy)
@@ -171,7 +287,7 @@ bool TileMap::isPickup(int ix, int iy)
 		return false;
 	}
 
-	Block::ID type = vTiles[ix + iy * width].data->type;
+	Block::ID type = vTiles[ix + iy * width]->data->type;
 
 	return (type == Block::YellowFlower || type == Block::RedFlower || type == Block::RedMushroom || type == Block::BrownMushroom);
 }
@@ -183,7 +299,7 @@ bool TileMap::isHarmful(int ix, int iy)
 		return false;
 	}
 
-	return vTiles[ix + iy * width].data->type == Block::Lava;
+	return vTiles[ix + iy * width]->data->type == Block::Lava;
 }
 
 bool TileMap::isClimable(int ix, int iy)
@@ -193,7 +309,7 @@ bool TileMap::isClimable(int ix, int iy)
 		return false;
 	}
 
-	return vTiles[ix + iy * width].data->type == Block::Ladder;
+	return vTiles[ix + iy * width]->data->type == Block::Ladder;
 }
 
 bool TileMap::isPassable(int ix, int iy)
@@ -203,10 +319,10 @@ bool TileMap::isPassable(int ix, int iy)
 		return true;
 	}
 
-	return vTiles[ix + iy * width].data->passable;
+	return vTiles[ix + iy * width]->data->passable;
 }
 
-void TileMap::draw(sf::RenderTarget& target, sf::RenderStates states) const
+RectI TileMap::getDrawingRect(sf::RenderTarget& target) const
 {
 	//get chunk indices into which top left and bottom right points of view fall:
 	sf::Vector2f temp = target.getView().getCenter() - (target.getView().getSize() / 2.f);//get top left point of view
@@ -224,11 +340,23 @@ void TileMap::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	clamp(right, 0, width);
 	clamp(bottom, 0, height);
 
-	for (int ix = left; ix < right; ++ix)
+	return RectI(top, bottom, left, right);
+}
+
+void TileMap::drawLights(sf::RenderTarget& target)
+{
+	lightManager.draw(target);
+}
+
+void TileMap::draw(sf::RenderTarget& target, sf::RenderStates states) const
+{
+	RectI rect = getDrawingRect(target);
+
+	for (int ix = rect.left; ix < rect.right; ++ix)
 	{
-		for (int iy = top; iy < bottom; ++iy)
+		for (int iy = rect.top; iy < rect.bottom; ++iy)
 		{
-			target.draw(vTiles[ix + iy * width], states);
+			target.draw(*vTiles[ix + iy * width].get(), states);
 		}
 	}
 }

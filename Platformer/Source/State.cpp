@@ -2,9 +2,10 @@
 #include <StateStack.hpp>
 
 
-State::Context::Context(sf::RenderWindow& window, TextureHolder& textures, FontHolder& fonts, LevelFactory &levels, MusicPlayer& music, SoundPlayer& sounds, Settings &settings, EffectFactory &effects)
+State::Context::Context(sf::RenderWindow& window, TextureHolder& textures, ImageHolder &images, FontHolder& fonts, LevelFactory &levels, MusicPlayer& music, SoundPlayer& sounds, Settings &settings, EffectFactory &effects)
 : window(&window)
 , textures(&textures)
+, images(&images)
 , fonts(&fonts)
 , levels(&levels)
 , music(&music)

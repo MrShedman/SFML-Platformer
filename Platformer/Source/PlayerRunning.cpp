@@ -1,18 +1,19 @@
-#include "PlayerRunning.h"
-#include "PlayerStanding.h"
+#include <PlayerRunning.h>
+#include <PlayerStanding.h>
 #include <PlayerJumping.h>
 #include <PlayerClimbing.h>
 #include <PlayerDying.h>
 
 void PlayerRunning::OnUpdate(sf::Time dt)
 {
-	core.vx += core.dir.transform(sax);
+	core.vx += core.xDirection.transform(sax);
 	clamp(core.vx, -maxsx, maxsx);
 
 	core.x += core.vx;
 
-	core.currentSeq->advanceFrame(core.dir);
-	core.currentSeq->setPosition(core.x, core.y);
+	animation->setXDirection(core.xDirection);
+	animation->update();
+	animation->setPosition(core.x, core.y);
 
 	if (core.health <= 0)
 	{
@@ -20,14 +21,14 @@ void PlayerRunning::OnUpdate(sf::Time dt)
 	}
 }
 
-void PlayerRunning::OnCtrlDirPress(BiDirection d)
+void PlayerRunning::OnCtrlDirPress(BiDirectionX d)
 {
-	core.dir = d;
+	core.xDirection = d;
 }
 
-void PlayerRunning::OnCtrlDirRelease(BiDirection d)
+void PlayerRunning::OnCtrlDirRelease(BiDirectionX d)
 {
-	if (core.dir == d)
+	if (core.xDirection == d)
 	{
 		transition(new PlayerStanding(core));
 	}
@@ -38,11 +39,11 @@ void PlayerRunning::OnCtrlJumpPress()
 	transition(new PlayerJumping(core, true));
 }
 
-void PlayerRunning::OnCtrlClimbPress(ClimbDirection d)
+void PlayerRunning::OnCtrlClimbPress(BiDirectionY d)
 {
 	if (core.canClimb)
 	{
-		core.climbdir = d;
+		core.yDirection = d;
 		transition(new PlayerClimbing(core, true));
 	}
 }

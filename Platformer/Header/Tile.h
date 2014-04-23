@@ -44,27 +44,95 @@ namespace Block
 		NetherBrick,
 		SlowSand,
 		GlowStone,
-		TypeCount,
+		RedstoneTorch,
+		IronBars,
+		Fire,
+		Spawner,
+		Torch,
+		TypeCount
 	};
 }
+
+namespace BlockAnimation
+{
+	enum ID
+	{
+		None,
+		Water,
+		Lava,
+		Fire,
+		Portal,
+		TypeCount
+	};
+}
+
+class EnemyFactory;
 
 class Tile : public sf::Drawable
 {
 public:
 
+	virtual ~Tile();
+
+	RectF rect;
+
+	TileData *data;
+
+	virtual void updatePosition();
+	virtual void updateTexCoords();
+	virtual void updateColor();
+
+protected:
+
 	Tile();
 
 	Tile(float x, float y, TileData &data);
 
-	Tile& operator=(Tile&& rhs);
-
-	void update();
-
-	TileData *data;
-
-	RectF rect;
-
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
 	std::vector<sf::Vertex> quad;
+};
+
+
+class StaticTile : public Tile
+{
+public:
+
+	StaticTile();
+
+	StaticTile(float x, float y, TileData &data);
+
+	StaticTile& operator = (StaticTile&& rhs);
+};
+
+class AnimatedTile : public Tile
+{
+public:
+
+	AnimatedTile();
+
+	AnimatedTile(float x, float y, TileData &data, TileAnimation &animation);
+
+	AnimatedTile& operator = (AnimatedTile&& rhs);
+
+	void updateTexCoords();
+
+	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+
+	TileAnimation *animation;
+};
+
+class SpawnerTile : public Tile
+{
+public:
+
+	SpawnerTile();
+
+	SpawnerTile(float x, float y, TileData &data, EnemyFactory &factory);
+
+	~SpawnerTile();
+
+	SpawnerTile& operator = (SpawnerTile&& rhs);
+
+	EnemyFactory *factory;
 };

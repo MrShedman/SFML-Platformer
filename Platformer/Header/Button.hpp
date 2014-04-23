@@ -32,7 +32,6 @@ class Button : public Component
 			ButtonCount
 		};
 
-
 	public:
 								Button(State::Context context);
 

@@ -7,9 +7,10 @@
 
 #include <SpriteState.h>
 #include <PlayerSprite.h>
+#include <EnemyFactory.h>
+#include <EnemySprite.h>
 #include <TileMap.h>
 #include <TileEditor.h>
-#include <ParticleSystem.h>
 #include <CollisionSystem.h>
 #include <TileMapRenderer.h>
 #include <HealthBar.h>
@@ -32,6 +33,7 @@ class GameState : public State
 		Camera camera;
 
 		PlayerSprite player;
+		EnemyFactory enemyFactory;
 
 		TileMap map;
 		TileMapRenderer mRender;

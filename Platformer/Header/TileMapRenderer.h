@@ -13,18 +13,21 @@ public:
 
 	TileMapRenderer(State::Context context, TileMap &map)
 		:
-	window(context.window),
-	map(&map),
+	window(*context.window),
+	map(map),
 	effect(context.effects->getCurrentEffect())
 	{
-		sf::Vector2f InSize = sf::Vector2f(context.window->getSize().x, context.window->getSize().y);
-		effect.getShader().setParameter("InSize", InSize);
+		float wx = static_cast<float>(context.window->getSize().x);
+		float wy = static_cast<float>(context.window->getSize().y);
+
+		effect.getShader().setParameter("InSize", sf::Vector2f(wx, wy));
 
 		mTileset = context.textures->get(Textures::TileMap);
 
-		rTexture.create(window->getSize().x, window->getSize().y);
+		rTexture.create(window.getSize().x, window.getSize().y);
+
 		sprite.setTexture(rTexture.getTexture());
-		sprite.setOrigin(window->getSize().x / 2, window->getSize().y / 2);
+		sprite.setOrigin(std::floor(wx / 2.f), std::floor(wy / 2.f));
 
 		if (map.getLevelID() == Levels::ID::Level003)
 		{
@@ -36,16 +39,6 @@ public:
 		}
 	}
 
-	void handleEvent(const sf::Event &event)
-	{
-		if (event.type == sf::Event::Resized)
-		{
-			rTexture.create(event.size.width, event.size.height);
-			sprite.setTexture(rTexture.getTexture(), true);
-			sprite.setOrigin(window->getSize().x / 2, window->getSize().y / 2);
-		}
-	}
-
 	void update(sf::Time dt)
 	{
 		effect.update();
@@ -53,7 +46,7 @@ public:
 
 	void draw()
 	{
-		sf::View view = window->getView();
+		sf::View view = window.getView();
 		float x = view.getCenter().x;
 		float y = view.getCenter().y;
 
@@ -68,24 +61,20 @@ public:
 		view.setCenter(x, y);
 		rTexture.setView(view);
 
-		sf::RenderStates states;
-		states.texture = &mTileset;
-
 		rTexture.clear(color);
-		rTexture.draw(*map, states);
+		rTexture.draw(map, &mTileset);
 		rTexture.display();
 
-		window->draw(sprite, &effect.getShader());
+		window.draw(sprite, &effect.getShader());
 	}
 
-	sf::Clock clock;
 	sf::Color color;
 	sf::Sprite sprite;
 	sf::Texture mTileset;
 
 	Effect &effect;
 
-	sf::RenderWindow *window;
+	sf::RenderWindow &window;
 	sf::RenderTexture rTexture;
-	TileMap *map;
+	TileMap &map;
 };

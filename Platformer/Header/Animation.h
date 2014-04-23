@@ -6,12 +6,12 @@
 
 #include <SFML/Graphics.hpp>
 
-#include <BiDirection.h>
+#include <BiDirectionX.h>
 
-class SpriteSequence : public sf::Drawable, public sf::Transformable
+class Animation : public sf::Drawable, public sf::Transformable
 {
 public:
-	SpriteSequence(sf::Texture &mTexture, int nFrames, int nHoldFrames, int nRow, int nColumn)
+	Animation(sf::Texture &mTexture, int nFrames, int nHoldFrames, int nRow, int nColumn)
 		:
 		texture(mTexture),
 		nFrames(nFrames),
@@ -24,26 +24,27 @@ public:
 
 		const int width = 200;
 		const int height = 200;
+		const int border = 10;
 
-		for (int r = 0, dy = 10; r < nRow; ++r, dy += height)
+		int count = 0;
+
+		for (int r = 0, dy = border; r < nRow; ++r, dy += height)
 		{
-			for (int c = 0, dx = 10; c < nColumn; ++c, dx += width)
+			for (int c = 0, dx = border; c < nColumn; ++c, dx += width)
 			{
-				sequence.push_back(sf::IntRect(dx, dy, width - 20, height - 20));
+				if (count++ < nFrames)
+				{
+					sequence.push_back(sf::IntRect(dx, dy, width - 2 * border, height - 2 * border));
+				}
 			}
 		}
 
-		for (int i = 0; i < (nColumn * nRow) - nFrames; ++i)
-		{
-			sequence.pop_back();
-		}
-
 		sprite.setTextureRect(sequence.front());
-		setOrigin(90, 90);
+		setOrigin(width / 2 - border, height / 2 - border);
 		setScale(m_scale, m_scale);
 	}
 
-	void advanceFrame(BiDirection d)
+	void setXDirection(BiDirectionX d)
 	{
 		if (d.IsRight())
 		{
@@ -53,7 +54,10 @@ public:
 		{
 			setScale(-m_scale, m_scale);
 		}
+	}
 
+	void update()
+	{
 		curHoldCount++;
 
 		if (curHoldCount >= nHoldFrames)

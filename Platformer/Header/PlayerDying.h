@@ -1,6 +1,6 @@
 #pragma once
 
-#include "SpriteState.h"
+#include <SpriteState.h>
 
 class PlayerDying : public SpriteState
 {
@@ -18,16 +18,19 @@ public:
 		core.vx = randomize(-maxsx, maxsx);
 		if (core.vx > 0.f)
 		{
-			core.dir.SetRight();
+			core.xDirection.SetRight();
 		}
 		else
 		{
-			core.dir.SetLeft();
+			core.xDirection.SetLeft();
 		}
-		core.currentSeq = core.seqs[5];
-		core.currentSeq->reset();
-		core.currentSeq->advanceFrame(core.dir);
-		core.currentSeq->setPosition(core.x, core.y);
+
+		animation = &core.mAnimationFactory.get(Animations::Dying);
+		animation->reset();
+		animation->setXDirection(core.xDirection);
+		animation->setPosition(core.x, core.y);
+
+		core.sounds->play(SoundEffect::PlayerDeath);
 
 		ID = 5;
 	}

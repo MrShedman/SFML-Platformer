@@ -1,25 +1,25 @@
 #pragma once
 
-class BiDirection
+class BiDirectionX
 {
 public:
-	BiDirection(const BiDirection& d)
+	BiDirectionX(const BiDirectionX& d)
 	{
 		dir = d.dir;
 	}
-	BiDirection()
+	BiDirectionX()
 	{
 		dir = Invalid;
 	}
-	static BiDirection MakeRight()
+	static BiDirectionX MakeRight()
 	{
-		BiDirection d;
+		BiDirectionX d;
 		d.SetRight();
 		return d;
 	}
-	static BiDirection MakeLeft()
+	static BiDirectionX MakeLeft()
 	{
-		BiDirection d;
+		BiDirectionX d;
 		d.SetLeft();
 		return d;
 	}
@@ -44,22 +44,22 @@ public:
 	{
 		return dir == Invalid;
 	}
-	bool operator ==(const BiDirection& rhs) const
+	bool operator ==(const BiDirectionX& rhs) const
 	{
 		return dir == rhs.dir;
 	}
-	bool operator !=(const BiDirection& rhs) const
+	bool operator !=(const BiDirectionX& rhs) const
 	{
 		return dir != rhs.dir;
 	}
-	BiDirection& operator =(const BiDirection& rhs)
+	BiDirectionX& operator =(const BiDirectionX& rhs)
 	{
 		dir = rhs.dir;
 		return *this;
 	}
-	BiDirection GetOpposite() const
+	BiDirectionX GetOpposite() const
 	{
-		BiDirection o;
+		BiDirectionX o;
 		if (dir == Left)
 		{
 			o.SetRight();

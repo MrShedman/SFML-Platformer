@@ -1,11 +1,11 @@
 #include "Sprite.h"
 
-void Sprite::draw(sf::RenderTarget& target, sf::RenderStates states) const
+SpriteState& Sprite::GetState() const
 {
-	target.draw(*core.currentSeq, states);
+	return *core.state.get();
 }
 
-SpriteState& Sprite::GetState()
+void Sprite::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	return *core.state;
+	target.draw(core.state->getAnimation(), states);
 }

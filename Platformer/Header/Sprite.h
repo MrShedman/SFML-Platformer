@@ -1,11 +1,9 @@
 #pragma once
 
-#include <vector>
+#include <SFML/Graphics/Drawable.hpp>
 
-#include <SFML/Graphics.hpp>
-
-#include "SpriteSequence.h"
-#include "SpriteCore.h"
+#include <Animation.h>
+#include <SpriteCore.h>
 #include <SpriteState.h>
 
 class Sprite : public sf::Drawable
@@ -15,7 +13,7 @@ public:
 
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
-	SpriteState& GetState();
+	SpriteState& GetState() const;
 
 	CollisionRectF getCRect() const
 	{
@@ -48,6 +46,8 @@ public:
 	}
 
 public:
+
+	int ID;
 
 	SpriteCore core;
 };

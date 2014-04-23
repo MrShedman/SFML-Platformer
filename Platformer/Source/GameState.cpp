@@ -8,14 +8,15 @@ GameState::GameState(StateStack& stack, Context context)
 :
 State(stack, context),
 player(context),
-map(context),
+enemyFactory(context, collision, 100),
+map(context, enemyFactory),
 mapEditor(context, map),
 mRender(context, map),
 health(context)
 {
-	map.load(context);
 	collision.setMap(map);
-	collision.setPlayer(player);
+
+	collision.addPlayer(player);
 
 	camera.setSpriteToFollow(player);
 	camera.setViewBoundary(map.getBoundary());
@@ -31,8 +32,12 @@ void GameState::draw()
 	window.setView(camera.getView());
 	
 	mRender.draw();
+	enemyFactory.draw(window);
 	window.draw(mapEditor);
 	window.draw(player);
+	
+	map.drawLights(window);
+
 	window.draw(collision);
 
 	window.setView(window.getDefaultView());
@@ -47,6 +52,7 @@ bool GameState::update(sf::Time dt)
 	sf::RenderWindow& window = *getContext().window;
 
 	player.GetState().OnUpdate(dt);
+	enemyFactory.update(dt);
 
 	if (clock.getElapsedTime() > sf::seconds(1) && player.isAlive())
 	{
@@ -62,6 +68,8 @@ bool GameState::update(sf::Time dt)
 	camera.updatePosition(dt);
 	window.setView(camera.getView());
 	
+	map.update(dt);
+
 	mapEditor.update();
 
 	mRender.update(dt);
@@ -90,9 +98,8 @@ bool GameState::handleEvent(const sf::Event& event)
 
 	map.handleEvent(event);
 
+	getContext().window->setView(camera.getView());
 	mapEditor.handleEvent(event);
-
-	mRender.handleEvent(event);
 
 	return true;
 }

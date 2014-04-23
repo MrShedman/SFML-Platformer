@@ -4,9 +4,12 @@
 namespace sf
 {
 	class Texture;
+	class Image;
 	class Font;
 	class SoundBuffer;
 }
+
+class Animation;
 
 namespace Textures
 {
@@ -19,8 +22,37 @@ namespace Textures
 		PlayerFalling,
 		PlayerClimbing,
 		PlayerDying,
+		EnemyWalking,
+		EnemyFalling,
 		MenuBackground,
 		HealthBar,
+		Fire,
+		Lava,
+		Portal,
+		Water,
+		Light,
+	};
+}
+
+namespace Images
+{
+	enum ID
+	{
+		DayNightPalette,
+	};
+}
+
+namespace Animations
+{
+	enum ID
+	{
+		Standing,
+		Running,
+		Jumping,
+		Falling,
+		Climbing,
+		Dying,
+		EnemyWalking,
 	};
 }
 
@@ -48,6 +80,9 @@ namespace SoundEffect
 	{
 		PlayerJump,
 		PlayerPickup,
+		PlayerDeath,
+		PlayerSpawn,
+		Checkpoint,
 		Button,
 	};
 }
@@ -81,5 +116,6 @@ template <typename Resource, typename Identifier>
 class ResourceHolder;
 
 typedef ResourceHolder<sf::Texture, Textures::ID>			TextureHolder;
+typedef ResourceHolder<sf::Image, Images::ID>				ImageHolder;
 typedef ResourceHolder<sf::Font, Fonts::ID>					FontHolder;
 typedef ResourceHolder<sf::SoundBuffer, SoundEffect::ID>	SoundBufferHolder;

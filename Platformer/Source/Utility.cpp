@@ -34,6 +34,11 @@ std::vector<sf::VideoMode> getValidVideoModes()
 	return validModes;
 }
 
+extern void centreText(sf::Text &text)
+{
+	sf::FloatRect bounds = text.getLocalBounds();
+	text.setOrigin(std::floor((bounds.left + bounds.width) / 2.f), std::floor((bounds.top + bounds.height) / 2.f));
+}
 
 void scaleSpriteToFitWindow(sf::Sprite &sprite, const sf::RenderWindow &window)
 {

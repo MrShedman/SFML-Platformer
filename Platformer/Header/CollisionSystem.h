@@ -2,7 +2,10 @@
 
 #include <SFML\Graphics.hpp>
 
+#include <vector>
+
 #include <TileMap.h>
+#include <Sprite.h>
 #include <PlayerSprite.h>
 #include <SoundPlayer.hpp>
 
@@ -11,7 +14,6 @@ class CollisionSystem : public sf::Drawable
 public:
 	CollisionSystem()
 	{
-		vertices.setPrimitiveType(sf::LinesStrip);
 		showCollision = false;
 	}
 
@@ -20,44 +22,23 @@ public:
 		this->map = &map;
 	}
 
-	void setPlayer(PlayerSprite &player)
+	void addPlayer(PlayerSprite &player)
 	{
 		this->player = &player;
 	}
 
-	void getVisibleContacts()
+	void addSprite(Sprite &sprite)
 	{
-		vertices.clear();
-
-		RectF rect = player->getCRect();
-
-		vertices.append(sf::Vertex(sf::Vector2f(rect.left, rect.top), sf::Color::Magenta));
-		vertices.append(sf::Vertex(sf::Vector2f(rect.right, rect.top), sf::Color::Magenta));
-		vertices.append(sf::Vertex(sf::Vector2f(rect.right, rect.bottom), sf::Color::Magenta));
-		vertices.append(sf::Vertex(sf::Vector2f(rect.left, rect.bottom), sf::Color::Magenta));
-		vertices.append(sf::Vertex(sf::Vector2f(rect.left, rect.top), sf::Color::Magenta));
+		sprites.insert(std::make_pair(sprite.ID, &sprite));
 	}
 
-	void calculate()
+	void removeSprite(int ID)
 	{
-		//save player velocity to check if damage should be given by fall etc..
-		float vx = player->core.vx;
-		float vy = player->core.vy;
+		sprites.erase(ID);
+	}
 
-		//update vertex array with tiles in contact
-		getVisibleContacts();
-
-		CollisionRectF rect;
-
-		//find and correct collisions with tiles
-		while (map->getCRectSingle(player->getCRect(), rect) && player->isAlive())
-		{
-			player->GetState().OnCollision(rect);
-		}
-
-		//update line trails
-		particles.update(player->getCRect());
-
+	void playerChecks(PlayerSprite *player)
+	{
 		CollisionRectF cRect = player->getCRect();
 
 		//get the tile the bottom centre of the player is over
@@ -67,44 +48,81 @@ public:
 		int ix = map->getIndexXBiasLeft(cx);
 		int iy = map->getIndexYBiasTop(cy);
 
-		// find tiles that do damage ie lava etc..
-		if (map->isHarmful(ix, iy))
+		if (map->isPickup(ix, iy))	// find tiles that are pickups (collectibles) ie yellowflower etc..
 		{
-			player->GetState().applyDamage(1);
-		}
-
-		// find tiles that are pickups (collectibles) ie yellowflower etc..
-		if (map->isPickup(ix, iy))
-		{
-			map->modifyTile(ix, iy, Block::ID::Air);
-			player->sounds.play(SoundEffect::ID::PlayerPickup);
+			map->modifyTile(ix, iy, Block::Air);
+			player->sounds.play(SoundEffect::PlayerPickup);
 			player->scoreboard.increment();
 		}
+		else if (map->isCheckPoint(ix, iy) || map->isCheckPoint(ix, iy + 1) || map->isCheckPoint(ix, iy + 2)) // find checkpoint tiles
+		{
+			player->sounds.play(SoundEffect::ID::Checkpoint);
+		}
+		else //find if player is standing on tile that is climable ie ladders etc.. 
+		{
+			player->core.canClimb = map->isClimable(ix, iy);
+		}
+	}
 
-		//find if player is standing on tile that is climable ie ladders etc..
-		player->core.canClimb = map->isClimable(ix, iy);
+	void perSprite(Sprite *sprite)
+	{
+		//save sprite velocity to check if damage should be given by fall etc..
+		float vx = sprite->core.vx;
+		float vy = sprite->core.vy;
+
+		CollisionRectF rect;
+
+		//find and correct collisions with tiles
+		while (map->getCRectSingle(sprite->getCRect(), rect) && sprite->isAlive())
+		{
+			sprite->GetState().OnCollision(rect);
+		}
+
+		CollisionRectF cRect = sprite->getCRect();
+
+		float cx = cRect.left + (cRect.right - cRect.left) / 2.f;
+		float cy = cRect.bottom;
+
+		int ix = map->getIndexXBiasLeft(cx);
+		int iy = map->getIndexYBiasTop(cy);
+
+		if (map->isHarmful(ix, iy))	// find tiles that do damage ie lava etc..
+		{
+			sprite->GetState().applyDamage(1);
+		}
 
 		iy = map->getIndexYBiasBottom(cRect.bottom);
 
-		//find if player is standing on tile
+		//find if sprite is standing on tile
 		for (int ix = map->getIndexXBiasRight(cRect.left), ixEnd = map->getIndexXBiasLeft(cRect.right); ix <= ixEnd; ++ix)
 		{
 			if (!map->isPassable(ix, iy) && map->getCRect(ix, iy).top == cRect.bottom)
 			{
-				//if player has fallen more than 10 blocks apply fall damage
-				int dHeight = iy - player->core.lastPlatformHeight / TileData::tileSize.y;
+				//if sprite has fallen more than 10 blocks apply fall damage
+				int dHeight = iy - sprite->core.lastPlatformHeight / TileData::tileSize.y;
 
 				if (dHeight > 10)
 				{
-					player->GetState().applyDamage(dHeight - 10);
+					sprite->GetState().applyDamage(dHeight - 10);
 				}
 
-				player->core.lastPlatformHeight = iy * TileData::tileSize.y;
+				sprite->core.lastPlatformHeight = iy * TileData::tileSize.y;
 
 				return;
 			}
 		}
-		player->GetState().OnFreeFall();
+		sprite->GetState().OnFreeFall();
+	}
+
+	void calculate()
+	{
+		for (auto &sprite : sprites)
+		{
+			perSprite(sprite.second);
+		}
+
+		perSprite(player);
+		playerChecks(player);
 	}
 
 	void handleEvent(const sf::Event &event)
@@ -120,21 +138,41 @@ public:
 
 private:
 
+	void drawBoundingRect(RectF rect, sf::RenderTarget &target, sf::Color color = sf::Color::White) const
+	{
+		sf::VertexArray vertices(sf::LinesStrip, 5u);
+
+		vertices[0].position = sf::Vector2f(rect.left, rect.top);
+		vertices[1].position = sf::Vector2f(rect.right, rect.top);
+		vertices[2].position = sf::Vector2f(rect.right, rect.bottom);
+		vertices[3].position = sf::Vector2f(rect.left, rect.bottom);
+		vertices[4].position = sf::Vector2f(rect.left, rect.top);
+
+		vertices[0].color = color;
+		vertices[1].color = color;
+		vertices[2].color = color;
+		vertices[3].color = color;
+		vertices[4].color = color;
+
+		target.draw(vertices);
+	}
+
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
 	{
 		if (showCollision)
 		{
-			target.draw(vertices, states);
-			target.draw(particles, states);
+			drawBoundingRect(player->getCRect(), target);
+
+			for (auto &s : sprites)
+			{
+				drawBoundingRect(s.second->getCRect(), target, sf::Color::Red);
+			}
 		}
 	}
 
 	bool showCollision;
 
-	sf::VertexArray vertices;
-
 	TileMap *map;
 	PlayerSprite *player;
-
-	ParticleSystem particles;
+	std::map<int, Sprite*> sprites;
 };

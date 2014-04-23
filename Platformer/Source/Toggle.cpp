@@ -44,8 +44,7 @@ void Toggle::updateText()
 {
 	std::string text = isSelected ? onText : offText;
 	mText.setString(text);
-	sf::FloatRect bounds = mText.getLocalBounds();
-	mText.setOrigin(std::floor((bounds.left + bounds.width) / 2.f), std::floor((bounds.top + bounds.height) / 2.f));
+	centreText(mText);
 }
 
 void Toggle::setSize(sf::Vector2f size)
@@ -83,7 +82,7 @@ void Toggle::update()
 
 	if (mouseOver())
 	{
-		sf::Uint8 rgb = std::abs(std::sin(factor)) * 255;
+		sf::Uint8 rgb = static_cast<sf::Uint8>(std::abs(std::sin(factor)) * 255);
 		mText.setColor(sf::Color(rgb, rgb, rgb));
 		factor += 0.05f;
 	}

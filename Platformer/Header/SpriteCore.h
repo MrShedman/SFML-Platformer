@@ -1,8 +1,15 @@
 #pragma once
 
-#include <SpriteSequence.h>
+#include <memory>
+
+#include <Animation.h>
 #include <CollisionRectF.h>
-#include <ClimbDirection.h>
+#include <BiDirectionX.h>
+#include <BiDirectionY.h>
+#include <AnimationFactory.h>
+#include <SoundPlayer.hpp>
+
+class SpriteState;
 
 class SpriteCore
 {
@@ -12,11 +19,13 @@ public:
 	float y;
 	float vx;
 	float vy;
-	SpriteSequence* currentSeq;
-	SpriteSequence** seqs;
-	class SpriteState* state;
-	BiDirection dir;
-	ClimbDirection climbdir;
+
+	AnimationFactory mAnimationFactory;
+
+	std::unique_ptr<SpriteState> state;
+
+	BiDirectionX xDirection;
+	BiDirectionY yDirection;
 
 	CollisionRectF getCRect() const
 	{
@@ -28,6 +37,13 @@ public:
 	bool canClimb;
 	int health;
 	int lastPlatformHeight;
+
+	void setSoundPlayer(SoundPlayer &player)
+	{
+		sounds = &player;
+	}
+
+	SoundPlayer *sounds;
 
 	RectF rect;
 };

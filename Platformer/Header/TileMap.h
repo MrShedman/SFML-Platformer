@@ -14,11 +14,14 @@
 #include <Level.h>
 #include <ResourceIdentifiers.hpp>
 
+#include <TileAnimation.h>
+#include <LightManager.h>
+
 class TileMap : public sf::Drawable
 {
 public:
 	
-	TileMap(State::Context context);
+	TileMap(State::Context context, EnemyFactory &eFactory);
 
 	TileData& getTileData(std::function<bool(TileData)> search);
 
@@ -46,13 +49,25 @@ public:
 
 	void modifyTile(int ix, int iy, Block::ID newBlock);
 
-	Levels::ID getLevelID();
+	void addAnimation(int id);
 
+	void removeAnimation(int id);
+
+	void addLight(int id);
+
+	void removeLight(int id);
+
+	Levels::ID getLevelID();
+	
 	RectF getCRect(int ix, int iy);
+
+	RectI getDrawingRect(sf::RenderTarget& target) const;
 
 	bool getCRectSingle(CollisionRectF cRect, CollisionRectF &rect);
 
 	void handleEvent(const sf::Event &event);
+
+	bool isCheckPoint(int ix, int iy);
 
 	bool isPickup(int ix, int iy);
 
@@ -62,7 +77,9 @@ public:
 
 	bool isPassable(int ix, int iy);
 
-	void update(float x, float y);
+	void update(sf::Time dt);
+
+	void drawLights(sf::RenderTarget& target);
 
 private:
 
@@ -75,8 +92,14 @@ private:
 
 	Levels::ID loadedLevel;
 
-	std::vector<TileData> Table;
-	std::vector<Tile> vTiles;
+	EnemyFactory &eFactory;
 
-	sf::RenderWindow *window;
+	LightManager lightManager;
+
+	std::vector<int> animationID;
+
+	std::vector<TileAnimation> Animations;
+	std::vector<TileData> Table;
+
+	std::vector<std::unique_ptr<Tile>> vTiles;
 };

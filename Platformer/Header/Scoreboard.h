@@ -35,8 +35,7 @@ private:
 	void updateText()
 	{
 		mText.setString(base + toString(score));
-		sf::FloatRect bounds = mText.getLocalBounds();
-		mText.setOrigin(std::floor((bounds.left + bounds.width) / 2.f), std::floor((bounds.top + bounds.height) / 2.f));
+		centreText(mText);
 	}
 
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const

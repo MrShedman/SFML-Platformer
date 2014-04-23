@@ -37,9 +37,7 @@ unsigned int LevelFactory::getHeight() const
 
 std::string LevelFactory::getFileName() const
 {
-	auto found = mFilenames.find(mCurrent);
-
-	return found->second;
+	return mFilenames.find(mCurrent)->second;
 }
 
 Levels::ID LevelFactory::getID() const

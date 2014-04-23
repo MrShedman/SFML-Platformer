@@ -92,13 +92,13 @@ bool SettingsParser::isChanged() const
 
 int SettingsParser::findIndex(const std::string& param) const
 {
-	for (int i = 0; i < m_size; ++i)
+	for (size_t i = 0; i < m_size; ++i)
 	{
 		if (m_data[i].first[0] == '#')
 			continue;
 		if (m_data[i].first == param)
 		{
-			return i;
+			return static_cast<int>(i);
 		}
 	}
 	return -1;

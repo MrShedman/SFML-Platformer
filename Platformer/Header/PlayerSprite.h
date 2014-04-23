@@ -1,14 +1,9 @@
 #pragma once
 
-#include <vector>
-
-#include <SFML/Graphics.hpp>
-#include <SFML/Audio.hpp>
+#include <SFML/Window/Event.hpp>
 
 #include <Sprite.h>
 #include <State.hpp>
-#include <ResourceHolder.hpp>
-#include <ResourceIdentifiers.hpp>
 #include <Scoreboard.h>
 
 class PlayerSprite : public Sprite

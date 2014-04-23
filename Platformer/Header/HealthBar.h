@@ -12,14 +12,14 @@ public:
 		texture = context.textures->get(Textures::ID::HealthBar);
 		texture.setSmooth(false);
 
-		w.x = context.window->getSize().x * 0.5f - 150.f;
-		w.y = 0.9f * context.window->getSize().y;
-
-		health.resize(40);
-
 		d = sf::Vector2f(30, 30);
 		s = sf::Vector2f(9, 9);
 
+		w.x = context.window->getSize().x * 0.5f - 5 * d.x;
+		w.y = 0.9f * context.window->getSize().y;
+
+		health.resize(40);
+	
 		update(20);
 	}
 
@@ -53,7 +53,7 @@ public:
 	void createHeart(int position, sf::Vector2f texCoords)
 	{
 		int id = position * 4;
-		//sf::Vector2f l(490 + position * d.x, 650);
+
 		sf::Vector2f l(w.x + position * d.x, w.y);
 		health[id + 0].position = sf::Vector2f(l.x, l.y);
 		health[id + 1].position = sf::Vector2f(l.x + d.x, l.y);

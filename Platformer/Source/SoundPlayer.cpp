@@ -12,11 +12,16 @@ SoundPlayer::SoundPlayer()
 {
 	mSoundBuffers.load(SoundEffect::PlayerJump,		"Sounds/jump.wav");
 	mSoundBuffers.load(SoundEffect::PlayerPickup,	"Sounds/pickup.wav");
+	mSoundBuffers.load(SoundEffect::PlayerDeath,	"Sounds/death.wav");
+	mSoundBuffers.load(SoundEffect::PlayerSpawn,	"Sounds/spawn.wav");
+	mSoundBuffers.load(SoundEffect::Checkpoint,		"Sounds/checkpoint.wav");
 	mSoundBuffers.load(SoundEffect::Button,			"Sounds/click.wav");
 }
 
 void SoundPlayer::play(SoundEffect::ID effect)
 {
+	removeStoppedSounds();
+
 	mSounds.push_back(sf::Sound());
 	sf::Sound& sound = mSounds.back();
 
@@ -24,11 +29,6 @@ void SoundPlayer::play(SoundEffect::ID effect)
 	sound.setBuffer(mSoundBuffers.get(effect));
 
 	sound.play();
-
-	if (mSounds.size() > 50)
-	{
-		removeStoppedSounds();
-	}
 }
 
 void SoundPlayer::setVolume(float volume)

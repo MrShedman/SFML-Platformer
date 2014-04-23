@@ -1,25 +1,25 @@
 #pragma once
 
-class ClimbDirection
+class BiDirectionY
 {
 public:
-	ClimbDirection(const ClimbDirection& d)
+	BiDirectionY(const BiDirectionY& d)
 	{
 		dir = d.dir;
 	}
-	ClimbDirection()
+	BiDirectionY()
 	{
 		dir = Invalid;
 	}
-	static ClimbDirection MakeDown()
+	static BiDirectionY MakeDown()
 	{
-		ClimbDirection d;
+		BiDirectionY d;
 		d.SetDown();
 		return d;
 	}
-	static ClimbDirection MakeUp()
+	static BiDirectionY MakeUp()
 	{
-		ClimbDirection d;
+		BiDirectionY d;
 		d.SetUp();
 		return d;
 	}
@@ -44,22 +44,22 @@ public:
 	{
 		return dir == Invalid;
 	}
-	bool operator ==(const ClimbDirection& rhs) const
+	bool operator ==(const BiDirectionY& rhs) const
 	{
 		return dir == rhs.dir;
 	}
-	bool operator !=(const ClimbDirection& rhs) const
+	bool operator !=(const BiDirectionY& rhs) const
 	{
 		return dir != rhs.dir;
 	}
-	ClimbDirection& operator =(const ClimbDirection& rhs)
+	BiDirectionY& operator =(const BiDirectionY& rhs)
 	{
 		dir = rhs.dir;
 		return *this;
 	}
-	ClimbDirection GetOpposite() const
+	BiDirectionY GetOpposite() const
 	{
-		ClimbDirection o;
+		BiDirectionY o;
 		if (dir == Up)
 		{
 			o.SetDown();

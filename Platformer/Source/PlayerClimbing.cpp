@@ -1,6 +1,6 @@
 #include <PlayerClimbing.h>
-#include "PlayerRunning.h"
-#include "PlayerStanding.h"
+#include <PlayerRunning.h>
+#include <PlayerStanding.h>
 #include <PlayerJumping.h>
 #include <PlayerDying.h>
 
@@ -8,17 +8,14 @@
 
 void PlayerClimbing::OnUpdate(sf::Time dt)
 {
-	if (!isFrozen)
-	{
-		core.vy += core.climbdir.transform(say);
-		clamp(core.vy, -maxsy, maxsy);
+	core.vy += core.yDirection.transform(say);
+	clamp(core.vy, -maxsy, maxsy);
 
-		core.y += core.vy;
-	}
+	core.y += core.vy;	
 
 	if (isMoving)
 	{
-		core.vx += core.dir.transform(sax);
+		core.vx += core.xDirection.transform(sax);
 		clamp(core.vx, -maxsx, maxsx);
 	}
 	else
@@ -27,13 +24,11 @@ void PlayerClimbing::OnUpdate(sf::Time dt)
 	}
 
 	core.x += core.vx;
-	core.lastPlatformHeight = core.y;
+	core.lastPlatformHeight = static_cast<int>(core.y);
 
-	if (!isFrozen || isMoving)
-	{
-		core.currentSeq->advanceFrame(core.dir);
-		core.currentSeq->setPosition(core.x, core.y);
-	}
+	animation->setXDirection(core.xDirection);
+	animation->update();
+	animation->setPosition(core.x, core.y);
 
 	if (core.health <= 0)
 	{
@@ -45,41 +40,31 @@ void PlayerClimbing::OnUpdate(sf::Time dt)
 	}
 }
 
-void PlayerClimbing::OnCtrlDirPress(BiDirection d)
+void PlayerClimbing::OnCtrlDirPress(BiDirectionX d)
 {
-	core.dir = d;
+	core.xDirection = d;
 	isMoving = true;
 }
 
-void PlayerClimbing::OnCtrlDirRelease(BiDirection d)
+void PlayerClimbing::OnCtrlDirRelease(BiDirectionX d)
 {
-	if (core.dir == d)
+	if (core.xDirection == d)
 	{
 		isMoving = false;
 	}
 }
 
-void PlayerClimbing::OnCtrlClimbPress(ClimbDirection d)
+void PlayerClimbing::OnCtrlClimbPress(BiDirectionY d)
 {
-	core.climbdir = d;
+	core.yDirection = d;
 }
 
-void PlayerClimbing::OnCtrlClimbRelease(ClimbDirection d)
+void PlayerClimbing::OnCtrlClimbRelease(BiDirectionY d)
 {
 	if (d.IsUp())
 	{
-		core.climbdir.SetDown();
+		core.yDirection.SetDown();
 	}
-}
-
-void PlayerClimbing::OnCtrlClimbFreezePress()
-{
-	isFrozen = true;
-}
-
-void PlayerClimbing::OnCtrlClimbFreezeRelease()
-{
-	isFrozen = false;
 }
 
 void PlayerClimbing::OnCollision(const CollisionRectF &rect)

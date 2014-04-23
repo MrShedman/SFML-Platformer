@@ -48,8 +48,8 @@ public:
 	void onUpdate()
 	{
 		m_shader.setParameter("Time", clock.getElapsedTime().asSeconds());
-		m_shader.setParameter("Frequency", sf::Vector2f(128.0, 128.0)); //sf::Vector2f(512.0, 288.0));
-		m_shader.setParameter("WobbleAmount", sf::Vector2f(0.003, 0.003));
+		m_shader.setParameter("Frequency", sf::Vector2f(64.f, 64.f));
+		m_shader.setParameter("WobbleAmount", sf::Vector2f(0.003f, 0.003f));
 	}
 
 private:
@@ -145,30 +145,21 @@ public:
 
 	void load()
 	{
-		std::unique_ptr<Effect> default(new Default());
-		default->load();
-		mResourceMap.insert(std::make_pair(Effects::Default, std::move(default)));
+		insert(Effects::Default, std::make_unique<Default>());
+		insert(Effects::Acid, std::make_unique<Acid>());
+		insert(Effects::Invert, std::make_unique<Invert>());
+		insert(Effects::Outline, std::make_unique<Outline>());
+		insert(Effects::PinCushion, std::make_unique<PinCushion>());
 
-		std::unique_ptr<Effect> acid(new Acid());
-		acid->load();
-		mResourceMap.insert(std::make_pair(Effects::Acid, std::move(acid)));
-
-		std::unique_ptr<Effect> invert(new Invert());
-		invert->load();
-		mResourceMap.insert(std::make_pair(Effects::Invert, std::move(invert)));
-
-		std::unique_ptr<Effect> outline(new Outline());
-		outline->load();
-		mResourceMap.insert(std::make_pair(Effects::Outline, std::move(outline)));
-
-		std::unique_ptr<Effect> pinCushion(new PinCushion());
-		pinCushion->load();
-		mResourceMap.insert(std::make_pair(Effects::PinCushion, std::move(pinCushion)));
+		for (auto &e : mResourceMap)
+		{
+			e.second->load();
+		}
 	}
 
 	Effect& getEffect(Effects::ID id)
 	{
-		return *mResourceMap.find(id)->second;
+		return *mResourceMap.find(id)->second.get();
 	}
 
 
@@ -181,11 +172,10 @@ public:
 	{
 		std::vector<Effect*> vec;
 
-		vec.push_back(&getEffect(Effects::Default));
-		vec.push_back(&getEffect(Effects::Acid));
-		vec.push_back(&getEffect(Effects::Invert));
-		vec.push_back(&getEffect(Effects::Outline));
-		vec.push_back(&getEffect(Effects::PinCushion));
+		for (auto &e : mResourceMap)
+		{
+			vec.push_back(e.second.get());
+		}
 
 		return vec;
 	}
@@ -196,6 +186,11 @@ public:
 	}
 
 private:
+
+	void insert(Effects::ID id, std::unique_ptr<Effect> resource)
+	{
+		mResourceMap.insert(std::make_pair(id, std::move(resource)));
+	}
 
 	Effects::ID mCurrentEffect;
 

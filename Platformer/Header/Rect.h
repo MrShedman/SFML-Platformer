@@ -18,7 +18,7 @@ public:
 	bottom(bottom),
 	left(left),
 	right(right)
-		{}
+	{}
 
 	Rect(const Rect &rhs)
 		:
@@ -27,12 +27,21 @@ public:
 	left(rhs.left),
 	right(rhs.right)
 	{}
+
 	void translate(T dx, T dy)
 	{
 		top += dy;
 		bottom += dy;
 		left += dx;
 		right += dx;
+	}
+
+	sf::Vector2<T> getCenter()
+	{
+		T middleX = left + (right - left) / 2;
+		T middleY = top + (bottom - top) / 2;
+
+		return sf::Vector2<T>(middleX, middleY);
 	}
 	
 public:

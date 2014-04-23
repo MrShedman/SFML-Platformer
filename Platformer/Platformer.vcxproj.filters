@@ -108,15 +108,24 @@
     <ClCompile Include="Source\SettingsParser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\EnemySprite.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\EnemyWalking.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\EnemyFalling.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LightManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Header\PlayerSprite.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Header\TileMap.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Header\BiDirection.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Header\PlayerRunning.h">
@@ -134,9 +143,6 @@
     <ClInclude Include="Header\SpriteState.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Header\SpriteSequence.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Header\PlayerJumping.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -144,9 +150,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Header\CollisionRectF.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Header\ParticleSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Header\CollisionSystem.h">
@@ -212,9 +215,6 @@
     <ClInclude Include="Header\PlayerClimbing.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Header\ClimbDirection.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Header\PlayerDying.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -255,6 +255,36 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Header\EffectFactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\AnimationFactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\BiDirectionX.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\BiDirectionY.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\TileAnimation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Animation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\EnemySprite.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\EnemyWalking.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\EnemyFalling.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\EnemyFactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\LightManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

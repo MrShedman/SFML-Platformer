@@ -46,14 +46,11 @@ public:
 			y = 0.f;
 		}
 
-		float dx = dt.asSeconds() * 2.f + (std::abs(sprite->core.vx) * 0.005f);
+		float dx = dt.asSeconds() * 2.f;
 		float dy = dt.asSeconds() * 3.f;
 
 		x *= dx;
 		y *= dy;
-
-		x = floorf(x * 10.f + 0.5f) / 10.f;
-		y = floorf(y * 10.f + 0.5f) / 10.f;
 
 		float nx = view.getCenter().x + x;
 		float ny = view.getCenter().y + y;

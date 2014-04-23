@@ -18,8 +18,9 @@ Application::Application(unsigned int width, unsigned int height)
 	:
 	mSettings(true, 0, false, false),
 	mTextures(),
+	mImages(),
 	mFonts(),
-	mStateStack(State::Context(window, mTextures, mFonts, mLevels, mMusic, mSounds, mSettings, mEffects)),
+	mStateStack(State::Context(window, mTextures, mImages, mFonts, mLevels, mMusic, mSounds, mSettings, mEffects)),
 	mStatisticsText(),
 	mStatisticsUpdateTime(),
 	mStatisticsNumFrames(0)
@@ -35,8 +36,8 @@ Application::Application(unsigned int width, unsigned int height)
 	mParser.get("height", h);
 	mParser.get("fullscreen", mSettings.fullScreen);
 	mParser.get("vSync", mSettings.vSync);
-	int mVolume = 100;
-	int sVolume = 100;
+	float mVolume = 100.f;
+	float sVolume = 100.f;
 	mParser.get("mvolume", mVolume);
 	mParser.get("svolume", sVolume);
 	mMusic.setVolume(mVolume);
@@ -113,8 +114,8 @@ void Application::render()
 
 	window.setView(window.getDefaultView());
 	window.draw(mStatisticsText);
-	
-	window.display();
+
+	window.display();	
 }
 
 void Application::run()
@@ -158,7 +159,15 @@ void Application::loadResources()
 	mTextures.load(Textures::PlayerFalling, "Textures/falling.png");
 	mTextures.load(Textures::PlayerClimbing, "Textures/climbingvertical.png");
 	mTextures.load(Textures::PlayerDying, "Textures/dying.png");
+	mTextures.load(Textures::EnemyWalking, "Textures/enemywalking.png");
 	mTextures.load(Textures::HealthBar, "Textures/hearts.png");
+	mTextures.load(Textures::Fire, "Textures/fire.png");
+	mTextures.load(Textures::Lava , "Textures/lava.png");
+	mTextures.load(Textures::Portal, "Textures/portal.png");
+	mTextures.load(Textures::Water, "Textures/water.png");
+	mTextures.load(Textures::Light, "Textures/light.png");
+
+	mImages.load(Images::DayNightPalette, "Textures/DayNightColourRamp.png");
 }
 
 void Application::updateStatistics(sf::Time dt)

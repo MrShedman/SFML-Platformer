@@ -41,6 +41,7 @@ private:
 	SettingsParser				mParser;
 
 	TextureHolder				mTextures;
+	ImageHolder					mImages;
 	FontHolder					mFonts;
 	LevelFactory				mLevels;
 	MusicPlayer					mMusic;

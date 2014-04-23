@@ -46,7 +46,6 @@ void SettingsState::initializeButtons()
 	std::vector<Effect*> effects = getContext().effects->getAllEffects();
 	
 	auto effectType = std::make_shared<GUI::Slider<Effect*>>(getContext());
-	effectType->setSize(sf::Vector2f(240, 70));
 	effectType->setPosition(sf::Vector2f(x - 250, y - 90));
 	effectType->setPossibleValues(effects);
 	effectType->setCurrentValue(&getContext().effects->getCurrentEffect());
@@ -60,7 +59,6 @@ void SettingsState::initializeButtons()
 	});
 
 	auto musicVolume = std::make_shared<GUI::Slider<int>>(getContext());
-	musicVolume->setSize(sf::Vector2f(240, 70));
 	musicVolume->setPosition(sf::Vector2f(x - 250, y));
 	musicVolume->setPossibleValues(iVolume);
 	musicVolume->setCurrentValue(static_cast<int>(getContext().music->getVolume()));
@@ -70,11 +68,10 @@ void SettingsState::initializeButtons()
 	});
 	musicVolume->setCallback([this](int volume)
 	{
-		getContext().music->setVolume(volume);
+		getContext().music->setVolume(static_cast<float>(volume));
 	});
 
 	auto soundVolume = std::make_shared<GUI::Slider<int>>(getContext());
-	soundVolume->setSize(sf::Vector2f(240, 70));
 	soundVolume->setPosition(sf::Vector2f(x + 10, y));
 	soundVolume->setPossibleValues(iVolume);
 	soundVolume->setCurrentValue(static_cast<int>(getContext().sounds->getVolume()));
@@ -84,7 +81,7 @@ void SettingsState::initializeButtons()
 	});
 	soundVolume->setCallback([this](int volume)
 	{
-		getContext().sounds->setVolume(volume);
+		getContext().sounds->setVolume(static_cast<float>(volume));
 	});
 
 	auto resolution = std::make_shared<GUI::Slider<sf::VideoMode>>(getContext());
