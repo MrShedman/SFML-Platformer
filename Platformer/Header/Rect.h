@@ -1,5 +1,7 @@
 #pragma once
 
+#include "SFML/Graphics/Rect.hpp"
+
 template <class T>
 class Rect
 {
@@ -34,6 +36,17 @@ public:
 		bottom += dy;
 		left += dx;
 		right += dx;
+	}
+
+	sf::Rect<T> toSFML()
+	{
+		sf::Rect<T> r;
+		r.top = top;
+		r.left = left;
+		r.width = right - left;
+		r.height = bottom - top;
+
+		return r;
 	}
 
 	sf::Vector2<T> getCenter()

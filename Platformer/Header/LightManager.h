@@ -14,6 +14,8 @@ public:
 
 	void update();
 
+	sf::Color getColor();
+
 private:
 
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
@@ -34,6 +36,10 @@ public:
 	TimeOfDay(sf::Image &palette, sf::Time dayNightCycle);
 
 	void update(sf::Time dt);
+
+	void forwardTime(sf::Time time);
+
+	void backTime(sf::Time time);
 
 	void setTimeOfDay(sf::Time time24hour);
 
@@ -62,6 +68,8 @@ public:
 
 	void draw(sf::RenderTarget& target);
 
+	std::vector<Light*> getLights() const;
+
 private:
 
 	TimeOfDay timeOfDay;
@@ -69,5 +77,5 @@ private:
 	sf::Texture &lightTexture;
 	sf::Sprite sprite;
 	sf::RenderTexture rTexture;
-	std::map<int, Light> lights;
+	std::map<int, std::shared_ptr<Light>> lights;
 };

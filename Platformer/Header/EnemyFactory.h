@@ -1,5 +1,6 @@
 #pragma once
 
+#include <SFML/Graphics.hpp>
 #include <EnemySprite.h>
 #include <algorithm>
 #include <Utility.h>
@@ -7,7 +8,7 @@
 #include <CollisionSystem.h>
 #include <map>
 
-class EnemyFactory
+class EnemyFactory : public sf::Drawable
 {
 public:
 
@@ -52,20 +53,24 @@ public:
 			}
 		}
 	
+		std::vector<int> removal;
+
 		for (auto &e : enemies)
 		{
 			e.second->GetState().OnUpdate(dt);
-			e.second->lifeTime -= dt;
-		}
-	}
+			e.second->updateLife(dt);
 
-	void draw(sf::RenderTarget &target)
-	{
-		for (auto &e : enemies)
-		{
-			target.draw(*e.second.get());
+			if (e.second->lifeTime < sf::Time::Zero)
+			{
+				removal.push_back(e.first);
+			}
 		}
-	}
+
+		for (auto &i : removal)
+		{
+			removeEnemy(i);
+		}
+	}	
 
 	void addSpawnerTile(SpawnerTile *tile)
 	{
@@ -82,6 +87,16 @@ public:
 		spawnerLocations.resize(size);
 
 		std::cout << "Remove x: " << tile->rect.left << "y: " << tile->rect.top << " Size: " << spawnerLocations.size() << std::endl;
+	}
+
+private:
+
+	void draw(sf::RenderTarget& target, sf::RenderStates states) const
+	{
+		for (auto &e : enemies)
+		{
+			target.draw(*e.second.get());
+		}
 	}
 
 	State::Context context;

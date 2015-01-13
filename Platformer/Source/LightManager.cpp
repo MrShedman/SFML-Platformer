@@ -31,6 +31,11 @@ void Light::update()
 	}
 }
 
+sf::Color Light::getColor()
+{
+	return data.color;
+}
+
 void Light::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	states.transform *= getTransform();
@@ -54,6 +59,25 @@ void TimeOfDay::update(sf::Time dt)
 	}
 }
 
+void TimeOfDay::forwardTime(sf::Time time)
+{
+	sf::Time t = (time / sf::seconds(2400)) * dayNightCycle;
+
+	currentTime += t;
+}
+
+void TimeOfDay::backTime(sf::Time time)
+{
+	sf::Time t = (time / sf::seconds(2400)) * dayNightCycle;
+
+	currentTime -= t;
+
+	if (currentTime < sf::seconds(0.f))
+	{
+		currentTime += dayNightCycle;
+	}
+}
+
 void TimeOfDay::setTimeOfDay(sf::Time time24hour)
 {
 	sf::Time irl = sf::seconds(2400);
@@ -71,8 +95,8 @@ sf::Color TimeOfDay::getColorAtCurrentTime()
 
 LightManager::LightManager(State::Context context)
 	:
-	lightTexture(context.textures->get(Textures::Light)),
-	timeOfDay(context.images->get(Images::DayNightPalette), sf::seconds(30))
+lightTexture(context.textures->get(Textures::Light)),
+timeOfDay(context.images->get(Images::DayNightPalette), sf::seconds(300))
 {
 	rTexture.create(context.window->getSize().x, context.window->getSize().y);
 
@@ -87,10 +111,11 @@ void LightManager::addLight(int ID, Tile &tile)
 {
 	if (lights.count(ID) < 1)
 	{
-		lights.insert(std::make_pair(ID, Light(lightTexture, tile.data->lightData)));
+		auto light = std::make_shared<Light>(lightTexture, tile.data->lightData);
 		sf::Vector2f position = tile.rect.getCenter();
-		Light& light = lights.find(ID)->second;
-		light.setPosition(position);
+		light->setPosition(position);		
+
+		lights.insert(std::make_pair(ID, std::move(light)));
 	}
 }
 
@@ -100,7 +125,7 @@ void LightManager::update(sf::Time dt)
 
 	for (auto &l : lights)
 	{
-		l.second.update();
+		l.second->update();
 	}
 }
 
@@ -108,9 +133,13 @@ void LightManager::handleEvent(const sf::Event& event)
 {
 	if (event.type == sf::Event::KeyPressed)
 	{
-		if (event.key.code == sf::Keyboard::T)
+		if (event.key.code == sf::Keyboard::PageUp)
 		{
-			timeOfDay.setTimeOfDay(sf::seconds(2400));
+			timeOfDay.forwardTime(sf::seconds(100));
+		}
+		else if (event.key.code == sf::Keyboard::PageDown)
+		{
+			timeOfDay.backTime(sf::seconds(100));
 		}
 	}
 }
@@ -131,7 +160,7 @@ void LightManager::draw(sf::RenderTarget& target)
 
 	for (auto &l : lights)
 	{
-		rTexture.draw(l.second);
+	//	rTexture.draw(*l.second.get());
 	}
 
 	rTexture.display();
@@ -139,4 +168,16 @@ void LightManager::draw(sf::RenderTarget& target)
 	sprite.setPosition(target.getView().getCenter());
 
 	target.draw(sprite, sf::BlendMultiply);
+}
+
+std::vector<Light*> LightManager::getLights() const
+{
+	std::vector<Light*> data;
+
+	for (auto &l : lights)
+	{
+		data.push_back(l.second.get());
+	}
+
+	return data;
 }

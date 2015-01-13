@@ -39,6 +39,11 @@ public:
 		core.sounds->play(SoundEffect::PlayerDeath);
 	}
 
+	float getDirection()
+	{
+		return core.xDirection.transform(1.f);
+	}
+
 	Animation& getAnimation()
 	{
 		return *animation;

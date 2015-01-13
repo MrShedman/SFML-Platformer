@@ -14,6 +14,8 @@ lightManager(context)
 	Animations = initializeTileAnimations(context);
 
 	load(context);
+
+	//shadow = std::make_unique<SoftShadow>(*context.window, *this, lightManager);
 }
 
 TileData& TileMap::getTileData(std::function<bool(TileData)> search)
@@ -146,9 +148,14 @@ int TileMap::getIndexYBiasBottom(float y) const
 	return static_cast<int>(y) / TileData::tileSize.y;
 }
 
+Tile &TileMap::getTile(int ix, int iy) const
+{
+	return *vTiles[ix + iy * width].get();
+}
+
 RectF TileMap::getCRect(int ix, int iy)
 {
-	return vTiles[ix + iy * width]->rect;
+	return getTile(ix, iy).rect;
 }
 
 Block::ID TileMap::getTileID(float x, float y)
@@ -270,56 +277,61 @@ void TileMap::update(sf::Time dt)
 	}
 }
 
+bool TileMap::isOutOfRange(int ix, int iy)
+{
+	return outOfRange(ix + iy * width, 0, width * height);
+}
+
 bool TileMap::isCheckPoint(int ix, int iy)
 {
-	if (outOfRange(ix + iy * width, 0, width * height))
+	if (isOutOfRange(ix, iy))
 	{
 		return false;
 	}
 
-	return vTiles[ix + iy * width]->data->type == Block::RedstoneTorch;
+	return getTile(ix, iy).data->type == Block::RedstoneTorch;
 }
 
 bool TileMap::isPickup(int ix, int iy)
 {
-	if (outOfRange(ix + iy * width, 0, width * height))
+	if (isOutOfRange(ix, iy))
 	{
 		return false;
 	}
 
-	Block::ID type = vTiles[ix + iy * width]->data->type;
+	Block::ID type = getTile(ix, iy).data->type;
 
 	return (type == Block::YellowFlower || type == Block::RedFlower || type == Block::RedMushroom || type == Block::BrownMushroom);
 }
 
 bool TileMap::isHarmful(int ix, int iy)
 {
-	if (outOfRange(ix + iy * width, 0, width * height))
+	if (isOutOfRange(ix, iy))
 	{
 		return false;
 	}
 
-	return vTiles[ix + iy * width]->data->type == Block::Lava;
+	return getTile(ix, iy).data->type == Block::Lava;
 }
 
 bool TileMap::isClimable(int ix, int iy)
 {
-	if (outOfRange(ix + iy * width, 0, width * height))
+	if (isOutOfRange(ix, iy))
 	{
 		return false;
 	}
 
-	return vTiles[ix + iy * width]->data->type == Block::Ladder;
+	return getTile(ix, iy).data->type == Block::Ladder;
 }
 
 bool TileMap::isPassable(int ix, int iy)
 {
-	if (outOfRange(ix + iy * width, 0, width * height))
+	if (isOutOfRange(ix, iy))
 	{
 		return true;
 	}
 
-	return vTiles[ix + iy * width]->data->passable;
+	return getTile(ix, iy).data->passable;
 }
 
 RectI TileMap::getDrawingRect(sf::RenderTarget& target) const
@@ -343,9 +355,32 @@ RectI TileMap::getDrawingRect(sf::RenderTarget& target) const
 	return RectI(top, bottom, left, right);
 }
 
+void TileMap::drawShadows(sf::RenderTarget& target, sf::RenderStates states)
+{
+	//shadow->render(target, states);
+}
+
 void TileMap::drawLights(sf::RenderTarget& target)
 {
 	lightManager.draw(target);
+}
+
+void TileMap::drawLights(sf::RenderTarget &target, sf::RenderStates states)
+{
+	RectI rect = getDrawingRect(target);
+
+	for (int ix = rect.left; ix < rect.right; ++ix)
+	{
+		for (int iy = rect.top; iy < rect.bottom; ++iy)
+		{
+			Tile &tile = getTile(ix, iy);
+
+			if (!tile.data->passable && !tile.data->light)
+			{
+				target.draw(tile, states);
+			}
+		}
+	}
 }
 
 void TileMap::draw(sf::RenderTarget& target, sf::RenderStates states) const
@@ -356,7 +391,7 @@ void TileMap::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	{
 		for (int iy = rect.top; iy < rect.bottom; ++iy)
 		{
-			target.draw(*vTiles[ix + iy * width].get(), states);
+			target.draw(getTile(ix, iy), states);
 		}
 	}
 }

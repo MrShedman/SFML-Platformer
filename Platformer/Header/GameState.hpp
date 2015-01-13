@@ -35,6 +35,9 @@ class GameState : public State
 		PlayerSprite player;
 		EnemyFactory enemyFactory;
 
+		SoftShadow shadow;
+		sf::Texture &mTileset;
+
 		TileMap map;
 		TileMapRenderer mRender;
 		TileEditor mapEditor;

@@ -12,7 +12,9 @@ enemyFactory(context, collision, 100),
 map(context, enemyFactory),
 mapEditor(context, map),
 mRender(context, map),
-health(context)
+health(context),
+shadow(*context.window, player, map, map.lightManager),
+mTileset(context.textures->get(Textures::TileMap))
 {
 	collision.setMap(map);
 
@@ -30,13 +32,15 @@ void GameState::draw()
 	sf::RenderWindow& window = *getContext().window;
 	
 	window.setView(camera.getView());
-	
-	mRender.draw();
-	enemyFactory.draw(window);
+
+	//mRender.draw(TileMapRenderer::Mode::Lights);
+	mRender.draw(TileMapRenderer::Mode::Tiles);
+	//sf::RenderStates states;
+	//states.texture = &mTileset;
+	//shadow.renderBegin(window, states);
+	window.draw(enemyFactory);	
 	window.draw(mapEditor);
 	window.draw(player);
-	
-	map.drawLights(window);
 
 	window.draw(collision);
 

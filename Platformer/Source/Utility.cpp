@@ -6,6 +6,18 @@ sf::Vector2f getMousePosition(const sf::RenderWindow &window)
 	return window.mapPixelToCoords(sf::Mouse::getPosition(window));
 }
 
+sf::View getAlignedView(sf::View view)
+{
+	sf::Vector2f pos = view.getCenter();
+
+	pos.x = std::round(pos.x) + 0.375f;
+	pos.y = std::round(pos.y) + 0.375f;
+
+	view.setCenter(pos);
+
+	return view;
+}
+
 std::vector<sf::VideoMode> getValidVideoModes()
 {
 	std::vector<sf::VideoMode> modes = sf::VideoMode::getFullscreenModes();

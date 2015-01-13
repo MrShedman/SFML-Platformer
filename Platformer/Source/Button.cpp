@@ -46,6 +46,8 @@ void Button::setSize(sf::Vector2f size)
 	mText.setPosition(bounds.width / 2.f, bounds.height / 2.f - 5);
 }
 
+static float size = 35;
+
 void Button::handleEvent(const sf::Event& event)
 {
 	if (event.type == sf::Event::MouseMoved)

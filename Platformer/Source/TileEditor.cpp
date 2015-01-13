@@ -163,18 +163,7 @@ void TileEditor::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	if (editingMode)
 	{
-		sf::View view = target.getView();
-		sf::Vector2f cent = view.getCenter();
-
-		float x = std::round(cent.x);
-		float y = std::round(cent.y);
-
-		x += 0.375f;
-		y += 0.375f;
-
-		view.setCenter(x, y);
-
-		target.setView(view);
+		target.setView(getAlignedView(target.getView()));
 
 		target.draw(&grid[0], grid.size(), sf::Lines, states);
 

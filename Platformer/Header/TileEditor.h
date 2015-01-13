@@ -25,7 +25,7 @@ private:
 
 	void createGrid();
 
-	void TileEditor::draw(sf::RenderTarget& target, sf::RenderStates states) const;
+	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
 	int tileID;
 

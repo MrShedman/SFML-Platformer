@@ -110,6 +110,7 @@
     <ClCompile Include="Source\PlayerStanding.cpp" />
     <ClCompile Include="Source\SettingsParser.cpp" />
     <ClCompile Include="Source\SettingsState.cpp" />
+    <ClCompile Include="Source\SoftShadow.cpp" />
     <ClCompile Include="Source\SoundPlayer.cpp" />
     <ClCompile Include="Source\Sprite.cpp" />
     <ClCompile Include="Source\State.cpp" />
@@ -162,6 +163,7 @@
     <ClInclude Include="Header\SettingsState.hpp" />
     <ClInclude Include="Header\EffectFactory.h" />
     <ClInclude Include="Header\Slider.h" />
+    <ClInclude Include="Header\SoftShadow.h" />
     <ClInclude Include="Header\SoundPlayer.hpp" />
     <ClInclude Include="Header\Sprite.h" />
     <ClInclude Include="Header\SpriteCore.h" />

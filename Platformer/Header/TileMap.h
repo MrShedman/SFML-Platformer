@@ -16,6 +16,7 @@
 
 #include <TileAnimation.h>
 #include <LightManager.h>
+#include <SoftShadow.h>
 
 class TileMap : public sf::Drawable
 {
@@ -59,6 +60,8 @@ public:
 
 	Levels::ID getLevelID();
 	
+	Tile &getTile(int ix, int iy) const;
+
 	RectF getCRect(int ix, int iy);
 
 	RectI getDrawingRect(sf::RenderTarget& target) const;
@@ -66,6 +69,8 @@ public:
 	bool getCRectSingle(CollisionRectF cRect, CollisionRectF &rect);
 
 	void handleEvent(const sf::Event &event);
+
+	bool isOutOfRange(int ix, int iy);
 
 	bool isCheckPoint(int ix, int iy);
 
@@ -79,7 +84,13 @@ public:
 
 	void update(sf::Time dt);
 
+	void drawShadows(sf::RenderTarget& target, sf::RenderStates states);
+
 	void drawLights(sf::RenderTarget& target);
+
+	void drawLights(sf::RenderTarget &target, sf::RenderStates states);
+
+	LightManager lightManager;
 
 private:
 
@@ -92,9 +103,9 @@ private:
 
 	Levels::ID loadedLevel;
 
-	EnemyFactory &eFactory;
+	std::unique_ptr<SoftShadow> shadow;
 
-	LightManager lightManager;
+	EnemyFactory &eFactory;
 
 	std::vector<int> animationID;
 

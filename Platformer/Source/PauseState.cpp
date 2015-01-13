@@ -65,5 +65,13 @@ bool PauseState::handleEvent(const sf::Event& event)
 {
 	mGUIContainer.handleEvent(event);
 
+	if (event.type == sf::Event::KeyPressed)
+	{
+		if (event.key.code == sf::Keyboard::Escape)
+		{
+			requestStackPop();
+		}
+	}
+
 	return false;
 }

@@ -11,6 +11,12 @@ class TileMapRenderer
 {
 public:
 
+	enum Mode
+	{
+		Tiles,
+		Lights,
+	};
+
 	TileMapRenderer(State::Context context, TileMap &map)
 		:
 	window(*context.window),
@@ -44,28 +50,33 @@ public:
 		effect.update();
 	}
 
-	void draw()
+	void draw(Mode mode)
 	{
-		sf::View view = window.getView();
-		float x = view.getCenter().x;
-		float y = view.getCenter().y;
+		if (mode == Mode::Tiles)
+		{
+			sf::View view = window.getView();
+	
+			sprite.setPosition(view.getCenter());
 
-		//set sprite position before rounding
-		sprite.setPosition(x, y);
+			rTexture.setView(getAlignedView(view));
 
-		x = std::round(x);
-		y = std::round(y);
-		x += 0.375f;
-		y += 0.375f;
+			sf::RenderStates states;
+			states.texture = &mTileset;
 
-		view.setCenter(x, y);
-		rTexture.setView(view);
+			//rTexture.clear(color);
+		////	map.drawShadows(window, states);
+		//	rTexture.display();
 
-		rTexture.clear(color);
-		rTexture.draw(map, &mTileset);
-		rTexture.display();
+			rTexture.clear(color);
+			rTexture.draw(map, states);
+			rTexture.display();
 
-		window.draw(sprite, &effect.getShader());
+			window.draw(sprite, &effect.getShader());
+		}
+		else if (mode == Mode::Lights)
+		{
+			map.drawLights(window);
+		}
 	}
 
 	sf::Color color;

@@ -78,6 +78,23 @@ public:
 			sprite->GetState().OnCollision(rect);
 		}
 
+		CollisionRectF rect1;
+
+		for (auto i = sprites.begin(); i != sprites.end(); ++i)
+		{
+			if (sprite == i->second)
+			{
+				continue;
+			}
+
+			sf::FloatRect r = i->second->getCRect().toSFML();
+
+			if (sprite->getCRect().toSFML().intersects(r))
+			{
+				sprite->GetState().OnCollision(i->second->getCRect());
+			}
+		}
+
 		CollisionRectF cRect = sprite->getCRect();
 
 		float cx = cRect.left + (cRect.right - cRect.left) / 2.f;

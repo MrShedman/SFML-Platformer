@@ -46,14 +46,7 @@ public:
 
 		if (curHoldCount >= nHoldFrames)
 		{
-			if (cyclic)
-			{
-				updateCyclic();
-			}
-			else
-			{
-				updateNormal();
-			}
+			cyclic ? updateCyclic() : updateNormal();
 
 			curHoldCount = 0;
 		}

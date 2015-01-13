@@ -59,15 +59,6 @@ namespace GUI
 
 				float position = (maxRange - minRange) * percent + minRange;
 
-				if (percent > 0.5f)
-				{
-					position = std::ceil(position);
-				}
-				else
-				{
-					position = std::floor(position);
-				}
-
 				mShape.setPosition(position, mShape.getPosition().y);
 			}
 		}
@@ -111,7 +102,7 @@ namespace GUI
 	template<class T>
 	int Slider<T>::getIndex()
 	{
-		float size = static_cast<float>(possibleValues.size()) - 1.f;
+		float size = static_cast<float>(possibleValues.size() - 1);
 		float percent = (mShape.getPosition().x - minRange) / (maxRange - minRange);
 
 		float index = std::round(percent * size);
@@ -246,11 +237,9 @@ namespace GUI
 		switch (buttonType)
 		{
 
-		case Pressed: color = sf::Color(255, 177, 0);  break;
-
-		case Hover: color = sf::Color(181, 230, 29); break;
-
-		case Normal: color = sf::Color(31, 177, 76);  break;
+		case Pressed:	color = sf::Color(255, 177,  0); break;
+		case Hover:		color = sf::Color(181, 230, 29); break;
+		case Normal:	color = sf::Color( 31, 177, 76); break;
 
 		}
 
