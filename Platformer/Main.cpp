@@ -15,6 +15,8 @@
 
 int main()
 {
+	auto i = 400;
+
 	Application app(1280, 720);
 	app.run();
 	

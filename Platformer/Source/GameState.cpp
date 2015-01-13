@@ -8,7 +8,7 @@ GameState::GameState(StateStack& stack, Context context)
 :
 State(stack, context),
 player(context),
-enemyFactory(context, collision, 100),
+enemyFactory(context, collision, 10),
 map(context, enemyFactory),
 mapEditor(context, map),
 mRender(context, map),

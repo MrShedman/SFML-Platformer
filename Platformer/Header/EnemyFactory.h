@@ -44,7 +44,7 @@ public:
 		{
 			int rand = randomize(0, 100);
 
-			if (rand == 42)
+			if (rand == 42 && enemies.size() < maxSize)
 			{
 				float x = s->rect.left - 96.f + randomize(0.f, 240.f);
 				float y = s->rect.top;

@@ -78,6 +78,9 @@ public:
 			sprite->GetState().OnCollision(rect);
 		}
 
+
+		// Sort of working sprite vs sprite collision detection & response
+		/*
 		CollisionRectF rect1;
 
 		for (auto i = sprites.begin(); i != sprites.end(); ++i)
@@ -89,12 +92,17 @@ public:
 
 			sf::FloatRect r = i->second->getCRect().toSFML();
 
-			if (sprite->getCRect().toSFML().intersects(r))
+			int count = 0;
+
+			while (sprite->getCRect().toSFML().intersects(r) && count < 100)
 			{
 				sprite->GetState().OnCollision(i->second->getCRect());
+				i->second->core.vx = -i->second->core.vx;
+				i->second->core.xDirection.Reverse();
+				count++;
 			}
 		}
-
+		*/
 		CollisionRectF cRect = sprite->getCRect();
 
 		float cx = cRect.left + (cRect.right - cRect.left) / 2.f;
@@ -133,13 +141,13 @@ public:
 
 	void calculate()
 	{
+		perSprite(player);
+		playerChecks(player);
+
 		for (auto &sprite : sprites)
 		{
 			perSprite(sprite.second);
 		}
-
-		perSprite(player);
-		playerChecks(player);
 	}
 
 	void handleEvent(const sf::Event &event)
