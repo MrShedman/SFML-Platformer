@@ -96,6 +96,8 @@ private:
 
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	
+	std::vector<sf::Vertex> v_array;
+
 	std::string file;
 
 	int width;

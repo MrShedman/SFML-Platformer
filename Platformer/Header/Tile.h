@@ -57,11 +57,11 @@ namespace BlockAnimation
 {
 	enum ID
 	{
-		None,
 		Water,
 		Lava,
 		Fire,
 		Portal,
+		None,
 		TypeCount
 	};
 }
@@ -81,6 +81,11 @@ public:
 	virtual void updatePosition();
 	virtual void updateTexCoords();
 	virtual void updateColor();
+
+	sf::Vertex& getVertex(int i)
+	{
+		return quad[i];
+	}
 
 protected:
 

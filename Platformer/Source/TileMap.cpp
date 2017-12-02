@@ -15,6 +15,11 @@ lightManager(context)
 
 	load(context);
 
+	int nx = context.window->getSize().x / TileData::tileSize.x;
+	int ny = context.window->getSize().y / TileData::tileSize.y;
+
+	v_array.resize(nx * ny * 4);
+
 	//shadow = std::make_unique<SoftShadow>(*context.window, *this, lightManager);
 }
 
@@ -369,6 +374,15 @@ void TileMap::drawLights(sf::RenderTarget &target, sf::RenderStates states)
 {
 	RectI rect = getDrawingRect(target);
 
+	//int nx = rect.right - rect.left;
+	//int ny = rect.bottom - rect.top;
+
+	//std::vector<sf::Vertex> v_array;
+	//v_array.resize(nx * ny * 4);
+
+	//std::cout << nx << ", " << ny << ", ";
+	int count = 0;
+
 	for (int ix = rect.left; ix < rect.right; ++ix)
 	{
 		for (int iy = rect.top; iy < rect.bottom; ++iy)
@@ -377,10 +391,20 @@ void TileMap::drawLights(sf::RenderTarget &target, sf::RenderStates states)
 
 			if (!tile.data->passable && !tile.data->light)
 			{
-				target.draw(tile, states);
+				for (int i = 0; i < 4; ++i)
+				{
+					v_array[count] = tile.getVertex(i);
+					count++;
+				}
+				
+				//target.draw(tile, states);
 			}
 		}
 	}
+
+	//std::cout << v_array.size() << std::endl;
+
+	target.draw(v_array.data(), count, sf::Quads, states);
 }
 
 void TileMap::draw(sf::RenderTarget& target, sf::RenderStates states) const

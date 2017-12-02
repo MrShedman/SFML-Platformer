@@ -34,10 +34,11 @@ void GameState::draw()
 	window.setView(camera.getView());
 
 	//mRender.draw(TileMapRenderer::Mode::Lights);
-	mRender.draw(TileMapRenderer::Mode::Tiles);
-	//sf::RenderStates states;
-	//states.texture = &mTileset;
-	//shadow.renderBegin(window, states);
+	//mRender.draw(TileMapRenderer::Mode::Tiles);
+
+	sf::RenderStates states;
+	states.texture = &mTileset;
+	shadow.renderBegin(window, states);
 	window.draw(enemyFactory);	
 	window.draw(mapEditor);
 	window.draw(player);
@@ -58,7 +59,7 @@ bool GameState::update(sf::Time dt)
 	player.GetState().OnUpdate(dt);
 	enemyFactory.update(dt);
 
-	if (clock.getElapsedTime() > sf::seconds(1) && player.isAlive())
+	if (clock.getElapsedTime() > sf::seconds(1) && player.isAlive() && player.core.damage_clock.getElapsedTime().asSeconds() > 5)
 	{
 		player.core.health++;
 		clamp(player.core.health, 0, 20);

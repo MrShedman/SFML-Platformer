@@ -16,6 +16,8 @@ public:
 
 	sf::Color getColor();
 
+	float size;
+
 private:
 
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;

@@ -35,6 +35,7 @@ void PlayerSprite::reset()
 {
 	core.lastPlatformHeight = 900;
 	core.health = 20;
+	core.damage_rate = 2.5;
 	core.canClimb = false;
 
 	core.x = 250;

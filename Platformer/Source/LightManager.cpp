@@ -19,6 +19,8 @@ data(data)
 
 	scale = sf::Vector2f(tx / sx, ty / sy);
 	setScale(scale);
+
+	size = randomize(0.1f, 1.0f);
 }
 
 void Light::update()
@@ -160,7 +162,7 @@ void LightManager::draw(sf::RenderTarget& target)
 
 	for (auto &l : lights)
 	{
-	//	rTexture.draw(*l.second.get());
+		rTexture.draw(*l.second.get());
 	}
 
 	rTexture.display();

@@ -359,7 +359,7 @@ std::vector<TileData> initializeTileData()
 
 std::vector<TileAnimation> initializeTileAnimations(State::Context context)
 {
-	std::vector<TileAnimation> data(BlockAnimation::TypeCount);
+	std::vector<TileAnimation> data(BlockAnimation::TypeCount-1);
 
 	data[BlockAnimation::Fire] = TileAnimation(context.textures->get(Textures::Fire), 32, 3, 32, 1, false);
 	data[BlockAnimation::Lava] = TileAnimation(context.textures->get(Textures::Lava), 20, 5, 20, 1, true);

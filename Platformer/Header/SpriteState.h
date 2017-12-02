@@ -32,11 +32,16 @@ public:
 
 	void applyDamage(int amount)
 	{
-		core.health -= amount;
+		if (core.damage_clock.getElapsedTime() > sf::seconds(1))// core.damage_rate)
+		{
+			core.health -= core.damage_rate;
 
-		clamp(core.health, 0, 20);
+			clamp(core.health, 0, 20);
 
-		core.sounds->play(SoundEffect::PlayerDeath);
+			core.sounds->play(SoundEffect::PlayerDeath);
+
+			core.damage_clock.restart();
+		}
 	}
 
 	float getDirection()
@@ -59,6 +64,7 @@ protected:
 	{
 		core.state.reset(state);
 	}
+
 
 	Animation *animation;
 	SpriteCore &core;

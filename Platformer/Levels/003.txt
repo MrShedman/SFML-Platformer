@@ -23,8 +23,8 @@ RRRR      L  RRRRRRR       RRGRRRRRR         RRR
 RRRR      L   RRRRR        RRGGGGG           RRR
 RRRR      L                  GGGG            RRR
 RRRR      L                   GG             RRR
-RRRR      L                    G             RRR
-RRRRRR   LL                    G            RRRR
+RRRR      L                                  RRR
+RRRRRR   LL                                 RRRR
 RRRR     LR                                 RRRR
 RRR     LLRRR                              RRRRR
 RRR     LLRRRR                             RRRRR
@@ -37,10 +37,10 @@ RR     RRLLR         RRR                      RR
 RR      RRRR         RRRRRRR                  RR
 RR       RR           RRRR                    RR
 RR                                           RRR
-RR                               RRRG        RRR
-RRR                            RRRGGGG      RRRR
-RRR                           RRR GGG       RRRR
-RRR                                G        RRRR
+RR                               RR          RRR
+RRR                            RRR          RRRR
+RRR                           RRR           RRRR
+RRR                                         RRRR
 RRRR                                        RRRR
 RRRR                                        RRRR
 RRRR                                        RRRR

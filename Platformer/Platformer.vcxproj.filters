@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Resource Files\Shaders">
+      <UniqueIdentifier>{80a1c9a5-6fb4-4bdc-a90c-7e8838f90fe8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Levels">
+      <UniqueIdentifier>{d26a0ced-5eb9-4436-a6bb-19b32e9f0b05}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -304,5 +310,34 @@
     <None Include="Header\Slider.inl">
       <Filter>Header Files</Filter>
     </None>
+    <None Include="Shaders\acid.fsh">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="Shaders\invert.fsh">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="Shaders\outline.fsh">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="Shaders\pincushion.fsh">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="Shaders\shadowmap.fsh">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="Shaders\shadowrender.fsh">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Levels\001.txt">
+      <Filter>Resource Files\Levels</Filter>
+    </Text>
+    <Text Include="Levels\002.txt">
+      <Filter>Resource Files\Levels</Filter>
+    </Text>
+    <Text Include="Levels\003.txt">
+      <Filter>Resource Files\Levels</Filter>
+    </Text>
   </ItemGroup>
 </Project>

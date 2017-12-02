@@ -37,6 +37,8 @@ public:
 	bool canClimb;
 	int health;
 	int lastPlatformHeight;
+	float damage_rate;
+	sf::Clock damage_clock;
 
 	void setSoundPlayer(SoundPlayer &player)
 	{
